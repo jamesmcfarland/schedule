@@ -1,17 +1,10 @@
-import { Box } from "@material-ui/core";
+import VerticallyCentered from "../components/verticallyCentered";
 
 const SplashScreen = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        height:"100vh"
-      }}
-    >
-      <div style={{margin:"auto"}}>hello</div>
-    </div>
+    <VerticallyCentered>
+      hello!
+    </VerticallyCentered>
   );
 };
 
