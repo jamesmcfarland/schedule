@@ -4,6 +4,11 @@ import VerticallyCentered from "../components/verticallyCentered";
 import logo from "../logo.png";
 
 const SplashScreen = () => {
+
+
+  //TODO: Once auth is implemented, check for auth status and redirect user as appropriate
+
+
   const [showWaitingMessage, setshowWaitingMessage] = useState(false);
 
   setTimeout(() => setshowWaitingMessage(true), 3000);
@@ -12,6 +17,8 @@ const SplashScreen = () => {
     <VerticallyCentered>
       <Box>
         {/* <img src={logo} style={{maxHeight: "5vh", display:"block", margin: "1rem"}} /> */}
+
+       { /*FIXME: use a theme for this rather than using colours*/}
         <Typography style={{ color: "white" }} gutterBottom variant="h4">
           schedule
         </Typography>

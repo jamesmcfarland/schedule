@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SplashScreen from "./pages/splash";
 
 const theme = createTheme({
+  //TODO: Implement full theme and colour pallette
   typography: {
     fontFamily: "Poppins",
     fontWeightLight: 300,
