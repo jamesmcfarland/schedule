@@ -22,6 +22,8 @@ const theme = createTheme({
 
 function App() {
   return (
+    //TODO: Get firebase setup & connected.
+    
     <ThemeProvider theme={theme}>
       <CssBaseline/>
       <Router>
