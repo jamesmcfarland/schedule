@@ -21,16 +21,18 @@ const theme = createTheme(({
     fontWeightBold: 600,
   },
   palette: {
-    background: {
-      default: "#3a3a3a",
-    },
+    mode: "dark",
+    // background: {
+    //   default: "#3a3a3a",
+    // },
   },
 }));
 
 function App() {
   return (
     <StyledEngineProvider injectFirst>
-      //TODO: Get firebase setup & connected.
+      {//TODO: Get firebase setup & connected.
+      }
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
