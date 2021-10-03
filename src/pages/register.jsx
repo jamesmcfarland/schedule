@@ -7,14 +7,56 @@ import {
   Button,
   Link,
 } from "@mui/material";
-import { useState } from "react";
-import PasswordStrengthIndicator from "../components/passwordStrength";
 import VerticallyCentered from "../components/verticallyCentered";
+import { useFormik } from "formik";
+import zxcvbn from "zxcvbn";
 
 const Register = () => {
+  const validate = (values) => {
+    const errors = {};
+    if (!values.first) {
+      errors.first = "Required";
+    }
 
-    const [password, setpassword] = useState("");
-    const [passwordStrength, setpasswordStrength] = useState(0);
+    if (!values.last) {
+      errors.last = "Required";
+    }
+
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = "Invalid email address";
+    }
+
+    if (!values.password) {
+      errors.password = "Required";
+    } else if (zxcvbn(values.password).score < 4) {
+      errors.password = "Please choose a stronger password";
+    }
+
+    if (!values.verifyPassword) {
+      errors.verifyPassword = "Required";
+    } else if (values.verifyPassword !== values.password) {
+      errors.verifyPassword = "Passwords do not match";
+    }
+
+    return errors;
+  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      first: "",
+      last: "",
+      password: "",
+      verifyPassword: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   return (
     <Box className="fancy-bg">
@@ -28,7 +70,12 @@ const Register = () => {
           }}
         >
           <Box padding="2rem" style={{ height: "100%" }}>
-            <form noValidate autoComplete="off" style={{ height: "100%" }}>
+            <form
+              noValidate
+              autoComplete="off"
+              style={{ height: "100%" }}
+              onSubmit={formik.handleSubmit}
+            >
               <Stack
                 spacing={2}
                 justifyContent="space-between"
@@ -41,31 +88,75 @@ const Register = () => {
                 <Stack spacing={2}>
                   <Stack spacing={2} direction="row">
                     <TextField
+                      name="first"
+                      id="first"
                       type="text"
                       label="first name"
                       placeholder="joe"
+                      onChange={formik.handleChange}
+                      value={formik.values.first}
+                      error={formik.errors.first}
+                      helperText={formik.errors.first}
                     />
                     <TextField
+                      id="last"
+                      name="last"
                       type="text"
                       label="last name"
                       placeholder="bloggs"
+                      onChange={formik.handleChange}
+                      value={formik.values.last}
+                      error={formik.errors.last}
+                      helperText={formik.errors.last}
                     />
                   </Stack>
                   <TextField
+                    id="email"
+                    name="email"
                     type="email"
                     label="email address"
                     placeholder="joebloggs123@example.com"
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                    error={formik.errors.email}
+                    helperText={formik.errors.email}
                   />
-                  <TextField type="password" label="password" onChange={(e)=>setpassword(e.target.value)}/>
-                  <PasswordStrengthIndicator password={password} onStrengthChange={(value)=>setpasswordStrength(value)}/>
-                  <TextField type="password" label="confirm password" />
+                  <TextField
+                    id="password"
+                    name="password"
+                    type="password"
+                    label="password"
+                    // onChange={(e) => {setpassword(e.target.value); formik.handleChange(e);}}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    error={formik.errors.password}
+                    helperText={formik.errors.password}
+                  />
+                  {/* <PasswordStrengthIndicator
+                    password={password}
+                    onStrengthChange={(value) => setpasswordStrength(value)}
+                  /> */}
+                  <TextField
+                    id="verifyPassword"
+                    name="verifyPassword"
+                    type="password"
+                    label="confirm password"
+                    onChange={formik.handleChange}
+                    value={formik.values.verifyPassword}
+                    error={formik.errors.verifyPassword}
+                    helperText={formik.errors.verifyPassword}
+                  />
                 </Stack>
-                <Button variant="contained" style={{ textTransform: "none" }}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  style={{ textTransform: "none" }}
+                >
                   Sign up
                 </Button>
                 <Typography variant="body2">
                   got an account already?{" "}
-                  <Link href="#" underline="none">
+                  <Link href="/login" underline="none">
                     sign in
                   </Link>
                 </Typography>
