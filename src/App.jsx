@@ -1,18 +1,17 @@
-import logo from "./logo.svg";
+
 import "./App.css";
 import {
   createTheme,
-  Typography,
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
-  adaptV4Theme,
+  
 } from "@mui/material";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SplashScreen from "./pages/splash";
 import Login from "./pages/login";
 
-const theme = createTheme(adaptV4Theme({
+const theme = createTheme(({
   //TODO: Implement full theme and colour pallette
   typography: {
     fontFamily: "Poppins",
