@@ -1,17 +1,16 @@
-
 import "./App.css";
 import {
   createTheme,
   ThemeProvider,
   StyledEngineProvider,
   CssBaseline,
-  
 } from "@mui/material";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SplashScreen from "./pages/splash";
 import Login from "./pages/login";
+import Register from "./pages/register";
 
-const theme = createTheme(({
+const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
     fontFamily: "Poppins",
@@ -26,12 +25,13 @@ const theme = createTheme(({
     //   default: "#3a3a3a",
     // },
   },
-}));
+});
 
 function App() {
   return (
     <StyledEngineProvider injectFirst>
-      {//TODO: Get firebase setup & connected.
+      {
+        //TODO: Get firebase setup & connected.
       }
 
       <ThemeProvider theme={theme}>
@@ -39,12 +39,9 @@ function App() {
         <Router>
           <div className="App">
             <Switch>
-              <Route exact path="/">
-                <SplashScreen />
-              </Route>
-              <Route path="/login">
-                <Login />
-              </Route>
+              <Route exact path="/" component={SplashScreen} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
             </Switch>
           </div>
         </Router>
