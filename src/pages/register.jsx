@@ -61,7 +61,7 @@ const Register = () => {
                   <TextField type="password" label="confirm password" />
                 </Stack>
                 <Button variant="contained" style={{ textTransform: "none" }}>
-                  Sign in
+                  Sign up
                 </Button>
                 <Typography variant="body2">
                   got an account already?{" "}
