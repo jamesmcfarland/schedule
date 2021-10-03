@@ -5,7 +5,6 @@ import {
   Typography,
   Stack,
   Button,
-  Grid,
   Link,
 } from "@mui/material";
 import VerticallyCentered from "../components/verticallyCentered";
