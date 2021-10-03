@@ -60,6 +60,14 @@ const Register = () => {
 
   return (
     <Box className="fancy-bg">
+      <Stack padding="2rem" direction="row" justifyContent="space-between" position="absolute" width="100%">
+      
+          <Typography variant="h6">schedule</Typography>
+   
+        
+          {process.env.NODE_ENV==="development" && <Typography variant="h6">developer mode</Typography>}
+      
+      </Stack>
       <VerticallyCentered>
         <Card
           style={{
