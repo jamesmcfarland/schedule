@@ -1,4 +1,4 @@
-import { Box, Card, TextField, Typography } from "@material-ui/core";
+import { Box, Card, TextField, Typography } from "@mui/material";
 import VerticallyCentered from "../components/verticallyCentered";
 
 const Login = () => {
