@@ -53,7 +53,7 @@ const Login = () => {
                 </Button>
                 <Typography variant="body2">
                   haven't got an account yet?{" "}
-                  <Link href="#" underline="none">
+                  <Link href="/register" underline="none">
                     sign up
                   </Link>
                 </Typography>
