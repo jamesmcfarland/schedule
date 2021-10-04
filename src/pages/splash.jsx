@@ -16,15 +16,13 @@ const SplashScreen = () => {
   return (
     <VerticallyCentered>
       <Box>
-        {/* <img src={logo} style={{maxHeight: "5vh", display:"block", margin: "1rem"}} /> */}
-
-       { /*FIXME: use a theme for this rather than using colours*/}
-        <Typography style={{ color: "white" }} gutterBottom variant="h4">
+       
+        <Typography  gutterBottom variant="h4">
           schedule
         </Typography>
         <CircularProgress color="secondary" size="1.5rem" />
         {showWaitingMessage && (
-          <Typography style={{ color: "gray" }} gutterBottom variant="body1">
+          <Typography color="GrayText" gutterBottom variant="body1">
             hang tight, this is taking longer than normal
           </Typography>
         )}
