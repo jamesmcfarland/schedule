@@ -34,7 +34,7 @@ const AuthPage = ({children}) => {
             // backgroundColor: "#3a3a3a",
           }}
         >
-          <Box padding="2rem" style={{ height: "100%" }}>{children}</Box>
+          <Box padding="2rem" style={{ height: "100%" }} >{children}</Box>
         </Card>
       </VerticallyCentered>
     </Box>

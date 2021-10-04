@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import VerticallyCentered from "../components/verticallyCentered";
 import { useFormik } from "formik";
+import AuthPage from "../components/authPage";
 
 const Login = () => {
   const validate = (values) => {
@@ -39,73 +40,64 @@ const Login = () => {
     },
   });
   return (
-    <Box className="fancy-bg">
-      <VerticallyCentered>
-        <Card
-          style={{
-            height: "50vh",
-            width: "40vw",
-            borderRadius: "1rem",
-            // backgroundColor: "#3a3a3a",
-          }}
+    <AuthPage>
+      <form
+        noValidate
+        autoComplete="off"
+        style={{ height: "100%" }}
+        onSubmit={formik.handleSubmit}
+      >
+        <Stack
+          spacing={2}
+          justifyContent="space-between"
+          style={{ height: "100%" }}
         >
-          <Box padding="2rem" style={{ height: "100%" }}>
-            <form
-              noValidate
-              autoComplete="off"
-              style={{ height: "100%" }}
-              onSubmit={formik.handleSubmit}
-            >
-              <Stack
-                spacing={2}
-                justifyContent="space-between"
-                style={{ height: "100%" }}
-              >
-                <Typography variant="h4" gutterBottom>
-                  Sign in
-                </Typography>
+          <Typography variant="h4" gutterBottom>
+            Sign in
+          </Typography>
 
-                <Stack spacing={2}>
-                  <TextField
-                    id="email"
-                    name="email"
-                    type="email"
-                    label="email address"
-                    placeholder="joebloggs123@example.com"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    error={formik.errors.email}
-                    helperText={formik.errors.email}
-                  />
-                  <TextField
-                    id="password"
-                    name="password"
-                    type="password"
-                    label="password"
-                    // onChange={(e) => {setpassword(e.target.value); formik.handleChange(e);}}
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                    error={formik.errors.password}
-                    helperText={formik.errors.password}
-                  />{" "}
-                </Stack>
-                <Button variant="contained" style={{ textTransform: "none" }} type="submit">
-                  Sign in
-                </Button>
-                <Typography variant="body2">
-                  haven't got an account yet?{" "}
-                  <Link href="/register" underline="none">
-                    sign up
-                  </Link>
-                </Typography>
-              </Stack>
+          <Stack spacing={2}>
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              label="email address"
+              placeholder="joebloggs123@example.com"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+              error={formik.errors.email}
+              helperText={formik.errors.email}
+            />
+            <TextField
+              id="password"
+              name="password"
+              type="password"
+              label="password"
+              // onChange={(e) => {setpassword(e.target.value); formik.handleChange(e);}}
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              error={formik.errors.password}
+              helperText={formik.errors.password}
+            />{" "}
+          </Stack>
+          <Button
+            variant="contained"
+            style={{ textTransform: "none" }}
+            type="submit"
+          >
+            Sign in
+          </Button>
+          <Typography variant="body2">
+            haven't got an account yet?{" "}
+            <Link href="/register" underline="none">
+              sign up
+            </Link>
+          </Typography>
+        </Stack>
 
-              {/* TODO: Add in submit button, work on MUIv5 compat styling.  */}
-            </form>
-          </Box>
-        </Card>
-      </VerticallyCentered>
-    </Box>
+        {/* TODO: Add in submit button, work on MUIv5 compat styling.  */}
+      </form>
+    </AuthPage>
   );
 };
 
