@@ -8,8 +8,37 @@ import {
   Link,
 } from "@mui/material";
 import VerticallyCentered from "../components/verticallyCentered";
+import { useFormik } from "formik";
 
 const Login = () => {
+  const validate = (values) => {
+    const errors = {};
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = "Invalid email address";
+    }
+
+    if (!values.password) {
+      errors.password = "Required";
+    }
+
+    return errors;
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
+
   const errorText = "";
   return (
     <Box className="fancy-bg">
@@ -23,7 +52,12 @@ const Login = () => {
           }}
         >
           <Box padding="2rem" style={{ height: "100%" }}>
-            <form noValidate autoComplete="off" style={{ height: "100%" }}>
+            <form
+              noValidate
+              autoComplete="off"
+              style={{ height: "100%" }}
+              onSubmit={formik.handleSubmit}
+            >
               <Stack
                 spacing={2}
                 justifyContent="space-between"
@@ -35,20 +69,29 @@ const Login = () => {
 
                 <Stack spacing={2}>
                   <TextField
-                    variant="outlined"
+                    id="email"
+                    name="email"
                     type="email"
-                    error={errorText}
-                    helperText={errorText}
                     label="email address"
+                    placeholder="joebloggs123@example.com"
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                    error={formik.errors.email}
+                    helperText={formik.errors.email}
                   />
                   <TextField
+                    id="password"
+                    name="password"
                     type="password"
-                    error={errorText}
-                    helperText={errorText}
                     label="password"
+                    // onChange={(e) => {setpassword(e.target.value); formik.handleChange(e);}}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    error={formik.errors.password}
+                    helperText={formik.errors.password}
                   />{" "}
                 </Stack>
-                <Button variant="contained" style={{ textTransform: "none" }}>
+                <Button variant="contained" style={{ textTransform: "none" }} type="submit">
                   Sign in
                 </Button>
                 <Typography variant="body2">
