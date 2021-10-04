@@ -38,8 +38,6 @@ const Login = () => {
       console.log(values);
     },
   });
-
-  const errorText = "";
   return (
     <Box className="fancy-bg">
       <VerticallyCentered>
