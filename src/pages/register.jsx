@@ -86,8 +86,9 @@ const Register = () => {
                 placeholder="joe"
                 onChange={formik.handleChange}
                 value={formik.values.first}
-                error={formik.errors.first}
-                helperText={formik.errors.first}
+                onBlur={formik.handleBlur}
+                error={formik.errors.first && formik.touched.first}
+                helperText={formik.touched.first ? formik.errors.first : ""}
               />
               <TextField
                 id="last"
@@ -97,8 +98,9 @@ const Register = () => {
                 placeholder="bloggs"
                 onChange={formik.handleChange}
                 value={formik.values.last}
-                error={formik.errors.last}
-                helperText={formik.errors.last}
+                onBlur={formik.handleBlur}
+                error={formik.errors.last && formik.touched.last}
+                helperText={formik.touched.last ? formik.errors.last : ""}
               />
             </Stack>
             <TextField
@@ -109,24 +111,23 @@ const Register = () => {
               placeholder="joebloggs123@example.com"
               onChange={formik.handleChange}
               value={formik.values.email}
-              error={formik.errors.email}
-              helperText={formik.errors.email}
+                error={formik.errors.email && formik.touched.email}
+              helperText={formik.touched.email ?formik.errors.email:""}
+              onBlur={formik.handleBlur}
+              
             />
             <TextField
               id="password"
               name="password"
               type="password"
               label="password"
-              // onChange={(e) => {setpassword(e.target.value); formik.handleChange(e);}}
               onChange={formik.handleChange}
               value={formik.values.password}
-              error={formik.errors.password}
-              helperText={formik.errors.password}
+              onBlur={formik.handleBlur}
+              error={formik.errors.password && formik.touched.password}
+              helperText={formik.touched.password ? formik.errors.password : ""}
             />
-            {/* <PasswordStrengthIndicator
-                    password={password}
-                    onStrengthChange={(value) => setpasswordStrength(value)}
-                  /> */}
+
             <TextField
               id="verifyPassword"
               name="verifyPassword"
@@ -134,8 +135,15 @@ const Register = () => {
               label="confirm password"
               onChange={formik.handleChange}
               value={formik.values.verifyPassword}
-              error={formik.errors.verifyPassword}
-              helperText={formik.errors.verifyPassword}
+              onBlur={formik.handleBlur}
+              error={
+                formik.errors.verifyPassword && formik.touched.verifyPassword
+              }
+              helperText={
+                formik.touched.verifyPassword
+                  ? formik.errors.verifyPassword
+                  : ""
+              }
             />
           </Stack>
           <Button

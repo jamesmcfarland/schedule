@@ -65,8 +65,10 @@ const Login = () => {
               placeholder="joebloggs123@example.com"
               onChange={formik.handleChange}
               value={formik.values.email}
-              error={formik.errors.email}
-              helperText={formik.errors.email}
+         
+              error={formik.errors.email && formik.touched.email}
+              helperText={formik.touched.email ?formik.errors.email:""}
+              onBlur={formik.handleBlur}
             />
             <TextField
               id="password"
@@ -76,8 +78,9 @@ const Login = () => {
               // onChange={(e) => {setpassword(e.target.value); formik.handleChange(e);}}
               onChange={formik.handleChange}
               value={formik.values.password}
-              error={formik.errors.password}
-              helperText={formik.errors.password}
+              error={formik.errors.password && formik.touched.password}
+              helperText={formik.touched.password ?formik.errors.password:""}
+              onBlur={formik.handleBlur}
             />{" "}
           </Stack>
           <Button
