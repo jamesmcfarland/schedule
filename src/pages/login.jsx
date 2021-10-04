@@ -44,7 +44,7 @@ const Login = () => {
       <form
         noValidate
         autoComplete="off"
-        style={{ height: "100%" }}
+        style={{ height: "50vh" }} //FIXME this is hacky - should be 100%
         onSubmit={formik.handleSubmit}
       >
         <Stack
