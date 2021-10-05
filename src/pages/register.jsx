@@ -12,7 +12,8 @@ import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "./services/firebase";
+import { auth, database } from "./services/firebase";
+import { ref, set } from "@firebase/database";
 
 const Register = () => {
   const validate = (values) => {
@@ -60,7 +61,11 @@ const Register = () => {
       createUserWithEmailAndPassword(auth, values.email, values.password).then(
         (userCredential) => {
           const user = userCredential.user;
-          console.log(user);
+          set(ref(database, "users/"+user.uid), {
+            email: values.email,
+            firstName: values.first,
+            lastName: values.last,
+          })
         }
       );
     },
