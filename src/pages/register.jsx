@@ -1,19 +1,10 @@
-import {
-  Box,
-  Card,
-  TextField,
-  Typography,
-  Stack,
-  Button,
-  Link,
-} from "@mui/material";
-import VerticallyCentered from "../components/verticallyCentered";
+import { TextField, Typography, Stack, Button, Link } from "@mui/material";
 import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
-import { auth, database } from "./services/firebase";
-import { ref, set } from "@firebase/database";
+import { auth, firestore } from "./services/firebase";
+import { doc, setDoc } from "@firebase/firestore";
 
 const Register = () => {
   const validate = (values) => {
@@ -61,11 +52,14 @@ const Register = () => {
       createUserWithEmailAndPassword(auth, values.email, values.password).then(
         (userCredential) => {
           const user = userCredential.user;
-          set(ref(database, "users/"+user.uid), {
+          setDoc(doc(firestore, "users", user.uid), {
             email: values.email,
             firstName: values.first,
             lastName: values.last,
-          })
+          }).then(() => {
+            //TODO: Actually add in redirection logic here.
+            console.log("user added");
+          });
         }
       );
     },
