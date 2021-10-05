@@ -2,16 +2,20 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { useState } from "react";
 import VerticallyCentered from "../components/verticallyCentered";
 import logo from "../logo.png";
+import { useHistory } from "react-router";
 
 const SplashScreen = () => {
 
 
   //TODO: Once auth is implemented, check for auth status and redirect user as appropriate
-
+  const history = useHistory()
 
   const [showWaitingMessage, setshowWaitingMessage] = useState(false);
 
-  setTimeout(() => setshowWaitingMessage(true), 3000);
+  setTimeout(() => setshowWaitingMessage(true), 1000);
+  setTimeout(() => {
+    history.push("/login");
+  }, 2000);
 
   return (
     <VerticallyCentered>

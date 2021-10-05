@@ -22,7 +22,11 @@ const AuthPage = ({children}) => {
         <Typography variant="h6">schedule</Typography>
 
         {process.env.NODE_ENV === "development" && (
-          <Typography variant="h6">developer mode</Typography>
+         <Stack spacing={0}>
+              <Typography variant="h6">developer build</Typography>
+              <Typography variant="body1">do not distribute</Typography>
+
+         </Stack>
         )}
       </Stack>
       <VerticallyCentered>
