@@ -11,6 +11,8 @@ import VerticallyCentered from "../components/verticallyCentered";
 import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { auth } from "./services/firebase";
 
 const Register = () => {
   const validate = (values) => {
@@ -55,7 +57,12 @@ const Register = () => {
     },
     validate,
     onSubmit: (values) => {
-      console.log(values);
+      createUserWithEmailAndPassword(auth, values.email, values.password).then(
+        (userCredential) => {
+          const user = userCredential.user;
+          console.log(user);
+        }
+      );
     },
   });
 
@@ -111,10 +118,9 @@ const Register = () => {
               placeholder="joebloggs123@example.com"
               onChange={formik.handleChange}
               value={formik.values.email}
-                error={formik.errors.email && formik.touched.email}
-              helperText={formik.touched.email ?formik.errors.email:""}
+              error={formik.errors.email && formik.touched.email}
+              helperText={formik.touched.email ? formik.errors.email : ""}
               onBlur={formik.handleBlur}
-              
             />
             <TextField
               id="password"
