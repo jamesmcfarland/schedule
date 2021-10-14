@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
-import { auth, firestore } from "./services/firebase";
+import { auth, firestore } from "../services/firebase";
 import { doc, setDoc } from "@firebase/firestore";
 
 const Register = () => {
@@ -166,7 +166,6 @@ const Register = () => {
           </Typography>
         </Stack>
 
-        {/* TODO: Add in submit button, work on MUIv5 compat styling.  */}
       </form>
     </AuthPage>
   );
