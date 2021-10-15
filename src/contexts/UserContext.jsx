@@ -18,9 +18,10 @@ export const UserProvider = ({ children }) => {
 
   const signInWithEmail = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
+    //TODO load user data in here.
   };
-  const hasUser = () => currentUser !== null;
-  const logout = () => signOut(auth);
+  const hasUser = () => {console.log(currentUser); return currentUser !== null};
+  const logout = () => {history.push("/");signOut(auth)};
   const signUpWithEmail = (values) => {
     return createUserWithEmailAndPassword(
       auth,
@@ -39,6 +40,19 @@ export const UserProvider = ({ children }) => {
     });
   };
 
+  const getUserInfo = () => {
+    if(!hasUser) return {}
+    
+    let userData = {}
+
+    userData.email = auth.currentUser.email;
+    userData.emailVerified = auth.currentUser.emailVerified;
+    userData.uid = auth.currentUser.uid;
+
+    //TODO: ADD DATA FROM FSTORE
+    return userData;
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setcurrentUser(user);
@@ -46,6 +60,6 @@ export const UserProvider = ({ children }) => {
 
     return unsubscribe;
   }, []);
-  const value = { signInWithEmail, hasUser, logout, signUpWithEmail };
+  const value = { signInWithEmail, hasUser, logout, signUpWithEmail, getUserInfo };
   return <UserContext.Provider value={value}> {children}</UserContext.Provider>;
 };

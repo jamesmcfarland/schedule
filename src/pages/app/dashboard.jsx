@@ -1,10 +1,13 @@
-import { Typography } from "@mui/material";
+
+import { Button, Typography } from "@mui/material";
 import VerticallyCentered from "../../components/verticallyCentered";
+import { useUser } from "../../contexts/UserContext";
 
 const Dashboard = () => {
 
-
-    return ( <VerticallyCentered><Typography>Dashboard lmao</Typography></VerticallyCentered> );
+    const {getUserInfo, logout} = useUser();
+    
+    return ( <VerticallyCentered><Typography><code>{JSON.stringify(getUserInfo(), null, 2)}</code></Typography><Button onClick={(e)=>{logout();}}>sign out</Button></VerticallyCentered> );
 }
  
 export default Dashboard;
