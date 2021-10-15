@@ -2,11 +2,13 @@ import { TextField, Typography, Stack, Button, Link } from "@mui/material";
 import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
-import { createUserWithEmailAndPassword } from "@firebase/auth";
-import { auth, firestore } from "../services/firebase";
-import { doc, setDoc } from "@firebase/firestore";
+import { useUser } from "../contexts/UserContext";
+
 
 const Register = () => {
+
+  const {signUpWithEmail} = useUser();
+
   const validate = (values) => {
     const errors = {};
     if (!values.first) {
@@ -48,21 +50,7 @@ const Register = () => {
       verifyPassword: "",
     },
     validate,
-    onSubmit: (values) => {
-      createUserWithEmailAndPassword(auth, values.email, values.password).then(
-        (userCredential) => {
-          const user = userCredential.user;
-          setDoc(doc(firestore, "users", user.uid), {
-            email: values.email,
-            firstName: values.first,
-            lastName: values.last,
-          }).then(() => {
-            //TODO: Actually add in redirection logic here.
-            console.log("user added");
-          });
-        }
-      );
-    },
+    onSubmit: (values) => signUpWithEmail(values),
   });
 
   return (

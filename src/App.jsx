@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SplashScreen from "./pages/splash";
 import Login from "./pages/login";
 import Register from "./pages/register";
-
+import { UserProvider } from "./contexts/UserContext";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -30,22 +30,20 @@ const theme = createTheme({
 function App() {
   return (
     <StyledEngineProvider injectFirst>
-      {
-        //TODO: Get firebase setup & connected.
-      }
-
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Router>
-          <div className="App">
-            <Switch>
-              <Route exact path="/" component={SplashScreen} />
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />
-            </Switch>
-          </div>
-        </Router>
-      </ThemeProvider>
+      <UserProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Router>
+            <div className="App">
+              <Switch>
+                <Route exact path="/" component={SplashScreen} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+              </Switch>
+            </div>
+          </Router>
+        </ThemeProvider>
+      </UserProvider>
     </StyledEngineProvider>
   );
 }
