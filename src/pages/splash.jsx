@@ -12,9 +12,9 @@ const SplashScreen = () => {
   const history = useHistory();
   const {hasUser} = useUser();
 
-  const [showWaitingMessage, setshowWaitingMessage] = useState(false);
+  // const [showWaitingMessage, setshowWaitingMessage] = useState(false);
 
-  setTimeout(() => setshowWaitingMessage(true), 1000);
+  // setTimeout(() => setshowWaitingMessage(true), 1000);
 
 
   useEffect(()=>{
