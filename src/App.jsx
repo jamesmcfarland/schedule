@@ -10,6 +10,7 @@ import SplashScreen from "./pages/splash";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { UserProvider } from "./contexts/UserContext";
+import Dashboard from "./pages/app/dashboard";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -39,6 +40,7 @@ function App() {
                 <Route exact path="/" component={SplashScreen} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/app" component={Dashboard}/>
               </Switch>
             </div>
           </Router>
