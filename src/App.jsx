@@ -12,6 +12,7 @@ import Register from "./pages/register";
 import { UserProvider } from "./contexts/UserContext";
 import Dashboard from "./pages/app/dashboard";
 import PrivateRoute from "./components/privateRoute";
+import AuthenticationRoute from "./components/authenticationRoute";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -39,10 +40,14 @@ function App() {
             <div className="App">
               <Switch>
                 <Route exact path="/" component={SplashScreen} />
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
+                <AuthenticationRoute path="/register">
+                  <Register />
+                </AuthenticationRoute>
+                <AuthenticationRoute path="/login">
+                  <Login />
+                </AuthenticationRoute>
                 <PrivateRoute path="/app">
-                  <Dashboard/>
+                  <Dashboard />
                 </PrivateRoute>
               </Switch>
             </div>
