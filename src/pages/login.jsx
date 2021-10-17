@@ -6,12 +6,19 @@ import {
   Stack,
   Button,
   Link,
+  Alert,
 } from "@mui/material";
 import VerticallyCentered from "../components/verticallyCentered";
 import { useFormik } from "formik";
 import AuthPage from "../components/authPage";
-
+import { useUser } from "../contexts/UserContext";
+import { useHistory } from "react-router";
+import { useState } from "react";
 const Login = () => {
+  const { signInWithEmail } = useUser();
+  const history = useHistory();
+  const [error, seterror] = useState(null);
+
   const validate = (values) => {
     const errors = {};
     if (!values.email) {
@@ -36,7 +43,27 @@ const Login = () => {
     },
     validate,
     onSubmit: (values) => {
-      console.log(values);
+      signInWithEmail(values.email, values.password)
+        .then(() => history.push("/app"))
+        .catch((err) => {
+          console.log(err.code);
+          switch (err.code) {
+            case "auth/user-disabled":
+              seterror(
+                "This account has been disabled, please contact support"
+              );
+              break;
+            case "auth/wrong-password":
+              seterror("Username or password is incorrect");
+              break;
+            case "auth/user-not-found":
+              seterror("Username or password is incorrect");
+              break;
+            default:
+              seterror("Unable to login, please contact support");
+              break;
+          }
+        });
     },
   });
   return (
@@ -56,6 +83,7 @@ const Login = () => {
             Sign in
           </Typography>
 
+          {error && <Alert severity="error">{error}</Alert>}
           <Stack spacing={2}>
             <TextField
               id="email"
@@ -65,9 +93,8 @@ const Login = () => {
               placeholder="joebloggs123@example.com"
               onChange={formik.handleChange}
               value={formik.values.email}
-         
               error={formik.errors.email && formik.touched.email}
-              helperText={formik.touched.email ?formik.errors.email:""}
+              helperText={formik.touched.email ? formik.errors.email : ""}
               onBlur={formik.handleBlur}
             />
             <TextField
@@ -79,7 +106,7 @@ const Login = () => {
               onChange={formik.handleChange}
               value={formik.values.password}
               error={formik.errors.password && formik.touched.password}
-              helperText={formik.touched.password ?formik.errors.password:""}
+              helperText={formik.touched.password ? formik.errors.password : ""}
               onBlur={formik.handleBlur}
             />{" "}
           </Stack>

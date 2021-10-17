@@ -1,13 +1,15 @@
-import { TextField, Typography, Stack, Button, Link } from "@mui/material";
+import { TextField, Typography, Stack, Button, Link, Alert } from "@mui/material";
 import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
+import { useHistory } from "react-router";
 import { useUser } from "../contexts/UserContext";
-
+import { useState } from "react";
 
 const Register = () => {
-
-  const {signUpWithEmail} = useUser();
+  const { signUpWithEmail } = useUser();
+  const history = useHistory();
+  const [error, seterror] = useState();
 
   const validate = (values) => {
     const errors = {};
@@ -50,7 +52,25 @@ const Register = () => {
       verifyPassword: "",
     },
     validate,
-    onSubmit: (values) => signUpWithEmail(values),
+    onSubmit: (values) => {
+      signUpWithEmail(values)
+        .then(() => {
+          history.push("/app");
+        })
+        .catch((err) => {
+          console.log(err.code);
+          switch (err.code) {
+            case "auth/email-already-in-use":
+              seterror("That email is already in use, please login instead");
+              break;
+            default:
+              seterror(
+                "We couldn't register your account, please contact support"
+              );
+              break;
+          }
+        });
+    },
   });
 
   return (
@@ -68,8 +88,8 @@ const Register = () => {
         >
           <Typography variant="h4" gutterBottom>
             Sign up
-          </Typography>
-
+          </Typography>{" "}
+          {error && <Alert severity="error">{error}</Alert>}
           <Stack spacing={2}>
             <Stack spacing={2} direction="row">
               <TextField
@@ -153,7 +173,6 @@ const Register = () => {
             </Link>
           </Typography>
         </Stack>
-
       </form>
     </AuthPage>
   );
