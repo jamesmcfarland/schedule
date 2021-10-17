@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
     //TODO load user data in here.
   };
   const hasUser = () => {console.log(currentUser); return currentUser != null};
-  const logout = () => {history.push("/");signOut(auth)};
+  const logout = () =>  signOut(auth);
   const signUpWithEmail = (values) => {
     return createUserWithEmailAndPassword(
       auth,
