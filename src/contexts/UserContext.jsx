@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
     //TODO load user data in here.
   };
-  const hasUser = () => {console.log(currentUser); return currentUser !== null};
+  const hasUser = () => {console.log(currentUser); return currentUser != null};
   const logout = () => {history.push("/");signOut(auth)};
   const signUpWithEmail = (values) => {
     return createUserWithEmailAndPassword(
@@ -41,8 +41,8 @@ export const UserProvider = ({ children }) => {
   };
 
   const getUserInfo = () => {
-    if(!hasUser) return {}
-    
+    if(!hasUser()) return {}
+    console.log(auth);
     let userData = {}
 
     userData.email = auth.currentUser.email;
@@ -57,7 +57,7 @@ export const UserProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setcurrentUser(user);
     });
-
+    console.log(currentUser);
     return unsubscribe;
   }, []);
   const value = { signInWithEmail, hasUser, logout, signUpWithEmail, getUserInfo };

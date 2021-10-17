@@ -18,7 +18,7 @@ const SplashScreen = () => {
 
 
   useEffect(()=>{ 
-    if(hasUser){
+    if(hasUser()){
       history.push("/app");
     }
     else {

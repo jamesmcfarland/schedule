@@ -41,7 +41,9 @@ function App() {
                 <Route exact path="/" component={SplashScreen} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <PrivateRoute path="/app" component={Dashboard}/>
+                <PrivateRoute path="/app">
+                  <Dashboard/>
+                </PrivateRoute>
               </Switch>
             </div>
           </Router>

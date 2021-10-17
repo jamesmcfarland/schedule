@@ -5,7 +5,7 @@ const PrivateRoute = ({ children, ...rest }) => {
   const { hasUser } = useUser();
   return (
     <Route
-      {...props}
+      {...rest}
       render={({ location }) => {
         console.log("render ran");
         if (hasUser()) {
@@ -13,7 +13,7 @@ const PrivateRoute = ({ children, ...rest }) => {
         } else
           return (
             <Redirect
-              to={{ pathname: "/login", state: { from: location } }}
+              to={{ pathname: "/", state: { from: location } }}
             ></Redirect>
           );
       }}
