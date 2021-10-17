@@ -5,7 +5,7 @@ import {
 } from "@firebase/auth";
 import { createContext, useContext } from "react";
 import { auth, firestore} from "../services/firebase";
-import { doc, setDoc } from "@firebase/firestore";
+import { doc, getDoc, setDoc } from "@firebase/firestore";
 import { useState, useEffect } from "react";
 const UserContext = createContext();
 
@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
     //TODO load user data in here.
   };
-  const hasUser = () => {console.log(currentUser); return currentUser != null};
+  const hasUser = () => {return currentUser != null};
   const logout = () =>  signOut(auth);
   const signUpWithEmail = (values) => {
     return createUserWithEmailAndPassword(
@@ -40,16 +40,27 @@ export const UserProvider = ({ children }) => {
     });
   };
 
-  const getUserInfo = () => {
-    if(!hasUser()) return {}
-    console.log(auth);
+  const getUserInfo = async () => {
+    console.log("start");
+    if(!hasUser()) throw "no user";
     let userData = {}
-
-    userData.email = auth.currentUser.email;
+    console.log("1");
+    
+    // userData.email = auth.currentUser.email;
     userData.emailVerified = auth.currentUser.emailVerified;
     userData.uid = auth.currentUser.uid;
-
+    
+    console.log("2");
     //TODO: ADD DATA FROM FSTORE
+    const docSnapshot = await getDoc(doc(firestore, "users", currentUser.uid));
+    console.log("3");
+    const data = docSnapshot.data();
+    console.log("4");
+    userData.email = data.email;
+    userData.firstName = data.firstName;
+    userData.lastName = data.lastName;
+    console.log("5");
+
     return userData;
   }
 
