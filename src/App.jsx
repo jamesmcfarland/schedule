@@ -10,9 +10,13 @@ import SplashScreen from "./pages/splash";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { UserProvider } from "./contexts/UserContext";
-import Dashboard from "./pages/app/dashboard";
+import Rota from "./pages/app/rota";
 import PrivateRoute from "./components/privateRoute";
 import AuthenticationRoute from "./components/authenticationRoute";
+import Noticeboard from "./pages/app/noticeboard";
+import People from "./pages/app/people";
+import SettingsPage from "./pages/app/settings";
+import MainAppContainer from "./pages/app/mainAppContainer";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -47,7 +51,7 @@ function App() {
                   <Login />
                 </AuthenticationRoute>
                 <PrivateRoute path="/app">
-                  <Dashboard />
+                  <MainAppContainer />
                 </PrivateRoute>
               </Switch>
             </div>
