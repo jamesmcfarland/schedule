@@ -1,17 +1,34 @@
 import { Apps, ContentCopy, Settings, Visibility } from "@mui/icons-material";
-import { Drawer, Grid, Box, Stack, Typography, Avatar } from "@mui/material";
+import {
+  Drawer,
+  Grid,
+  Box,
+  Stack,
+  Typography,
+  Avatar,
+  Button,
+} from "@mui/material";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { useUser } from "../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-
 const Menu = () => {
-    const location = useLocation();
-    console.log(location.pathname);
+  const location = useLocation();
+  console.log(location.pathname);
+
+  const { getUserInfo, logout } = useUser();
+  const [udata, setudata] = useState({ data: "wating" });
+
+  useEffect(() => {
+    getUserInfo().then((data) => setudata(data));
+  }, []);
+
   return (
-    <Drawer variant="permanent" anchor="left" >
+    <Box borderRight="2px solid #383838">
       <Grid
         container
-        style={{ height: "100vh", padding: "1rem 2rem", width:"20vw" }}
+        style={{ height: "100vh", padding: "1rem 2rem", width: "20vw" }}
         direction="column"
       >
         <Grid item xs={2}>
@@ -22,36 +39,36 @@ const Menu = () => {
             <Typography align="left">developer build</Typography>
           )}
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={8}>
           <Stack spacing={3}>
             <MenuButton
               label="Rota"
               startIcon={<Apps />}
               to="/app"
-              selected={location.pathname==="/app"}
+              selected={location.pathname === "/app"}
             />
             <MenuButton
               label="People"
               to="/app/people"
               startIcon={<Visibility />}
-              selected={location.pathname==="/app/people"}
+              selected={location.pathname === "/app/people"}
             />
             <MenuButton
               label="Noticeboard"
               to="/app/noticeboard"
               startIcon={<ContentCopy />}
-              selected={location.pathname==="/app/noticeboard"}
+              selected={location.pathname === "/app/noticeboard"}
             />
             <MenuButton
               label="Settings"
               to="/app/settings"
               startIcon={<Settings />}
-              selected={location.pathname==="/app/settings"}
+              selected={location.pathname === "/app/settings"}
             />
           </Stack>
         </Grid>
         <Grid item xs>
-          <Box>
+          <Stack justifyContent="space-between" spacing={1} direction="column">
             <Stack direction="row" spacing={1.5} justifyContent="space-between">
               <Stack justifyContent="start">
                 <Typography
@@ -59,18 +76,33 @@ const Menu = () => {
                   style={{ fontWeight: 600 }}
                   align="left"
                 >
-                  James McFarland
+                  {udata.data === "waiting"
+                    ? ""
+                    : `${udata.firstName} ${udata.lastName}`}
                 </Typography>
                 <Typography variant="caption" align="left">
-                  Manager
+                  {udata.data === "waiting"
+                    ? ""
+                    : udata.role
+                    ? udata.role
+                    : "no role"}
                 </Typography>
               </Stack>
               <Avatar style={{ border: "2px solid white" }}>JM</Avatar>
             </Stack>
-          </Box>
+            <Button
+              variant="text"
+              size="small"
+              style={{ textTransform: "none" }}
+              fullWidth
+              onClick={() => logout()}
+            >
+              Sign out
+            </Button>
+          </Stack>
         </Grid>
       </Grid>
-    </Drawer>
+    </Box>
   );
 };
 
