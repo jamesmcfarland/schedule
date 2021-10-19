@@ -91,6 +91,13 @@ const Menu = ({isVisible}) => {
                     ? udata.role
                     : "no role"}
                 </Typography>
+                <Typography variant="caption" align="left">
+                  {udata.data === "waiting"
+                    ? ""
+                    : udata.role
+                    ? udata.role
+                    : "no organisation"}
+                </Typography>
               </Stack>
               <Avatar style={{ border: "2px solid white" }}>JM</Avatar>
             </Stack>
