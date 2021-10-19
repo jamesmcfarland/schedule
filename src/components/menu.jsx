@@ -13,7 +13,7 @@ import { useLocation } from "react-router";
 import { useUser } from "../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-const Menu = () => {
+const Menu = ({isVisible}) => {
   const location = useLocation();
   console.log(location.pathname);
 
@@ -36,35 +36,39 @@ const Menu = () => {
             schedule
           </Typography>
           {process.env.NODE_ENV === "development" && (
-            <Typography align="left">developer build</Typography>
+            <Typography align="left">developer build EN:{isVisible.toString()}</Typography>
           )}
         </Grid>
         <Grid item xs={8}>
           <Stack spacing={3}>
             <MenuButton
+              isEnabled={isVisible}
               label="Rota"
               startIcon={<Apps />}
               to="/app"
               selected={location.pathname === "/app"}
-            />
+              />
             <MenuButton
+              isEnabled={isVisible}
               label="People"
               to="/app/people"
               startIcon={<Visibility />}
               selected={location.pathname === "/app/people"}
-            />
+              />
             <MenuButton
+              isEnabled={isVisible}
               label="Noticeboard"
               to="/app/noticeboard"
               startIcon={<ContentCopy />}
               selected={location.pathname === "/app/noticeboard"}
-            />
+              />
             <MenuButton
+              isEnabled={isVisible}
               label="Settings"
               to="/app/settings"
               startIcon={<Settings />}
               selected={location.pathname === "/app/settings"}
-            />
+              />
           </Stack>
         </Grid>
         <Grid item xs>

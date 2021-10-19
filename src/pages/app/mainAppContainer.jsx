@@ -1,27 +1,39 @@
 import { Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Route, Switch } from "react-router";
+import { useEffect, useState } from "react";
+import { Redirect, Route, Switch } from "react-router";
 import { Link } from "react-router-dom";
 import Menu from "../../components/menu";
+import { useUser } from "../../contexts/UserContext";
 import Noticeboard from "./noticeboard";
+import OnboardingFlow from "./onboarding/onboarding";
 import People from "./people";
 import Rota from "./rota";
 import SettingsPage from "./settings";
 
 const MainAppContainer = () => {
+  const { getUserInfo } = useUser();
+  const [needsOnboarding, setneedsOnboarding] = useState(false);
+
+  useEffect(() => {
+    setneedsOnboarding(getUserInfo().organisations == null);
+  }, []);
+
   return (
     <Box>
       <Stack direction="row">
-      <Menu></Menu>
+        <Menu isVisible={!needsOnboarding}></Menu>
+        {needsOnboarding && <Redirect to="/app/onboarding"/>}
 
-      <Box padding="1rem">
-        <Switch>
-          <Route exact path="/app" component={Rota} />
-          <Route path="/app/people" component={People} />
-          <Route path="/app/noticeboard" component={Noticeboard} />
-          <Route path="/app/settings" component={SettingsPage} />
-        </Switch>
-      </Box>
+        <Box padding="1rem">
+          <Switch>
+            <Route exact path="/app" component={Rota} />
+            <Route path="/app/people" component={People} />
+            <Route path="/app/noticeboard" component={Noticeboard} />
+            <Route path="/app/settings" component={SettingsPage} />
+            <Route path="/app/onboarding" component={OnboardingFlow} />
+          </Switch>
+        </Box>
       </Stack>
     </Box>
   );

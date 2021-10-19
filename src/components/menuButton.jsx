@@ -2,10 +2,11 @@ import { Dashboard } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { useHistory } from "react-router";
 
-const MenuButton = ({ label, icon, selected, to, ...rest }) => {
+const MenuButton = ({ label, icon, selected, to,isEnabled, ...rest }) => {
   const history = useHistory();
   return (
     <Button
+    disabled={!isEnabled}
       style={{
         textTransform: "none",
         minWidth: "240px",
