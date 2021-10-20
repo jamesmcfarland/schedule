@@ -36,7 +36,7 @@ const Menu = ({isVisible}) => {
             schedule
           </Typography>
           {process.env.NODE_ENV === "development" && (
-            <Typography align="left">developer build </Typography>
+            <Typography align="left">developer build</Typography>
           )}
         </Grid>
         <Grid item xs={8}>
