@@ -23,7 +23,7 @@ const MainAppContainer = () => {
     <Box>
       <Stack direction="row">
         <Menu isVisible={!needsOnboarding}></Menu>
-        {needsOnboarding && <Redirect to="/app/onboarding"/>}
+        {needsOnboarding && <Redirect to="/onboarding"/>}
 
         <Box padding="1rem">
           <Switch>
@@ -31,7 +31,6 @@ const MainAppContainer = () => {
             <Route path="/app/people" component={People} />
             <Route path="/app/noticeboard" component={Noticeboard} />
             <Route path="/app/settings" component={SettingsPage} />
-            <Route path="/app/onboarding" component={OnboardingFlow} />
           </Switch>
         </Box>
       </Stack>

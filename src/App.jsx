@@ -17,6 +17,7 @@ import Noticeboard from "./pages/app/noticeboard";
 import People from "./pages/app/people";
 import SettingsPage from "./pages/app/settings";
 import MainAppContainer from "./pages/app/mainAppContainer";
+import OnboardingFlow from "./pages/app/onboarding/onboarding";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -52,6 +53,9 @@ function App() {
                 </AuthenticationRoute>
                 <PrivateRoute path="/app">
                   <MainAppContainer />
+                </PrivateRoute>
+                <PrivateRoute path="/onboarding">
+                  <OnboardingFlow/>
                 </PrivateRoute>
               </Switch>
             </div>
