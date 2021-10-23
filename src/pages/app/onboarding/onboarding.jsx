@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
+import OrganisationDetails from "./organisationDetails";
 import TerminologyCard from "./terminology";
 
 const OnboardingFlow = () => {
@@ -21,7 +22,7 @@ const OnboardingFlow = () => {
   const renderSwitch = () => {
     switch (activeStep) {
       case 0:
-        return <Typography gutterBottom>Step one</Typography>;
+        return <OrganisationDetails/>;
       case 1:
         return <Typography>Step two</Typography>;
       case 2:

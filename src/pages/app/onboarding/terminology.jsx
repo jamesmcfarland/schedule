@@ -12,7 +12,7 @@ const TerminologyCard = () => {
           <Typography variant="body1">Organisation</Typography>
           <Typography variant="caption" gutterBottom>
             A group of departments, it's like a big folder for your
-            companies departments
+            companys departments
           </Typography>
         </Box>
         <Box>
