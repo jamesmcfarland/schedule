@@ -1,7 +1,6 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import VerticallyCentered from "../components/verticallyCentered";
-import logo from "../logo.png";
 import { useHistory } from "react-router";
 import { useUser } from "../contexts/UserContext";
 
