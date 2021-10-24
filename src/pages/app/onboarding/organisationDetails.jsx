@@ -12,73 +12,10 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import { countries, getPhoneCodeByLabel } from "../../../utils/countries";
 
-const OrganisationDetails = () => {
+const OrganisationDetails = ({formik, orgCountry, setOrgCountry,...rest}) => {
   const [error, seterror] = useState();
-  const [orgCountry, setorgCountry] = useState(countries.filter(country=>country.label==="United Kingdom")[0]);
-
-  const validate = (values) => {
-    const errors = {};
-    if (!values.first) {
-      errors.first = "Required";
-    }
-
-    if (!values.last) {
-      errors.last = "Required";
-    }
-
-    if (!values.email) {
-      errors.email = "Required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
-      errors.email = "Invalid email address";
-    }
-
-    if (!values.password) {
-      errors.password = "Required";
-    } else if (zxcvbn(values.password).score < 4) {
-      errors.password = "Please choose a stronger password";
-    }
-
-    if (!values.verifyPassword) {
-      errors.verifyPassword = "Required";
-    } else if (values.verifyPassword !== values.password) {
-      errors.verifyPassword = "Passwords do not match";
-    }
-
-    return errors;
-  };
-  const formik = useFormik({
-    initialValues: {
-      orgName: "",
-      orgAddrLine1: "",
-      orgAddrLine2: "",
-      orgCity: "",
-      orgPostCode: "",
-      orgPhoneContact: "",
-    },
-    validate,
-    onSubmit: (values) => {
-      // signUpWithEmail(values)
-      //   .then(() => {
-      //     history.push("/app");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err.code);
-      //     switch (err.code) {
-      //       case "auth/email-already-in-use":
-      //         seterror("That email is already in use, please login instead");
-      //         break;
-      //       default:
-      //         seterror(
-      //           "We couldn't register your account, please contact support"
-      //         );
-      //         break;
-      //     }
-      //   });
-      console.log(values);
-    },
-  });
+ 
+  
 
   return (
     <form

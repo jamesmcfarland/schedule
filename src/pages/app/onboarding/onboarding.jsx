@@ -12,17 +12,43 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { useFormik } from "formik";
 import { useState } from "react";
 import OrganisationDetails from "./organisationDetails";
 import TerminologyCard from "./terminology";
+import { validateOrgDetails } from "./validators";
+import { countries } from "../../../utils/countries";
 
 const OnboardingFlow = () => {
   const [activeStep, setactiveStep] = useState(0);
+  //We need to keep the formik state available as the pages are mounted and unmounted, so we will define them here
+  const [orgCountry, setorgCountry] = useState(
+    countries.filter((country) => country.label === "United Kingdom")[0]
+  );
+  const orgValidateHelper = (values) => {
+    return validateOrgDetails(values, orgCountry);
+  };
+
+  const orgDetailsFormik = useFormik({
+    initialValues: {
+      orgName: "",
+      orgAddrLine1: "",
+      orgAddrLine2: "",
+      orgCity: "",
+      orgPostCode: "",
+      orgPhoneContact: "",
+    },
+
+    orgValidateHelper,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   const renderSwitch = () => {
     switch (activeStep) {
       case 0:
-        return <OrganisationDetails/>;
+        return <OrganisationDetails formik={orgDetailsFormik} orgCountry={orgCountry} setOrgCountry={setorgCountry} />;
       case 1:
         return <Typography>Step two</Typography>;
       case 2:
