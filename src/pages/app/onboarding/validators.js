@@ -80,35 +80,3 @@ export const validateOrgDetails = (values, orgCountry) => {
   });
 };
 
-// const orgDetailsValidate = (values) => {
-//     const errors = {};
-//     if (!values.first) {
-//       errors.first = "Required";
-//     }
-
-//     if (!values.last) {
-//       errors.last = "Required";
-//     }
-
-//     if (!values.email) {
-//       errors.email = "Required";
-//     } else if (
-//       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-//     ) {
-//       errors.email = "Invalid email address";
-//     }
-
-//     if (!values.password) {
-//       errors.password = "Required";
-//     } else if (zxcvbn(values.password).score < 4) {
-//       errors.password = "Please choose a stronger password";
-//     }
-
-//     if (!values.verifyPassword) {
-//       errors.verifyPassword = "Required";
-//     } else if (values.verifyPassword !== values.password) {
-//       errors.verifyPassword = "Passwords do not match";
-//     }
-
-//     return errors;
-//   };
