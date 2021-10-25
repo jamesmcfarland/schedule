@@ -1,4 +1,5 @@
 export const validateOrgDetails = (values, orgCountry) => {
+  console.log("called");
   const errors = {};
 
   if (values.orgName) {

@@ -26,6 +26,7 @@ const OnboardingFlow = () => {
     countries.filter((country) => country.label === "United Kingdom")[0]
   );
   const orgValidateHelper = (values) => {
+    console.log("called helper");
     return validateOrgDetails(values, orgCountry);
   };
 
@@ -38,11 +39,11 @@ const OnboardingFlow = () => {
       orgPostCode: "",
       orgPhoneContact: "",
     },
-
     orgValidateHelper,
     onSubmit: (values) => {
       console.log(values);
     },
+    validateOnBlur
   });
 
   const renderSwitch = () => {
@@ -75,7 +76,7 @@ const OnboardingFlow = () => {
           >
             <Grid item xs={2}>
               <Stack spacing={2} alignItems="center">
-                <Typography variant="h5">Welcome to schedule</Typography>
+                <Typography variant="h5">Welcome to schedule {orgDetailsFormik.values.orgName}</Typography>
                 <Box width={700}>
                   <Stepper activeStep={activeStep}>
                     <Step key={0}>

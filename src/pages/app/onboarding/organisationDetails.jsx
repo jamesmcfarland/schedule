@@ -34,13 +34,13 @@ const OrganisationDetails = ({formik, orgCountry, setOrgCountry,...rest}) => {
           <Typography variant="h6">Organisation info</Typography>
           <Autocomplete
             disablePortal
-            isOptionEqualToValue={(option, value) => {
-              return option.label === value;
-            }}
+            // isOptionEqualToValue={(option, value) => {
+            //   return option.label === value;
+            // }}
             id="orgCountry"
             name="orgCountry"
             onChange={(e, val) => {
-              setorgCountry(val);
+              setOrgCountry(val);
             }}
             onBlur={formik.handleBlur}
             value={orgCountry}
@@ -48,6 +48,7 @@ const OrganisationDetails = ({formik, orgCountry, setOrgCountry,...rest}) => {
             helperText={
               formik.touched.orgCountry ? formik.errors.orgCountry : ""
             }
+            
             options={countries}
             autoHighlight
             renderInput={(params) => <TextField {...params} label="Country" />}
