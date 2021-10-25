@@ -39,24 +39,24 @@ export const validateOrgDetails = (values, orgCountry) => {
 
       if (!valid) errors.orgPhoneContact = "Invalid phone number";
     }
-    console.log("done");
     let re = new RegExp("([A-Z]{1,2}\\d[A-Z\\d]? ?\\d[A-Z]{2}|GIR ?0A{2})");
     if (!values.orgPostCode) {
       errors.orgPostCode = "Required";
+      resolve(errors);
     }
     //Source: https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
     else {
       console.log("OCC", orgCountry.code);
       if (orgCountry.code === "GB") {
         // if (!re.test(values.orgPostCode)) {
-        //   errors.orgPostCode = "Not a valid postcode";
-        // }
-        var postcodeOK = true;
-        axios
+          //   errors.orgPostCode = "Not a valid postcode";
+          // }
+          var postcodeOK = true;
+          axios
           .get("https://api.postcodes.io/postcodes/" + values.orgPostCode)
           .then((res) => {
             if (res.data.status != "200")
-              errors.orgPostCode = "Not a valid postcode";
+            errors.orgPostCode = "Not a valid postcode";
           })
           .catch((err) => {
             postcodeOK = false;
@@ -67,27 +67,28 @@ export const validateOrgDetails = (values, orgCountry) => {
             if (!postcodeOK) errors.orgPostCode = "Not a valid postcode";
             resolve(errors);
           });
-      } else if (orgCountry.code === "US") {
-        if (values.orgPostCode.length === 0 || values.orgPostCode.length > 5) {
-          errors.orgPostCode = "Invalid zip code";
+        } else if (orgCountry.code === "US") {
+          if (values.orgPostCode.length === 0 || values.orgPostCode.length > 5) {
+            errors.orgPostCode = "Invalid zip code";
+            resolve(errors);
+          }
+        } else {
+          //Some other validation?
           resolve(errors);
         }
-      } else {
-        //Some other validation?
-        resolve(errors);
       }
-    }
-  });
-};
-
-// const orgDetailsValidate = (values) => {
-//     const errors = {};
-//     if (!values.first) {
-//       errors.first = "Required";
-//     }
-
-//     if (!values.last) {
-//       errors.last = "Required";
+      console.log("done!!");
+    });
+  };
+  
+  // const orgDetailsValidate = (values) => {
+    //     const errors = {};
+    //     if (!values.first) {
+      //       errors.first = "Required";
+      //     }
+      
+      //     if (!values.last) {
+        //       errors.last = "Required";
 //     }
 
 //     if (!values.email) {
