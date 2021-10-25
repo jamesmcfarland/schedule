@@ -16,10 +16,18 @@ const OrganisationDetails = ({
   setorganisationDetailsState,
   orgCountry,
   setOrgCountry,
+  setcanContinue,
 }) => {
   const [error, seterror] = useState();
 
-  const validate = (values) => validateOrgDetails(values, orgCountry);
+  const validate = (values) => {
+    return new Promise((resolve, reject) =>
+      validateOrgDetails(values, orgCountry).then((errors) => {
+        setcanContinue(!!Object.keys(errors).length);
+        resolve(errors);
+      })
+    );
+  };
 
   const formik = useFormik({
     initialValues: {

@@ -25,28 +25,9 @@ const OnboardingFlow = () => {
   const [orgCountry, setorgCountry] = useState(
     countries.filter((country) => country.label === "United Kingdom")[0]
   );
-  const orgValidateHelper = (values) => {
-    console.log("called helper");
-    return validateOrgDetails(values, orgCountry);
-  };
 
   const [organisationDetailsState, setorganisationDetailsState] = useState({});
-
-  // const orgDetailsFormik = useFormik({
-  //   initialValues: {
-  //     orgName: "",
-  //     orgAddrLine1: "",
-  //     orgAddrLine2: "",
-  //     orgCity: "",
-  //     orgPostCode: "",
-  //     orgPhoneContact: "",
-  //   },
-  //   orgValidateHelper,
-  //   onSubmit: (values) => {
-  //     console.log(values);
-  //   },
-  //   validateOnBlur,
-  // });
+  const [canContinue, setcanContinue] = useState(false);
 
   const renderSwitch = () => {
     switch (activeStep) {
@@ -56,6 +37,7 @@ const OnboardingFlow = () => {
             setorganisationDetailsState={setorganisationDetailsState}
             orgCountry={orgCountry}
             setOrgCountry={setorgCountry}
+            setcanContinue={setcanContinue}
           />
         );
       case 1:
@@ -84,9 +66,7 @@ const OnboardingFlow = () => {
           >
             <Grid item xs={2}>
               <Stack spacing={2} alignItems="center">
-                <Typography variant="h5">
-                  Welcome to schedule
-                </Typography>
+                <Typography variant="h5">Welcome to schedule</Typography>
                 <Box width={700}>
                   <Stepper activeStep={activeStep}>
                     <Step key={0}>
@@ -124,6 +104,7 @@ const OnboardingFlow = () => {
                 </Button>
                 <Button
                   variant="outlined"
+                  disabled={canContinue}
                   sx={{ textTransform: "none" }}
                   onClick={() => {
                     if (activeStep === 2) {
