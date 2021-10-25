@@ -2,23 +2,24 @@ export const validateOrgDetails = (values, orgCountry) => {
   console.log("called");
   const errors = {};
 
-  if (values.orgName) {
+  if (!values.orgName) {
     errors.orgName = "Required";
   }
-  if (values.orgAddrLine1) {
+  if (!values.orgAddrLine1) {
     errors.orgAddrLine1 = "Required";
   }
-  if (values.orgAddrLine2) {
-    errors.orgAddrLine2 = "Required";
-  }
-  const re = new RegExp("^([A-Z]{1,2}d[A-Zd]? ?d[A-Z]{2}|GIR ?0A{2})$");
-  if (values.orgPostCode) {
+  // if (!values.orgAddrLine2) {
+  //   errors.orgAddrLine2 = "Required";
+  // }
+  let re = new RegExp("([A-Z]{1,2}\\d[A-Z\\d]\? \?\\d[A-Z]{2}|GIR \?0A{2})");
+  if (!values.orgPostCode) {
     errors.orgPostCode = "Required";
   }
   //Source: https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
   else {
+    console.log("OCC",orgCountry.code);
     if (orgCountry.code === "GB") {
-      if (re.test(values.orgPostCode)) {
+      if (!re.test(values.orgPostCode)) {
         errors.orgPostCode = "Not a valid postcode";
       }
     } else if (orgCountry.code === "US") {
@@ -38,17 +39,18 @@ export const validateOrgDetails = (values, orgCountry) => {
   } else {
     let phone = values.orgPhoneContact;
     console.log(phone);
-    phone = phone.replace(" ", "").replace("+", "").replace("-", "");
+    phone = phone.replaceAll(" ", "").replaceAll("+", "").replaceAll("-", "");
     console.log(phone);
     let valid = false;
     if (phone.length === 11 && phone[0] === "0") {
       valid = true;
     } else if (phone.length === 10) {
       valid = true;
-    } else if (/^\d+$/.test(phone)) {
-      valid = true;
+    } 
+   if (!(/^\d+$/.test(phone))) {
+      valid = false;
     }
-
+    console.log(valid)
     if (!valid) errors.orgPhoneContact = "Invalid phone number";
   }
 
