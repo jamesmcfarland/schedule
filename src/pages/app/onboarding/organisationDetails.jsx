@@ -13,6 +13,7 @@ import { countries } from "../../../utils/countries";
 import { validateOrgDetails } from "./validators";
 
 const OrganisationDetails = ({
+  organisationDetailsState,
   setorganisationDetailsState,
   orgCountry,
   setorgCountry,
@@ -24,7 +25,11 @@ const OrganisationDetails = ({
     return new Promise((resolve, reject) =>
       validateOrgDetails(values, orgCountry).then((errors) => {
         //Source: https://ultimatecourses.com/blog/checking-if-javascript-object-has-keys
-        setcanContinue(!!Object.keys(errors).length);
+        const canContinue = !Object.keys(errors).length;
+        setcanContinue(canContinue);
+        if (canContinue) {
+          setorganisationDetailsState(values);
+        }
         resolve(errors);
       })
     );
@@ -32,12 +37,7 @@ const OrganisationDetails = ({
 
   const formik = useFormik({
     initialValues: {
-      orgName: "",
-      orgAddrLine1: "",
-      orgAddrLine2: "",
-      orgCity: "",
-      orgPostCode: "",
-      orgPhoneContact: "",
+      ...organisationDetailsState,
     },
     validate,
     onSubmit: (values) => {

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrganisationDetails from "./organisationDetails";
 import TerminologyCard from "./terminology";
 import { validateOrgDetails } from "./validators";
@@ -26,8 +26,19 @@ const OnboardingFlow = () => {
     countries.filter((country) => country.label === "United Kingdom")[0]
   );
 
-  const [organisationDetailsState, setorganisationDetailsState] = useState({});
+  const [organisationDetailsState, setorganisationDetailsState] = useState({
+    orgName: "",
+    orgAddrLine1: "",
+    orgAddrLine2: "",
+    orgCity: "",
+    orgPostCode: "",
+    orgPhoneContact: "",
+  });
   const [canContinue, setcanContinue] = useState(false);
+
+  useEffect(()=>{
+    console.log("UE",organisationDetailsState);
+  }, [organisationDetailsState])
 
   const renderSwitch = () => {
     switch (activeStep) {
@@ -35,6 +46,7 @@ const OnboardingFlow = () => {
         return (
           <OrganisationDetails
             setorganisationDetailsState={setorganisationDetailsState}
+            organisationDetailsState={organisationDetailsState}
             orgCountry={orgCountry}
             setOrgCountry={setorgCountry}
             setcanContinue={setcanContinue}
@@ -104,7 +116,7 @@ const OnboardingFlow = () => {
                 </Button>
                 <Button
                   variant="outlined"
-                  disabled={canContinue}
+                  disabled={!canContinue}
                   sx={{ textTransform: "none" }}
                   onClick={() => {
                     if (activeStep === 2) {
