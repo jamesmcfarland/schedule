@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const validateOrgDetails = (values, orgCountry) => {
   return new Promise((resolve, reject) => {
-    console.log("called");
     const errors = {};
 
     if (!values.orgName) {
@@ -46,7 +45,6 @@ export const validateOrgDetails = (values, orgCountry) => {
     }
     //Source: https://stackoverflow.com/questions/164979/regex-for-matching-uk-postcodes
     else {
-      console.log("OCC", orgCountry.code);
       if (orgCountry.code === "GB") {
         // if (!re.test(values.orgPostCode)) {
           //   errors.orgPostCode = "Not a valid postcode";
@@ -60,10 +58,8 @@ export const validateOrgDetails = (values, orgCountry) => {
           })
           .catch((err) => {
             postcodeOK = false;
-            console.log(postcodeOK);
           })
           .finally(() => {
-            console.log("F", postcodeOK);
             if (!postcodeOK) errors.orgPostCode = "Not a valid postcode";
             resolve(errors);
           });
@@ -77,7 +73,6 @@ export const validateOrgDetails = (values, orgCountry) => {
           resolve(errors);
         }
       }
-      console.log("done!!");
     });
   };
   
