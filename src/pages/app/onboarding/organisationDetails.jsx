@@ -23,6 +23,7 @@ const OrganisationDetails = ({
   const validate = (values) => {
     return new Promise((resolve, reject) =>
       validateOrgDetails(values, orgCountry).then((errors) => {
+        //Source: https://ultimatecourses.com/blog/checking-if-javascript-object-has-keys
         setcanContinue(!!Object.keys(errors).length);
         resolve(errors);
       })
