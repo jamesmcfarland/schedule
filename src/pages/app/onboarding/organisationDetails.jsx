@@ -15,7 +15,7 @@ import { validateOrgDetails } from "./validators";
 const OrganisationDetails = ({
   setorganisationDetailsState,
   orgCountry,
-  setOrgCountry,
+  setorgCountry,
   setcanContinue,
 }) => {
   const [error, seterror] = useState();
