@@ -30,26 +30,34 @@ const OnboardingFlow = () => {
     return validateOrgDetails(values, orgCountry);
   };
 
-  const orgDetailsFormik = useFormik({
-    initialValues: {
-      orgName: "",
-      orgAddrLine1: "",
-      orgAddrLine2: "",
-      orgCity: "",
-      orgPostCode: "",
-      orgPhoneContact: "",
-    },
-    orgValidateHelper,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-    validateOnBlur
-  });
+  const [organisationDetailsState, setorganisationDetailsState] = useState({});
+
+  // const orgDetailsFormik = useFormik({
+  //   initialValues: {
+  //     orgName: "",
+  //     orgAddrLine1: "",
+  //     orgAddrLine2: "",
+  //     orgCity: "",
+  //     orgPostCode: "",
+  //     orgPhoneContact: "",
+  //   },
+  //   orgValidateHelper,
+  //   onSubmit: (values) => {
+  //     console.log(values);
+  //   },
+  //   validateOnBlur,
+  // });
 
   const renderSwitch = () => {
     switch (activeStep) {
       case 0:
-        return <OrganisationDetails formik={orgDetailsFormik} orgCountry={orgCountry} setOrgCountry={setorgCountry} />;
+        return (
+          <OrganisationDetails
+            setorganisationDetailsState={setorganisationDetailsState}
+            orgCountry={orgCountry}
+            setOrgCountry={setorgCountry}
+          />
+        );
       case 1:
         return <Typography>Step two</Typography>;
       case 2:
@@ -76,7 +84,9 @@ const OnboardingFlow = () => {
           >
             <Grid item xs={2}>
               <Stack spacing={2} alignItems="center">
-                <Typography variant="h5">Welcome to schedule {orgDetailsFormik.values.orgName}</Typography>
+                <Typography variant="h5">
+                  Welcome to schedule
+                </Typography>
                 <Box width={700}>
                   <Stepper activeStep={activeStep}>
                     <Step key={0}>

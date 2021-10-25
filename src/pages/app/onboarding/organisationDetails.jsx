@@ -7,23 +7,39 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { countries, getPhoneCodeByLabel } from "../../../utils/countries";
+import { countries } from "../../../utils/countries";
+import { validateOrgDetails } from "./validators";
 
-const OrganisationDetails = ({formik, orgCountry, setOrgCountry,...rest}) => {
+const OrganisationDetails = ({
+  setorganisationDetailsState,
+  orgCountry,
+  setOrgCountry,
+}) => {
   const [error, seterror] = useState();
- 
-  
+
+  const validate = (values) => validateOrgDetails(values, orgCountry);
+
+  const formik = useFormik({
+    initialValues: {
+      orgName: "",
+      orgAddrLine1: "",
+      orgAddrLine2: "",
+      orgCity: "",
+      orgPostCode: "",
+      orgPhoneContact: "",
+    },
+    validate,
+    onSubmit: (values) => {
+      console.log(values);
+      setorganisationDetailsState(values);
+    },
+    validateOnChange: false,
+  });
 
   return (
-    <form
-      noValidate
-      autoComplete="off"
-      // style={{ height: "100%" }}
-      onSubmit={formik.handleSubmit}
-    >
+    <form noValidate autoComplete="off" onSubmit={formik.handleSubmit}>
       <Stack
         spacing={3}
         justifyContent="space-between"
@@ -34,13 +50,10 @@ const OrganisationDetails = ({formik, orgCountry, setOrgCountry,...rest}) => {
           <Typography variant="h6">Organisation info</Typography>
           <Autocomplete
             disablePortal
-            // isOptionEqualToValue={(option, value) => {
-            //   return option.label === value;
-            // }}
             id="orgCountry"
             name="orgCountry"
             onChange={(e, val) => {
-              setOrgCountry(val);
+              setorgCountry(val);
             }}
             onBlur={formik.handleBlur}
             value={orgCountry}
@@ -48,7 +61,6 @@ const OrganisationDetails = ({formik, orgCountry, setOrgCountry,...rest}) => {
             helperText={
               formik.touched.orgCountry ? formik.errors.orgCountry : ""
             }
-            
             options={countries}
             autoHighlight
             renderInput={(params) => <TextField {...params} label="Country" />}
