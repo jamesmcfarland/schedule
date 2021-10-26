@@ -37,8 +37,7 @@ const Overview = ({
     }
     setdepartmentsPretty(pretty);
 
-    console.log(infoCorrect, permission, infoCorrect && permission);
-    setCanContinue(infoCorrect && permission);
+      setCanContinue(infoCorrect && permission);
   }, [infoCorrect, permission]);
 
   return (
