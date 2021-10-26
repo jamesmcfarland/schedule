@@ -1,7 +1,5 @@
 import {
   Button,
-  Card,
-  CardContent,
   Container,
   Divider,
   Grid,
@@ -16,11 +14,13 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import OrganisationDetails from "./organisationDetails";
 import TerminologyCard from "./terminology";
-import { validateOrgDetails } from "./validators";
 import { countries } from "../../../utils/countries";
+import Departments from "./departments";
+
+import { v4 as uuidv4 } from "uuid";
 
 const OnboardingFlow = () => {
-  const [activeStep, setactiveStep] = useState(0);
+  const [activeStep, setactiveStep] = useState(1);
   //We need to keep the formik state available as the pages are mounted and unmounted, so we will define them here
   const [orgCountry, setorgCountry] = useState(
     countries.filter((country) => country.label === "United Kingdom")[0]
@@ -34,11 +34,19 @@ const OnboardingFlow = () => {
     orgPostCode: "",
     orgPhoneContact: "",
   });
+
+  const [departments, setdepartments] = useState([
+    {
+      name: "Default Department",
+      id: uuidv4(),
+    },
+  ]);
+
   const [canContinue, setcanContinue] = useState(false);
 
-  useEffect(()=>{
-    console.log("UE",organisationDetailsState);
-  }, [organisationDetailsState])
+  useEffect(() => {
+    console.log("UE", organisationDetailsState);
+  }, [organisationDetailsState]);
 
   const renderSwitch = () => {
     switch (activeStep) {
@@ -53,7 +61,13 @@ const OnboardingFlow = () => {
           />
         );
       case 1:
-        return <Typography>Step two</Typography>;
+        return (
+          <Departments
+            setcanContinue={setcanContinue}
+            setdepartments={setdepartments}
+            departments={departments}
+          />
+        );
       case 2:
         return <Typography>Step three</Typography>;
       case 3:
