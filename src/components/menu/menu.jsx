@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { useOrg } from "../contexts/OrgContext";
-import { useUser } from "../contexts/UserContext";
+import { useOrg } from "../../contexts/OrgContext";
+import { useUser } from "../../contexts/UserContext";
 import MenuButton from "./menuButton";
 
 const Menu = ({ isVisible }) => {
