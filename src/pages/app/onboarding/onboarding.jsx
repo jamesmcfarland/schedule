@@ -59,9 +59,7 @@ const OnboardingFlow = () => {
     } else setactiveStep((prev) => prev + 1);
   };
 
-  useEffect(() => {
-    console.log("UE", organisationDetailsState);
-  }, [organisationDetailsState]);
+
 
   const renderSwitch = () => {
     switch (activeStep) {
