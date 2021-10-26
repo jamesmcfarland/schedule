@@ -18,21 +18,22 @@ import { countries } from "../../../utils/countries";
 import Departments from "./departments";
 
 import { v4 as uuidv4 } from "uuid";
+import Overview from "./overview";
 
 const OnboardingFlow = () => {
-  const [activeStep, setactiveStep] = useState(1);
+  const [activeStep, setactiveStep] = useState(0);
   //We need to keep the formik state available as the pages are mounted and unmounted, so we will define them here
   const [orgCountry, setorgCountry] = useState(
     countries.filter((country) => country.label === "United Kingdom")[0]
   );
 
   const [organisationDetailsState, setorganisationDetailsState] = useState({
-    orgName: "",
-    orgAddrLine1: "",
+    orgName: "RPRS ",
+    orgAddrLine1: "28 annadale park",
     orgAddrLine2: "",
-    orgCity: "",
-    orgPostCode: "",
-    orgPhoneContact: "",
+    orgCity: "limavady",
+    orgPostCode: "bt499bw",
+    orgPhoneContact: "7724819082",
   });
 
   const [departments, setdepartments] = useState([
@@ -69,7 +70,7 @@ const OnboardingFlow = () => {
           />
         );
       case 2:
-        return <Typography>Step three</Typography>;
+        return <Overview organisationDetailsState={organisationDetailsState} setCanContinue={setcanContinue} departments={departments}/>;
       case 3:
         return <Typography>Step four</Typography>;
     }
