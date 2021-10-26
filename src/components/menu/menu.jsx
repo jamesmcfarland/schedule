@@ -14,12 +14,16 @@ import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-const Menu = ({ isVisible, userData: udata, organisationData: orgData, changeOrganisation, currentUserRole }) => {
+const Menu = ({
+  isVisible,
+  userData: udata,
+  organisationData: orgData,
+  changeOrganisation,
+  currentUserRole,
+}) => {
   const location = useLocation();
 
   const { logout } = useUser();
-
-
 
   return (
     <Box borderRight="2px solid #383838">
@@ -69,48 +73,56 @@ const Menu = ({ isVisible, userData: udata, organisationData: orgData, changeOrg
           </Stack>
         </Grid>
         <Grid item xs>
-          <Stack justifyContent="space-between" spacing={1} direction="column">
-            <Stack direction="row" spacing={1.5} justifyContent="space-between">
-              <Stack justifyContent="start">
-                <Typography
-                  variant="body1"
-                  style={{ fontWeight: 600 }}
-                  align="left"
-                >
-                  {udata.data === "waiting"
-                    ? ""
-                    : `${udata.firstName} ${udata.lastName}`}
-                </Typography>
-                <Typography variant="caption" align="left">
-                {currentUserRole}
-                </Typography>
-                <Typography variant="caption" align="left">
-                  {orgData.data === "waiting" ? "" : orgData.name}
-                </Typography>
+          <Box marginTop="auto">
+            <Stack
+              justifyContent="space-between"
+              spacing={1}
+              direction="column"
+            >
+              <Stack
+                direction="row"
+                spacing={1.5}
+                justifyContent="space-between"
+              >
+                <Stack justifyContent="start">
+                  <Typography
+                    variant="body1"
+                    style={{ fontWeight: 600 }}
+                    align="left"
+                  >
+                    {udata.data === "waiting"
+                      ? ""
+                      : `${udata.firstName} ${udata.lastName}`}
+                  </Typography>
+                  <Typography variant="caption" align="left">
+                    {currentUserRole}
+                  </Typography>
+                  <Typography variant="caption" align="left">
+                    {orgData.data === "waiting" ? "" : orgData.name}
+                  </Typography>
+                </Stack>
+                <Avatar style={{ border: "2px solid white" }}>JM</Avatar>
               </Stack>
-              <Avatar style={{ border: "2px solid white" }}>JM</Avatar>
+              <Stack direction="column">
+                <Button
+                  variant="text"
+                  size="small"
+                  style={{ textTransform: "none" }}
+                  onClick={() => logout()}
+                >
+                  Sign out
+                </Button>
+                <Button
+                  variant="text"
+                  size="small"
+                  style={{ textTransform: "none" }}
+                  onClick={() => changeOrganisation()}
+                >
+                  Change organisation
+                </Button>
+              </Stack>
             </Stack>
-            <Stack direction="column">
-            <Button
-              variant="text"
-              size="small"
-              style={{ textTransform: "none" }}
-              
-              onClick={() => logout()}
-            >
-              Sign out
-            </Button>
-            <Button
-              variant="text"
-              size="small"
-              style={{ textTransform: "none" }}
-              
-              onClick={() => changeOrganisation()}
-            >
-              Change organisation
-            </Button>
-            </Stack>
-          </Stack>
+          </Box>
         </Grid>
       </Grid>
     </Box>
