@@ -55,12 +55,12 @@ export const UserProvider = ({ children }) => {
     return userData;
   };
 
-  const addUserToOrg = (orgId) =>
+  const addUserToOrg = (orgId, role) =>
     getUserInfo().then((userinfo) =>
       setDoc(
         doc(firestore, "users", currentUser.uid),
         {
-          organisations: [...userinfo.organisations, orgId],
+          organisations: [...userinfo.organisations, {id: orgId, role}],
         },
         { merge: "true" }
       )

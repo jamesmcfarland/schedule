@@ -30,7 +30,7 @@ export const OrgProvider = ({ children }) => {
           departments,
         })
       )
-      .then((e) => addUserToOrg(id));
+      .then((e) => addUserToOrg(id, "Creator"));
   };
 
   const getOrgInfo = async (id) => {
