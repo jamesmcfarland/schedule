@@ -1,9 +1,9 @@
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router";
 import { Link } from "react-router-dom";
-import Menu from "../../components/menu";
+import Menu from "../../components/menu/menu";
 import { useUser } from "../../contexts/UserContext";
 import Noticeboard from "./noticeboard";
 import OnboardingFlow from "./onboarding/onboarding";

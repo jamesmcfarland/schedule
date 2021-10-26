@@ -10,12 +10,10 @@ import SplashScreen from "./pages/splash";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import { UserProvider } from "./contexts/UserContext";
-import Rota from "./pages/app/rota";
-import PrivateRoute from "./components/privateRoute";
-import AuthenticationRoute from "./components/authenticationRoute";
-import Noticeboard from "./pages/app/noticeboard";
-import People from "./pages/app/people";
-import SettingsPage from "./pages/app/settings";
+
+import PrivateRoute from "./components/routes/privateRoute";
+import AuthenticationRoute from "./components/routes/authenticationRoute";
+
 import MainAppContainer from "./pages/app/mainAppContainer";
 import OnboardingFlow from "./pages/app/onboarding/onboarding";
 import { OrgProvider } from "./contexts/OrgContext";
