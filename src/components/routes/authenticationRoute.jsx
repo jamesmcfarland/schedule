@@ -7,7 +7,6 @@ const AuthenticationRoute = ({ children, ...rest }) => {
     <Route
       {...rest}
       render={({ location }) => {
-        console.log("render ran");
         if (!hasUser()) {
           return children;
         } else
