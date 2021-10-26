@@ -73,7 +73,7 @@ const Departments = ({ setcanContinue, departments, setdepartments }) => {
           <TextField
             name="dept"
             label="department name"
-            error={error}
+            error={!!error}
             helperText={error !== "" ? error : ""}
             fullWidth
             sx={{ marginRight: "auto" }}
