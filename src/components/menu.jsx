@@ -10,18 +10,26 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { useOrg } from "../contexts/OrgContext";
 import { useUser } from "../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-const Menu = ({isVisible}) => {
+const Menu = ({ isVisible }) => {
   const location = useLocation();
-  console.log(location.pathname);
 
   const { getUserInfo, logout } = useUser();
-  const [udata, setudata] = useState({ data: "wating" });
+  const { getOrgInfo } = useOrg();
+  const [udata, setudata] = useState({ data: "waiting" });
+  const [orgData, setorgData] = useState({ data: "waiting" });
+  const [currentOrgID, setcurrentOrgID] = useState();
 
   useEffect(() => {
-    getUserInfo().then((data) => setudata(data));
+    setcurrentOrgID(localStorage.getItem("id"));
+
+    getUserInfo().then((userdata) => {
+      setudata(userdata);
+      getOrgInfo(userdata.organisations[0].id).then((org) => setorgData(org));
+    });
   }, []);
 
   return (
@@ -47,28 +55,28 @@ const Menu = ({isVisible}) => {
               startIcon={<Apps />}
               to="/app"
               selected={location.pathname === "/app"}
-              />
+            />
             <MenuButton
               isEnabled={isVisible}
               label="People"
               to="/app/people"
               startIcon={<Visibility />}
               selected={location.pathname === "/app/people"}
-              />
+            />
             <MenuButton
               isEnabled={isVisible}
               label="Noticeboard"
               to="/app/noticeboard"
               startIcon={<ContentCopy />}
               selected={location.pathname === "/app/noticeboard"}
-              />
+            />
             <MenuButton
               isEnabled={isVisible}
               label="Settings"
               to="/app/settings"
               startIcon={<Settings />}
               selected={location.pathname === "/app/settings"}
-              />
+            />
           </Stack>
         </Grid>
         <Grid item xs>
@@ -92,11 +100,7 @@ const Menu = ({isVisible}) => {
                     : "no role"}
                 </Typography>
                 <Typography variant="caption" align="left">
-                  {udata.data === "waiting"
-                    ? ""
-                    : udata.role
-                    ? udata.role
-                    : "no organisation"}
+                  {orgData.data === "waiting" ? "" : orgData.name}
                 </Typography>
               </Stack>
               <Avatar style={{ border: "2px solid white" }}>JM</Avatar>

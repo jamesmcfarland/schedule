@@ -52,7 +52,6 @@ export const UserProvider = ({ children }) => {
     const docSnapshot = await getDoc(doc(firestore, "users", currentUser.uid));
 
     userData = { ...userData, ...docSnapshot.data() };
-    console.log(userData);
 
     return userData;
   };
