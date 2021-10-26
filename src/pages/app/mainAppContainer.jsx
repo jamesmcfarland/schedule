@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
-import { Redirect, Route, Switch } from "react-router";
+import { Redirect, Route, Switch, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import Menu from "../../components/menu/menu";
 import { useOrg } from "../../contexts/OrgContext";
@@ -27,10 +27,13 @@ const MainAppContainer = () => {
   const [needsOnboarding, setneedsOnboarding] = useState(false);
   const [udata, setudata] = useState({ data: "waiting" });
   const [orgData, setorgData] = useState({ data: "waiting" });
-  const [currentOrgID, setcurrentOrgID] = useState();
   const [userOrgs, setuserOrgs] = useState([]);
+  const [currentUserRole, setcurrentUserRole] = useState("awaiting data");
+
+
 
   const [isDialogOpen, setisDialogOpen] = useState(false);
+  const [addNewOrgNeeded, setaddNewOrgNeeded] = useState(false);
 
   const getOrgData = async (orgs) => {
     let processed = [];
@@ -43,25 +46,37 @@ const MainAppContainer = () => {
 
   const changeOrganisation = () => {
     localStorage.removeItem("id");
-    setcurrentOrgID(); //unecessary, but forces a reload
-  }
+    getOrgData(udata.organisations);
+    setisDialogOpen(true);
+  };
 
   useEffect(() => {
-    setcurrentOrgID(localStorage.getItem("id"));
+    // setcurrentOrgID(localStorage.getItem("id"))
+    if(addNewOrgNeeded){
+      setneedsOnboarding(true);
+      return;
+    }
+    let currentOrgID = localStorage.getItem("id");
 
     getUserInfo().then((userdata) => {
       setudata(userdata);
       setneedsOnboarding(!userdata.organisations.length);
-      console.log(currentOrgID)
+      
+      if(userdata.organisations.length===1){
+        currentOrgID = userdata.organisations[0].id;
+      }
       setisDialogOpen(!currentOrgID);
 
       if (!currentOrgID) {
         getOrgData(userdata.organisations);
       } else {
         getOrgInfo(currentOrgID).then((org) => setorgData(org));
+        setcurrentUserRole(
+          userdata.organisations.find((el) => el.id === currentOrgID).role
+        );
       }
     });
-  }, [currentOrgID]);
+  }, [currentUserRole, addNewOrgNeeded]);
 
   return (
     <Box>
@@ -73,7 +88,7 @@ const MainAppContainer = () => {
               <ListItem
                 button
                 onClick={() => {
-                  setcurrentOrgID(org.id);
+                  setcurrentUserRole(org.id);
                   localStorage.setItem("id", org.id);
                 }}
                 key={org.id}
@@ -85,6 +100,18 @@ const MainAppContainer = () => {
               </ListItem>
             );
           })}
+            <ListItem
+                button
+                onClick={() => {
+                  setaddNewOrgNeeded(true);
+                }}
+                key="NEW"
+              >
+                <ListItemAvatar>
+                  <Avatar>+</Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Add new" />
+              </ListItem>
         </List>
       </Dialog>
 
@@ -94,6 +121,7 @@ const MainAppContainer = () => {
           organisationData={orgData}
           userData={udata}
           changeOrganisation={changeOrganisation}
+          currentUserRole={currentUserRole}
         ></Menu>
         {needsOnboarding && <Redirect to="/onboarding" />}
 

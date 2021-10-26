@@ -14,13 +14,12 @@ import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-const Menu = ({ isVisible, userData: udata, organisationData: orgData, changeOrganisation }) => {
+const Menu = ({ isVisible, userData: udata, organisationData: orgData, changeOrganisation, currentUserRole }) => {
   const location = useLocation();
 
   const { logout } = useUser();
 
 
-  useEffect(() => {}, []);
 
   return (
     <Box borderRight="2px solid #383838">
@@ -83,11 +82,7 @@ const Menu = ({ isVisible, userData: udata, organisationData: orgData, changeOrg
                     : `${udata.firstName} ${udata.lastName}`}
                 </Typography>
                 <Typography variant="caption" align="left">
-                  {udata.data === "waiting"
-                    ? ""
-                    : udata.role
-                    ? udata.role
-                    : "no role"}
+                {currentUserRole}
                 </Typography>
                 <Typography variant="caption" align="left">
                   {orgData.data === "waiting" ? "" : orgData.name}
