@@ -18,6 +18,7 @@ import People from "./pages/app/people";
 import SettingsPage from "./pages/app/settings";
 import MainAppContainer from "./pages/app/mainAppContainer";
 import OnboardingFlow from "./pages/app/onboarding/onboarding";
+import { OrgProvider } from "./contexts/OrgContext";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -39,28 +40,30 @@ function App() {
   return (
     <StyledEngineProvider injectFirst>
       <UserProvider>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router>
-            <div className="App">
-              <Switch>
-                <Route exact path="/" component={SplashScreen} />
-                <AuthenticationRoute path="/register">
-                  <Register />
-                </AuthenticationRoute>
-                <AuthenticationRoute path="/login">
-                  <Login />
-                </AuthenticationRoute>
-                <PrivateRoute path="/app">
-                  <MainAppContainer />
-                </PrivateRoute>
-                <PrivateRoute path="/onboarding">
-                  <OnboardingFlow/>
-                </PrivateRoute>
-              </Switch>
-            </div>
-          </Router>
-        </ThemeProvider>
+        <OrgProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Router>
+              <div className="App">
+                <Switch>
+                  <Route exact path="/" component={SplashScreen} />
+                  <AuthenticationRoute path="/register">
+                    <Register />
+                  </AuthenticationRoute>
+                  <AuthenticationRoute path="/login">
+                    <Login />
+                  </AuthenticationRoute>
+                  <PrivateRoute path="/app">
+                    <MainAppContainer />
+                  </PrivateRoute>
+                  <PrivateRoute path="/onboarding">
+                    <OnboardingFlow />
+                  </PrivateRoute>
+                </Switch>
+              </div>
+            </Router>
+          </ThemeProvider>
+        </OrgProvider>
       </UserProvider>
     </StyledEngineProvider>
   );

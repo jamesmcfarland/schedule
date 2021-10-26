@@ -19,8 +19,10 @@ import Departments from "./departments";
 
 import { v4 as uuidv4 } from "uuid";
 import Overview from "./overview";
+import { useOrg } from "../../../contexts/OrgContext";
 
 const OnboardingFlow = () => {
+  const { addNewOrg } = useOrg();
   const [activeStep, setactiveStep] = useState(0);
   //We need to keep the formik state available as the pages are mounted and unmounted, so we will define them here
   const [orgCountry, setorgCountry] = useState(
@@ -44,6 +46,14 @@ const OnboardingFlow = () => {
   ]);
 
   const [canContinue, setcanContinue] = useState(false);
+
+  const handleStep = () => {
+    if (activeStep === 2) {
+      //Do something different here, submit form etc etc.
+      console.log("done");
+      addNewOrg(organisationDetailsState, departments, orgCountry);
+    } else setactiveStep((prev) => prev + 1);
+  };
 
   useEffect(() => {
     console.log("UE", organisationDetailsState);
@@ -70,7 +80,13 @@ const OnboardingFlow = () => {
           />
         );
       case 2:
-        return <Overview organisationDetailsState={organisationDetailsState} setCanContinue={setcanContinue} departments={departments}/>;
+        return (
+          <Overview
+            organisationDetailsState={organisationDetailsState}
+            setCanContinue={setcanContinue}
+            departments={departments}
+          />
+        );
       case 3:
         return <Typography>Step four</Typography>;
     }
@@ -133,12 +149,7 @@ const OnboardingFlow = () => {
                   variant="outlined"
                   disabled={!canContinue}
                   sx={{ textTransform: "none" }}
-                  onClick={() => {
-                    if (activeStep === 2) {
-                      //Do something different here, submit form etc etc.
-                      console.log("done");
-                    } else setactiveStep((prev) => prev + 1);
-                  }}
+                  onClick={handleStep}
                 >
                   {activeStep === 2 ? "Finish" : "Next"}
                 </Button>
