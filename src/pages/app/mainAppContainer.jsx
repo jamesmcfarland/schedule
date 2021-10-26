@@ -38,9 +38,13 @@ const MainAppContainer = () => {
       const data = await getOrgInfo(org.id);
       processed.push({ ...data, id: org.id });
     }
-    // console.log(processed);
     setuserOrgs(processed);
   };
+
+  const changeOrganisation = () => {
+    localStorage.removeItem("id");
+    setcurrentOrgID(); //unecessary, but forces a reload
+  }
 
   useEffect(() => {
     setcurrentOrgID(localStorage.getItem("id"));
@@ -89,6 +93,7 @@ const MainAppContainer = () => {
           isVisible={!needsOnboarding}
           organisationData={orgData}
           userData={udata}
+          changeOrganisation={changeOrganisation}
         ></Menu>
         {needsOnboarding && <Redirect to="/onboarding" />}
 

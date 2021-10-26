@@ -14,7 +14,7 @@ import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-const Menu = ({ isVisible, userData: udata, organisationData: orgData }) => {
+const Menu = ({ isVisible, userData: udata, organisationData: orgData, changeOrganisation }) => {
   const location = useLocation();
 
   const { logout } = useUser();
@@ -37,7 +37,7 @@ const Menu = ({ isVisible, userData: udata, organisationData: orgData }) => {
             <Typography align="left">developer build</Typography>
           )}
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           <Stack spacing={3}>
             <MenuButton
               isEnabled={isVisible}
@@ -95,15 +95,26 @@ const Menu = ({ isVisible, userData: udata, organisationData: orgData }) => {
               </Stack>
               <Avatar style={{ border: "2px solid white" }}>JM</Avatar>
             </Stack>
+            <Stack direction="column">
             <Button
               variant="text"
               size="small"
               style={{ textTransform: "none" }}
-              fullWidth
+              
               onClick={() => logout()}
             >
               Sign out
             </Button>
+            <Button
+              variant="text"
+              size="small"
+              style={{ textTransform: "none" }}
+              
+              onClick={() => changeOrganisation()}
+            >
+              Change organisation
+            </Button>
+            </Stack>
           </Stack>
         </Grid>
       </Grid>
