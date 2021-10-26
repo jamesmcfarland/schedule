@@ -14,23 +14,13 @@ import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
 import MenuButton from "./menuButton";
 
-const Menu = ({ isVisible }) => {
+const Menu = ({ isVisible, userData: udata, organisationData: orgData }) => {
   const location = useLocation();
 
-  const { getUserInfo, logout } = useUser();
-  const { getOrgInfo } = useOrg();
-  const [udata, setudata] = useState({ data: "waiting" });
-  const [orgData, setorgData] = useState({ data: "waiting" });
-  const [currentOrgID, setcurrentOrgID] = useState();
+  const { logout } = useUser();
 
-  useEffect(() => {
-    setcurrentOrgID(localStorage.getItem("id"));
 
-    getUserInfo().then((userdata) => {
-      setudata(userdata);
-      getOrgInfo(userdata.organisations[0].id).then((org) => setorgData(org));
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <Box borderRight="2px solid #383838">

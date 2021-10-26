@@ -33,12 +33,10 @@ export const OrgProvider = ({ children }) => {
       .then((e) => addUserToOrg(id));
   };
 
-  const getOrgInfo = (id) => {
-    return new Promise((resolve, reject) => {
-      getDoc(doc(firestore, "organisations", id))
-        .then((ds) => resolve(ds.data()))
-        .catch((err) => reject(err));
-    });
+  const getOrgInfo = async (id) => {
+    const ds = await getDoc(doc(firestore, "organisations", id));
+
+    return { ...ds.data() };
   };
 
   const value = { addNewOrg, getOrgInfo };
