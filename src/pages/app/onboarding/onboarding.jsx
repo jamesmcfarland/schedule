@@ -20,9 +20,11 @@ import Departments from "./departments";
 import { v4 as uuidv4 } from "uuid";
 import Overview from "./overview";
 import { useOrg } from "../../../contexts/OrgContext";
+import { useHistory } from "react-router";
 
 const OnboardingFlow = () => {
   const { addNewOrg } = useOrg();
+  const history = useHistory();
   const [activeStep, setactiveStep] = useState(0);
   //We need to keep the formik state available as the pages are mounted and unmounted, so we will define them here
   const [orgCountry, setorgCountry] = useState(
@@ -51,7 +53,9 @@ const OnboardingFlow = () => {
     if (activeStep === 2) {
       //Do something different here, submit form etc etc.
       console.log("done");
-      addNewOrg(organisationDetailsState, departments, orgCountry);
+      addNewOrg(organisationDetailsState, departments, orgCountry).then(()=>{
+        history.push("/app");
+      })
     } else setactiveStep((prev) => prev + 1);
   };
 

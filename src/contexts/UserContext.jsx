@@ -37,7 +37,8 @@ export const UserProvider = ({ children }) => {
         email: values.email,
         firstName: values.first,
         lastName: values.last,
-      })
+        organisations: [],
+      });
     });
   };
 
@@ -51,10 +52,21 @@ export const UserProvider = ({ children }) => {
     const docSnapshot = await getDoc(doc(firestore, "users", currentUser.uid));
 
     userData = { ...userData, ...docSnapshot.data() };
+    console.log(userData);
 
     return userData;
   };
 
+  const addUserToOrg = (orgId) =>
+    getUserInfo().then((userinfo) =>
+      setDoc(
+        doc(firestore, "users", currentUser.uid),
+        {
+          organisations: [...userinfo.organisations, orgId],
+        },
+        { merge: "true" }
+      )
+    );
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setcurrentUser(user);
@@ -67,6 +79,7 @@ export const UserProvider = ({ children }) => {
     logout,
     signUpWithEmail,
     getUserInfo,
+    addUserToOrg,
   };
   return <UserContext.Provider value={value}> {children}</UserContext.Provider>;
 };

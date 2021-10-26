@@ -16,14 +16,18 @@ const MainAppContainer = () => {
   const [needsOnboarding, setneedsOnboarding] = useState(false);
 
   useEffect(() => {
-    setneedsOnboarding(getUserInfo().organisations == null);
+    getUserInfo().then((ui) => {
+      setneedsOnboarding(!ui.organisations.length);
+    
+    });
+    
   }, []);
 
   return (
     <Box>
       <Stack direction="row">
         <Menu isVisible={!needsOnboarding}></Menu>
-        {needsOnboarding && <Redirect to="/onboarding"/>}
+        {needsOnboarding && <Redirect to="/onboarding" />}
 
         <Box padding="1rem">
           <Switch>

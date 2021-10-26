@@ -12,21 +12,25 @@ export const useOrg = () => {
 };
 
 export const OrgProvider = ({ children }) => {
-  const { getUserInfo } = useUser();
+  const { getUserInfo, addUserToOrg } = useUser();
+
   const addNewOrg = async (organisationData, departments, country) => {
-    await getUserInfo().then((userInfo) =>
-      setDoc(doc(firestore, "organisations", uuidv4()), {
-        creator: userInfo.uid,
-        name: organisationData.orgName,
-        addressLine1: organisationData.orgAddrLine1,
-        addressLine2: organisationData.orgAddrLine2,
-        city: organisationData.orgCity,
-        postcode: organisationData.orgPostCode,
-        phone: organisationData.orgPhoneContact,
-        country,
-        departments,
-      })
-    );
+    const id = uuidv4();
+    return getUserInfo()
+      .then((userInfo) =>
+        setDoc(doc(firestore, "organisations", id), {
+          creator: userInfo.uid,
+          name: organisationData.orgName,
+          addressLine1: organisationData.orgAddrLine1,
+          addressLine2: organisationData.orgAddrLine2,
+          city: organisationData.orgCity,
+          postcode: organisationData.orgPostCode,
+          phone: organisationData.orgPhoneContact,
+          country,
+          departments,
+        })
+      )
+      .then((e) => addUserToOrg(id));
   };
 
   const value = { addNewOrg };
