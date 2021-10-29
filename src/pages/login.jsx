@@ -65,6 +65,8 @@ const Login = () => {
           }
         });
     },
+    validateOnChange: false,
+    
   });
   return (
     <AuthPage>

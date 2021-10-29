@@ -71,6 +71,7 @@ const Register = () => {
           }
         });
     },
+    validateOnChange: false,
   });
 
   return (
