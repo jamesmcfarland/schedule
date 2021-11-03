@@ -9,7 +9,6 @@ const MenuButton = ({ label, icon, selected, to,isEnabled, ...rest }) => {
     disabled={!isEnabled}
       style={{
         textTransform: "none",
-        minWidth: "240px",
         minHeight: "48px",
         color: "white",
         justifyContent: "flex-start",
