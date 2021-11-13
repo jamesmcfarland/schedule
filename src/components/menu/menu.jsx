@@ -29,7 +29,7 @@ const Menu = ({
     <Box borderRight="2px solid #383838">
       <Grid
         container
-        style={{ height: "100vh", padding: "1rem 2rem", width: "20vw" }}
+        style={{ height: "100vh", padding: "1rem 2rem", width: "20vw", minWidth:120 }}
         direction="column"
       >
         <Grid item xs={2}>

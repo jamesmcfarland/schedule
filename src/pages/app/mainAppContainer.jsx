@@ -115,7 +115,7 @@ const MainAppContainer = () => {
         </List>
       </Dialog>
 
-      <Stack direction="row">
+      <Stack direction="row" >
         <Menu
           isVisible={!needsOnboarding}
           organisationData={orgData}
