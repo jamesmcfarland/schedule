@@ -1,4 +1,12 @@
-import { Typography, List, Paper, Grid, Avatar } from "@mui/material";
+import {
+  Typography,
+  List,
+  Paper,
+  Grid,
+  Avatar,
+  Stack,
+  Button,
+} from "@mui/material";
 import AppPage from "../../components/appPage";
 import PeopleList from "../../components/PeopleList";
 
@@ -11,7 +19,6 @@ const peopleFake = [
     startDate: new Date("5/20/19"),
     employeeID: 1959,
   },
-
 ];
 
 const People = () => {
@@ -19,7 +26,10 @@ const People = () => {
     <AppPage
       title="People"
       ChildComponent={
-        <PeopleList/>
+        <Stack>
+          <Button sx={{ textTransform: "none" }}>Invite to organisation</Button>
+          <PeopleList />
+        </Stack>
       }
     ></AppPage>
   );
