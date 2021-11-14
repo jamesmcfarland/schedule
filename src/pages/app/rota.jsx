@@ -1,11 +1,12 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import AppPage from "../../components/appPage";
 
 const Rota = () => {
   return (
-    <Box>
-      <Typography>Rota</Typography>
-    </Box>
+    <AppPage title="Rota">
+    <Typography>test!</Typography>
+  </AppPage>
   );
 };
 
