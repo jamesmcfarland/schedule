@@ -116,7 +116,7 @@ const MainAppContainer = () => {
       </Dialog>
 
       <Stack direction="row" >
-        <Menu
+      <Menu
           isVisible={!needsOnboarding}
           organisationData={orgData}
           userData={udata}
