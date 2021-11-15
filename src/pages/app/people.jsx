@@ -27,7 +27,7 @@ const People = () => {
       title="People"
       ChildComponent={
         <Stack>
-          <Button sx={{ textTransform: "none" }}>Invite to organisation</Button>
+          <Button  sx={{ textTransform: "none",  }}>Invite to organisation</Button>
           <PeopleList />
         </Stack>
       }

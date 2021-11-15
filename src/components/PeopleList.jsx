@@ -104,7 +104,7 @@ const peopleFake = [
 ];
 const PeopleList = () => {
   return (
-    <List sx={{overflow:"auto", maxHeight: "84vh", width: "76vw"}}>
+    <List sx={{overflow:"auto", maxHeight: "79vh", width: "76vw"}}>
       {peopleFake.map((person) => {
         console.log(person);
         return (
