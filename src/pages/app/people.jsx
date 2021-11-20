@@ -6,30 +6,34 @@ import {
   Avatar,
   Stack,
   Button,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
+import { useState } from "react";
 import AppPage from "../../components/appPage";
 import PeopleList from "../../components/PeopleList";
 
-const peopleFake = [
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1959,
-  },
-];
-
 const People = () => {
+  const [inviteUserOpen, setinviteUserOpen] = useState(false);
+
   return (
     <AppPage
       title="People"
       ChildComponent={
+        <>
+        <Dialog open={inviteUserOpen} >
+          <DialogContent >
+              <Stack>
+                <Typography variant="h5">Invite to organisaton</Typography>
+                
+                </Stack>
+          </DialogContent>
+        </Dialog>
         <Stack>
-          <Button  sx={{ textTransform: "none",  }}>Invite to organisation</Button>
+          <Button  sx={{ textTransform: "none",  }} onClick={()=>setinviteUserOpen(true)}>Invite to organisation</Button>
           <PeopleList />
         </Stack>
+        </>
       }
     ></AppPage>
   );
