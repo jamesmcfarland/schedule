@@ -34,6 +34,7 @@ export const UserProvider = ({ children }) => {
       const user = userCredential.user;
       setDoc(doc(firestore, "users", user.uid), {
         email: values.email,
+        mobile: values.mobile,
         firstName: values.first,
         lastName: values.last,
         organisations: [],

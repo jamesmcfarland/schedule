@@ -1,15 +1,30 @@
-import { TextField, Typography, Stack, Button, Link, Alert } from "@mui/material";
+import {
+  TextField,
+  Typography,
+  Stack,
+  Button,
+  Link,
+  Alert,
+  Paper,
+  Select,
+  MenuItem,
+  InputBase,
+  InputAdornment,
+} from "@mui/material";
 import { useFormik } from "formik";
 import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
 import { useHistory } from "react-router";
 import { useUser } from "../contexts/UserContext";
 import { useState } from "react";
+import ReactFlagsSelect from "react-flags-select";
+import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 
 const Register = () => {
   const { signUpWithEmail } = useUser();
   const history = useHistory();
   const [error, seterror] = useState();
+  const [country, setcountry] = useState("GB");
 
   const validate = (values) => {
     const errors = {};
@@ -29,6 +44,13 @@ const Register = () => {
       errors.email = "Invalid email address";
     }
 
+    if(!values.mobile){
+      errors.mobile="Required";
+    }
+    else if (!isValidPhoneNumber(values.mobile, country)){
+      errors.mobile="Invalid number";
+    }
+
     if (!values.password) {
       errors.password = "Required";
     } else if (zxcvbn(values.password).score < 4) {
@@ -46,6 +68,7 @@ const Register = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
+      mobile: "",
       first: "",
       last: "",
       password: "",
@@ -130,6 +153,39 @@ const Register = () => {
               helperText={formik.touched.email ? formik.errors.email : ""}
               onBlur={formik.handleBlur}
             />
+
+            <Stack direction="row" spacing={2} alignItems="center">
+              <ReactFlagsSelect
+                fullWidth={false}
+                searchPlaceholder="start typing..."
+                selected={country}
+                showSelectedLabel={false}
+                onSelect={(code) => setcountry(code)}
+                className="fucku"
+              />
+              <TextField
+                disabled={!country}
+                id="mobile"
+                name="mobile"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      +{getCountryCallingCode(country)}
+                    </InputAdornment>
+                  ),
+                }}
+                type="tel"
+                fullWidth
+                label="mobile phone"
+                placeholder="123 456789"
+                onChange={formik.handleChange}
+                value={formik.values.mobile}
+                error={formik.errors.mobile && formik.touched.mobile}
+                helperText={formik.touched.mobile ? formik.errors.mobile : ""}
+                onBlur={formik.handleBlur}
+              />
+            </Stack>
+
             <TextField
               id="password"
               name="password"
