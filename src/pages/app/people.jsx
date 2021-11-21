@@ -10,6 +10,7 @@ import {
   DialogContent,
   TextField,
   InputAdornment,
+  Alert,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
@@ -17,12 +18,15 @@ import { useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import AppPage from "../../components/appPage";
 import PeopleList from "../../components/PeopleList";
+import { useOrg } from "../../contexts/OrgContext";
 
 const People = () => {
   const [inviteUserOpen, setinviteUserOpen] = useState(false);
-  
+
   const [error, seterror] = useState();
   const [country, setcountry] = useState("GB");
+
+  const { inviteUserToOrg } = useOrg();
 
   const validate = (values) => {
     const errors = {};
@@ -51,8 +55,19 @@ const People = () => {
     },
     validate,
     onSubmit: (values) => {
-      console.log(values);
-      setinviteUserOpen(false);
+      inviteUserToOrg(
+        values.first,
+        values.last,
+        values.mobile,
+        localStorage.getItem("id")
+      )
+        .then(() => {
+          setinviteUserOpen(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          seterror(values.first + " has already been invited!");
+        });
       //Do the thing
     },
     validateOnChange: false,
@@ -62,10 +77,10 @@ const People = () => {
       title="People"
       ChildComponent={
         <>
-          <Dialog open={inviteUserOpen} >
-            <DialogContent sx={{background:"#2f2f2f"}}>
-              <Stack sx={{minHeight:"35vh"}}>
-                <form 
+          <Dialog open={inviteUserOpen}>
+            <DialogContent sx={{ background: "#2f2f2f" }}>
+              <Stack sx={{ minHeight: "35vh" }}>
+                <form
                   noValidate
                   autoComplete="off"
                   style={{ height: "100%" }}

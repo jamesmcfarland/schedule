@@ -1,6 +1,15 @@
 import { createContext, useContext } from "react";
 import { auth, firestore } from "../services/firebase";
-import { doc, getDoc, setDoc } from "@firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "@firebase/firestore";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "./UserContext";
@@ -33,12 +42,45 @@ export const OrgProvider = ({ children }) => {
       .then((e) => addUserToOrg(id, "Creator"));
   };
 
+  const inviteUserToOrg = (first, last, mobile, org) => {
+    if (mobile.length === 11) {
+      mobile = mobile.substring(1);
+    }
+    //Check if user is already in the invites collection
+    console.log(first, last, typeof mobile, org);
+    const inviteCollection = collection(
+      firestore,
+      "organisations",
+      org,
+      "invites"
+    );
+    const q = query(
+      inviteCollection,
+      // where("first", "==", first),
+      // where("last", "==", last),
+      where("mobile", "==", mobile)
+    );
+    return getDocs(q).then((qs) => {
+      if (!qs.empty) {
+        throw Exception("user-already-invited");
+      } else {
+        addDoc(
+          collection(firestore, "organisations", org, "invites"), {
+            first: first,
+            last: last,
+            mobile: mobile,
+          }
+        );
+      }
+    });
+  };
+
   const getOrgInfo = async (id) => {
     const ds = await getDoc(doc(firestore, "organisations", id));
 
     return { ...ds.data() };
   };
 
-  const value = { addNewOrg, getOrgInfo };
+  const value = { addNewOrg, getOrgInfo, inviteUserToOrg };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };

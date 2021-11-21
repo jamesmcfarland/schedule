@@ -66,6 +66,7 @@ export const UserProvider = ({ children }) => {
         { merge: "true" }
       )
     );
+  
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setcurrentUser(user);

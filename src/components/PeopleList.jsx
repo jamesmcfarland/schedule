@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { format } from "date-fns";
 import PeopleCardInfo from "./PeopleCardInfo";
+import {v4 as uuidv4} from "uuid";
 
 const peopleFake = [
   {
@@ -106,10 +107,10 @@ const PeopleList = () => {
   return (
     <List sx={{overflow:"auto", maxHeight: "79vh", width: "76vw"}}>
       {peopleFake.map((person) => {
-        console.log(person);
+   
         return (
           <Paper
-            key={person.employeeID + person.firstName}
+            key={uuidv4()}
             sx={{ margin: "1rem .5rem 1rem 0", borderRadius:".75rem" }}
             
           >
