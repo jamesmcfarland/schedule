@@ -47,7 +47,7 @@ export const OrgProvider = ({ children }) => {
       mobile = mobile.substring(1);
     }
     //Check if user is already in the invites collection
-    console.log(first, last, typeof mobile, org);
+  
     const inviteCollection = collection(firestore, "invites");
     const q = query(
       inviteCollection,
@@ -75,10 +75,10 @@ export const OrgProvider = ({ children }) => {
   };
 
   const getInviteInfo = (inviteID) => {
-    console.log("IID", inviteID);
+ 
     return getDoc(doc(firestore, "invites/", inviteID)).then((snap) => {
       const data = snap.data();
-      console.log("IDT:", data);
+    
       return data;
     });
   };

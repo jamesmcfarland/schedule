@@ -38,19 +38,15 @@ const Register = () => {
     const id = localStorage.getItem("INV");
 
     if (id) {
-      console.log("RID", id);
+     
       getInviteInfo(id).then((data) => {
-        console.log("RDT", data);
+
         setinviteData(data);
        
       });
     }
 
-    // if (invID !== "") {
-    //   console.log("RID", invID);
-    //   getInviteInfo().then((data) => setinviteData(data));
-    // }
-    // console.log(inviteData);
+  
   }, []);
 
   const validate = (values) => {

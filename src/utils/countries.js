@@ -437,11 +437,11 @@ export const getCountryCodeByLabel = (label) => {
   return filtered[0].code;
 };
 export const getPhoneCodeByLabel = (label) => {
-    console.log("LBL",label);
-//   console.log(countries);
+  
+
   const filtered = countries.filter(
     (country) => country.label.toLowerCase() === label.toLowerCase()
   );
-//   console.log(filtered);
+
   return filtered[0].phone;
 };

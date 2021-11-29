@@ -41,7 +41,7 @@ const OrganisationDetails = ({
     },
     validate,
     onSubmit: (values) => {
-      console.log(values);
+     
       setorganisationDetailsState(values);
     },
     validateOnChange: false,
