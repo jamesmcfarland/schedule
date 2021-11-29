@@ -17,6 +17,7 @@ import AuthenticationRoute from "./components/routes/authenticationRoute";
 import MainAppContainer from "./pages/app/mainAppContainer";
 import OnboardingFlow from "./pages/app/onboarding/onboarding";
 import { OrgProvider } from "./contexts/OrgContext";
+import AcceptedInvite from "./pages/app/invite/acceptedInv";
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
   typography: {
@@ -57,6 +58,9 @@ function App() {
                   <PrivateRoute path="/onboarding">
                     <OnboardingFlow />
                   </PrivateRoute>
+                  <Route path="/invite/:id">
+                    <AcceptedInvite/>
+                  </Route>
                 </Switch>
               </div>
             </Router>
