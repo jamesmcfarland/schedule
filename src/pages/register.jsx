@@ -16,15 +16,42 @@ import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
 import { useHistory } from "react-router";
 import { useUser } from "../contexts/UserContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
+import { useOrg } from "../contexts/OrgContext";
 
 const Register = () => {
+  const [invID, setinvID] = useState("");
+  const [inviteData, setinviteData] = useState();
+
+  const { getInviteInfo } = useOrg();
+
   const { signUpWithEmail } = useUser();
   const history = useHistory();
   const [error, seterror] = useState();
   const [country, setcountry] = useState("GB");
+
+  useEffect(() => {
+    setinvID(localStorage.getItem("INV"));
+
+    const id = localStorage.getItem("INV");
+
+    if (id) {
+      console.log("RID", id);
+      getInviteInfo(id).then((data) => {
+        console.log("RDT", data);
+        setinviteData(data);
+       
+      });
+    }
+
+    // if (invID !== "") {
+    //   console.log("RID", invID);
+    //   getInviteInfo().then((data) => setinviteData(data));
+    // }
+    // console.log(inviteData);
+  }, []);
 
   const validate = (values) => {
     const errors = {};
@@ -44,11 +71,10 @@ const Register = () => {
       errors.email = "Invalid email address";
     }
 
-    if(!values.mobile){
-      errors.mobile="Required";
-    }
-    else if (!isValidPhoneNumber(values.mobile, country)){
-      errors.mobile="Invalid number";
+    if (!values.mobile) {
+      errors.mobile = "Required";
+    } else if (!isValidPhoneNumber(values.mobile, country)) {
+      errors.mobile = "Invalid number";
     }
 
     if (!values.password) {
@@ -65,35 +91,38 @@ const Register = () => {
 
     return errors;
   };
+
+  const formikOnSubmit = (values) => {
+    signUpWithEmail(values)
+      .then(() => {
+        history.push("/app");
+      })
+      .catch((err) => {
+        console.log(err.code);
+        switch (err.code) {
+          case "auth/email-already-in-use":
+            seterror("That email is already in use, please login instead");
+            break;
+          default:
+            seterror(
+              "We couldn't register your account, please contact support"
+            );
+            break;
+        }
+      });
+  };
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       email: "",
-      mobile: "",
-      first: "",
-      last: "",
+      mobile: !!inviteData ? inviteData.mobile : "",
+      first: !!inviteData ? inviteData.first : "",
+      last: !!inviteData ? inviteData.last : "",
       password: "",
       verifyPassword: "",
     },
     validate,
-    onSubmit: (values) => {
-      signUpWithEmail(values)
-        .then(() => {
-          history.push("/app");
-        })
-        .catch((err) => {
-          console.log(err.code);
-          switch (err.code) {
-            case "auth/email-already-in-use":
-              seterror("That email is already in use, please login instead");
-              break;
-            default:
-              seterror(
-                "We couldn't register your account, please contact support"
-              );
-              break;
-          }
-        });
-    },
+    onSubmit: formikOnSubmit,
     validateOnChange: false,
   });
 
@@ -111,12 +140,13 @@ const Register = () => {
           style={{ height: "100%" }}
         >
           <Typography variant="h4" gutterBottom>
-            Sign up
+            Sign up{!!inviteData?` to join ${inviteData.orgName}`:""}
           </Typography>{" "}
           {error && <Alert severity="error">{error}</Alert>}
           <Stack spacing={2}>
             <Stack spacing={2} direction="row">
               <TextField
+                disabled={!!inviteData}
                 name="first"
                 id="first"
                 type="text"
@@ -129,6 +159,7 @@ const Register = () => {
                 helperText={formik.touched.first ? formik.errors.first : ""}
               />
               <TextField
+                disabled={!!inviteData}
                 id="last"
                 name="last"
                 type="text"
@@ -156,6 +187,7 @@ const Register = () => {
 
             <Stack direction="row" spacing={2} alignItems="center">
               <ReactFlagsSelect
+                disabled={!!inviteData}
                 fullWidth={false}
                 searchPlaceholder="start typing..."
                 selected={country}
@@ -164,7 +196,7 @@ const Register = () => {
                 className="fucku"
               />
               <TextField
-                disabled={!country}
+                disabled={!country || !!inviteData}
                 id="mobile"
                 name="mobile"
                 InputProps={{

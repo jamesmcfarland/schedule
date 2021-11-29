@@ -1,12 +1,15 @@
 import { Typography } from "@mui/material";
-import { useParams } from "react-router";
+import { useEffect } from "react";
+import { Redirect, useParams } from "react-router";
 
 const AcceptedInvite = () => {
+  const { id } = useParams();
 
-    const {id} = useParams();
+    useEffect(()=>{
+        localStorage.setItem("INV", id);
+    }, [])
 
+  return <Redirect to="/register"/>;
+};
 
-    return ( <Typography>{id}</Typography> );
-}
- 
 export default AcceptedInvite;

@@ -48,30 +48,38 @@ export const OrgProvider = ({ children }) => {
     }
     //Check if user is already in the invites collection
     console.log(first, last, typeof mobile, org);
-    const inviteCollection = collection(
-      firestore,
-      "organisations",
-      org,
-      "invites"
-    );
+    const inviteCollection = collection(firestore, "invites");
     const q = query(
       inviteCollection,
       // where("first", "==", first),
       // where("last", "==", last),
-      where("mobile", "==", mobile)
+      where("mobile", "==", mobile),
+      where("org", "==", org)
     );
     return getDocs(q).then((qs) => {
       if (!qs.empty) {
         throw Exception("user-already-invited");
       } else {
-        addDoc(
-          collection(firestore, "organisations", org, "invites"), {
+        getOrgInfo(org).then((orgData) => {
+          addDoc(collection(firestore, "invites"), {
+            org: org,
+            orgName: orgData.name,
             first: first,
             last: last,
             mobile: mobile,
-          }
-        );
+            status: "pending",
+          });
+        });
       }
+    });
+  };
+
+  const getInviteInfo = (inviteID) => {
+    console.log("IID", inviteID);
+    return getDoc(doc(firestore, "invites/", inviteID)).then((snap) => {
+      const data = snap.data();
+      console.log("IDT:", data);
+      return data;
     });
   };
 
@@ -81,6 +89,6 @@ export const OrgProvider = ({ children }) => {
     return { ...ds.data() };
   };
 
-  const value = { addNewOrg, getOrgInfo, inviteUserToOrg };
+  const value = { addNewOrg, getOrgInfo, inviteUserToOrg, getInviteInfo };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };
