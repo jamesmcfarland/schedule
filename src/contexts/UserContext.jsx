@@ -38,7 +38,29 @@ export const UserProvider = ({ children }) => {
         firstName: values.first,
         lastName: values.last,
         organisations: [],
+      }).then(() => {
+        return user.uid;
       });
+    });
+  };
+
+  const signUpWithEmailAndAddToOrg = (values, orgId, role) => {
+    return createUserWithEmailAndPassword(
+      auth,
+      values.email,
+      values.password
+    ).then((userCredential) => {
+      const user = userCredential.user;
+      setDoc(doc(firestore, "users", user.uid), {
+        email: values.email,
+        mobile: values.mobile,
+        firstName: values.first,
+        lastName: values.last,
+        organisations: [{
+          id: orgId, 
+          role: role,
+        }],
+      })
     });
   };
 
@@ -56,17 +78,21 @@ export const UserProvider = ({ children }) => {
     return userData;
   };
 
+ 
+
   const addUserToOrg = (orgId, role) =>
     getUserInfo().then((userinfo) =>
       setDoc(
         doc(firestore, "users", currentUser.uid),
         {
-          organisations: [...userinfo.organisations, {id: orgId, role}],
+          organisations: [...userinfo.organisations, { id: orgId, role }],
         },
         { merge: "true" }
       )
     );
-  
+
+
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setcurrentUser(user);
@@ -78,8 +104,9 @@ export const UserProvider = ({ children }) => {
     hasUser,
     logout,
     signUpWithEmail,
+    signUpWithEmailAndAddToOrg,
     getUserInfo,
-    addUserToOrg,
+ 
   };
   return <UserContext.Provider value={value}> {children}</UserContext.Provider>;
 };

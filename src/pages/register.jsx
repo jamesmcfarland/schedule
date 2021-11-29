@@ -28,7 +28,7 @@ const Register = () => {
 
   const { getInviteInfo, acceptInvite } = useOrg();
 
-  const { signUpWithEmail, addUserToOrg } = useUser();
+  const { signUpWithEmailAndAddToOrg, signUpWithEmail } = useUser();
   const history = useHistory();
   const [error, seterror] = useState();
   const [country, setcountry] = useState("GB");
@@ -39,15 +39,10 @@ const Register = () => {
     const id = localStorage.getItem("INV");
 
     if (id) {
-     
       getInviteInfo(id).then((data) => {
-
         setinviteData(data);
-       
       });
     }
-
-  
   }, []);
 
   const validate = (values) => {
@@ -90,31 +85,30 @@ const Register = () => {
   };
 
   const formikOnSubmit = (values) => {
-    signUpWithEmail(values)
-      .then(() => {
-        if(!!inviteData){
-          addUserToOrg(inviteData.org, "member");
-          acceptInvite(localStorage.getItem("INV"));
-        }
-        else {
-          //history.push("/app");
-          console.log("NOIV");
+ 
+    if (!inviteData) {
+      signUpWithEmail(values)
+        .then(() => history.push("/app"))
+        .catch((err) => {
+          console.log(err.code);
+          switch (err.code) {
+            case "auth/email-already-in-use":
+              seterror("That email is already in use, please login instead");
+              break;
+            default:
+              seterror(
+                "We couldn't register your account, please contact support"
+              );
+              break;
+          }
+        });
+    } else {
+      signUpWithEmailAndAddToOrg(values, inviteData.org, "member").then(() => {
+        acceptInvite(localStorage.getItem("INV"));
 
-        }
-      })
-      .catch((err) => {
-        console.log(err.code);
-        switch (err.code) {
-          case "auth/email-already-in-use":
-            seterror("That email is already in use, please login instead");
-            break;
-          default:
-            seterror(
-              "We couldn't register your account, please contact support"
-            );
-            break;
-        }
+        history.push("/app");
       });
+    }
   };
   const formik = useFormik({
     enableReinitialize: true,
@@ -145,7 +139,7 @@ const Register = () => {
           style={{ height: "100%" }}
         >
           <Typography variant="h4" gutterBottom>
-            Sign up{!!inviteData?` to join ${inviteData.orgName}`:""}
+            Sign up{!!inviteData ? ` to join ${inviteData.orgName}` : ""}
           </Typography>{" "}
           {error && <Alert severity="error">{error}</Alert>}
           <Stack spacing={2}>
