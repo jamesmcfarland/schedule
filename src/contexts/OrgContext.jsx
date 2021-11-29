@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { auth, firestore } from "../services/firebase";
+import { auth, firestore, functions } from "../services/firebase";
 import {
   addDoc,
   collection,
@@ -13,6 +13,7 @@ import {
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "./UserContext";
+import { getFunctions, httpsCallable } from "@firebase/functions";
 
 const OrgContext = createContext();
 
@@ -83,12 +84,20 @@ export const OrgProvider = ({ children }) => {
     });
   };
 
+  const acceptInvite = inviteID => {
+    const acceptinvite = httpsCallable(functions, "acceptInvite");
+    acceptinvite({id:inviteID}).then((res)=>{
+      console.log("inv accept");
+      localStorage.removeItem("INV");
+    })
+  }
+
   const getOrgInfo = async (id) => {
     const ds = await getDoc(doc(firestore, "organisations", id));
 
     return { ...ds.data() };
   };
 
-  const value = { addNewOrg, getOrgInfo, inviteUserToOrg, getInviteInfo };
+  const value = { addNewOrg, getOrgInfo, inviteUserToOrg, getInviteInfo, acceptInvite };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };
