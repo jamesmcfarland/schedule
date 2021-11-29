@@ -20,14 +20,15 @@ import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import { useOrg } from "../contexts/OrgContext";
+import { LocalSeeOutlined } from "@mui/icons-material";
 
 const Register = () => {
   const [invID, setinvID] = useState("");
   const [inviteData, setinviteData] = useState();
 
-  const { getInviteInfo } = useOrg();
+  const { getInviteInfo, acceptInvite } = useOrg();
 
-  const { signUpWithEmail } = useUser();
+  const { signUpWithEmail, addUserToOrg } = useUser();
   const history = useHistory();
   const [error, seterror] = useState();
   const [country, setcountry] = useState("GB");
@@ -91,7 +92,14 @@ const Register = () => {
   const formikOnSubmit = (values) => {
     signUpWithEmail(values)
       .then(() => {
-        history.push("/app");
+        if(!!inviteData){
+          addUserToOrg(inviteData.org, "member");
+          acceptInvite(localStorage.getItem("INV"));
+        }
+        else {
+          history.push("/app");
+
+        }
       })
       .catch((err) => {
         console.log(err.code);
