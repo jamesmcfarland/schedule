@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { auth, firestore, functions } from "../services/firebase";
+import { firestore } from "../services/firebase";
 import {
   addDoc,
   collection,
@@ -8,12 +8,11 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "@firebase/firestore";
-import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "./UserContext";
-import { getFunctions, httpsCallable } from "@firebase/functions";
 
 const OrgContext = createContext();
 
@@ -48,7 +47,7 @@ export const OrgProvider = ({ children }) => {
       mobile = mobile.substring(1);
     }
     //Check if user is already in the invites collection
-  
+
     const inviteCollection = collection(firestore, "invites");
     const q = query(
       inviteCollection,
@@ -76,21 +75,20 @@ export const OrgProvider = ({ children }) => {
   };
 
   const getInviteInfo = (inviteID) => {
- 
     return getDoc(doc(firestore, "invites/", inviteID)).then((snap) => {
       const data = snap.data();
-    
+
       return data;
     });
   };
 
-  const acceptInvite = inviteID => {
-    const acceptinvite = httpsCallable(functions, "acceptInvite");
-    acceptinvite({id:inviteID}).then((res)=>{
-      console.log("inv accept");
-      localStorage.removeItem("INV");
-    })
-  }
+  const acceptInvite = (inviteID) => {
+    updateDoc(doc(firestore, "invites", inviteID), { status: "accepted" }).then(
+      () => {
+        localStorage.removeItem("INV");
+      }
+    );
+  };
 
   const getOrgInfo = async (id) => {
     const ds = await getDoc(doc(firestore, "organisations", id));
@@ -98,6 +96,12 @@ export const OrgProvider = ({ children }) => {
     return { ...ds.data() };
   };
 
-  const value = { addNewOrg, getOrgInfo, inviteUserToOrg, getInviteInfo, acceptInvite };
+  const value = {
+    addNewOrg,
+    getOrgInfo,
+    inviteUserToOrg,
+    getInviteInfo,
+    acceptInvite,
+  };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };

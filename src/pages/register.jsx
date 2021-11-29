@@ -97,7 +97,8 @@ const Register = () => {
           acceptInvite(localStorage.getItem("INV"));
         }
         else {
-          history.push("/app");
+          //history.push("/app");
+          console.log("NOIV");
 
         }
       })
