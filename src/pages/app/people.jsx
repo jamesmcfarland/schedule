@@ -73,118 +73,116 @@ const People = () => {
     validateOnChange: false,
   });
   return (
-    <AppPage
-      title="People"
-      ChildComponent={
-        <>
-          <Dialog open={inviteUserOpen}>
-            <DialogContent sx={{ background: "#2f2f2f" }}>
-              <Stack sx={{ minHeight: "35vh" }}>
-                <form
-                  noValidate
-                  autoComplete="off"
+    <AppPage title="People">
+      {" "}
+      <>
+        <Dialog open={inviteUserOpen}>
+          <DialogContent sx={{ background: "#2f2f2f" }}>
+            <Stack sx={{ minHeight: "35vh" }}>
+              <form
+                noValidate
+                autoComplete="off"
+                style={{ height: "100%" }}
+                onSubmit={formik.handleSubmit}
+              >
+                <Stack
+                  spacing={2}
+                  justifyContent="space-between"
                   style={{ height: "100%" }}
-                  onSubmit={formik.handleSubmit}
                 >
-                  <Stack
-                    spacing={2}
-                    justifyContent="space-between"
-                    style={{ height: "100%" }}
-                  >
-                    <Typography variant="h5">Invite to organisaton</Typography>
+                  <Typography variant="h5">Invite to organisaton</Typography>
 
-                    {error && <Alert severity="error">{error}</Alert>}
-                    <Stack spacing={2}>
-                      <Stack spacing={2} direction="row">
-                        <TextField
-                          name="first"
-                          id="first"
-                          type="text"
-                          label="first name"
-                          placeholder="joe"
-                          onChange={formik.handleChange}
-                          value={formik.values.first}
-                          onBlur={formik.handleBlur}
-                          error={formik.errors.first && formik.touched.first}
-                          helperText={
-                            formik.touched.first ? formik.errors.first : ""
-                          }
-                        />
-                        <TextField
-                          id="last"
-                          name="last"
-                          type="text"
-                          label="last name"
-                          placeholder="bloggs"
-                          onChange={formik.handleChange}
-                          value={formik.values.last}
-                          onBlur={formik.handleBlur}
-                          error={formik.errors.last && formik.touched.last}
-                          helperText={
-                            formik.touched.last ? formik.errors.last : ""
-                          }
-                        />
-                      </Stack>
-
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        <ReactFlagsSelect
-                          fullWidth={false}
-                          searchPlaceholder="start typing..."
-                          selected={country}
-                          showSelectedLabel={false}
-                          onSelect={(code) => setcountry(code)}
-                          className="fucku"
-                        />
-                        <TextField
-                          disabled={!country}
-                          id="mobile"
-                          name="mobile"
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                +{getCountryCallingCode(country)}
-                              </InputAdornment>
-                            ),
-                          }}
-                          type="tel"
-                          fullWidth
-                          label="mobile phone"
-                          placeholder="123 456789"
-                          onChange={formik.handleChange}
-                          value={formik.values.mobile}
-                          error={formik.errors.mobile && formik.touched.mobile}
-                          helperText={
-                            formik.touched.mobile ? formik.errors.mobile : ""
-                          }
-                          onBlur={formik.handleBlur}
-                        />
-                      </Stack>
-
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        style={{ textTransform: "none" }}
-                      >
-                        Invite
-                      </Button>
+                  {error && <Alert severity="error">{error}</Alert>}
+                  <Stack spacing={2}>
+                    <Stack spacing={2} direction="row">
+                      <TextField
+                        name="first"
+                        id="first"
+                        type="text"
+                        label="first name"
+                        placeholder="joe"
+                        onChange={formik.handleChange}
+                        value={formik.values.first}
+                        onBlur={formik.handleBlur}
+                        error={formik.errors.first && formik.touched.first}
+                        helperText={
+                          formik.touched.first ? formik.errors.first : ""
+                        }
+                      />
+                      <TextField
+                        id="last"
+                        name="last"
+                        type="text"
+                        label="last name"
+                        placeholder="bloggs"
+                        onChange={formik.handleChange}
+                        value={formik.values.last}
+                        onBlur={formik.handleBlur}
+                        error={formik.errors.last && formik.touched.last}
+                        helperText={
+                          formik.touched.last ? formik.errors.last : ""
+                        }
+                      />
                     </Stack>
+
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <ReactFlagsSelect
+                        fullWidth={false}
+                        searchPlaceholder="start typing..."
+                        selected={country}
+                        showSelectedLabel={false}
+                        onSelect={(code) => setcountry(code)}
+                        className="fucku"
+                      />
+                      <TextField
+                        disabled={!country}
+                        id="mobile"
+                        name="mobile"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              +{getCountryCallingCode(country)}
+                            </InputAdornment>
+                          ),
+                        }}
+                        type="tel"
+                        fullWidth
+                        label="mobile phone"
+                        placeholder="123 456789"
+                        onChange={formik.handleChange}
+                        value={formik.values.mobile}
+                        error={formik.errors.mobile && formik.touched.mobile}
+                        helperText={
+                          formik.touched.mobile ? formik.errors.mobile : ""
+                        }
+                        onBlur={formik.handleBlur}
+                      />
+                    </Stack>
+
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      style={{ textTransform: "none" }}
+                    >
+                      Invite
+                    </Button>
                   </Stack>
-                </form>
-              </Stack>
-            </DialogContent>
-          </Dialog>
-          <Stack>
-            <Button
-              sx={{ textTransform: "none" }}
-              onClick={() => setinviteUserOpen(true)}
-            >
-              Invite to organisation
-            </Button>
-            <PeopleList />
-          </Stack>
-        </>
-      }
-    ></AppPage>
+                </Stack>
+              </form>
+            </Stack>
+          </DialogContent>
+        </Dialog>
+        <Stack>
+          <Button
+            sx={{ textTransform: "none" }}
+            onClick={() => setinviteUserOpen(true)}
+          >
+            Invite to organisation
+          </Button>
+          <PeopleList />
+        </Stack>
+      </>
+    </AppPage>
   );
 };
 
