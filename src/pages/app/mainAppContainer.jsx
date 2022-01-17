@@ -1,6 +1,7 @@
 import {
   Avatar,
   Dialog,
+  DialogContent,
   DialogTitle,
   List,
   ListItem,
@@ -111,6 +112,14 @@ const MainAppContainer = () => {
             <ListItemText primary="Add new" />
           </ListItem>
         </List>
+      </Dialog>
+
+
+      <Dialog open={true}>
+        <DialogContent >
+        <DialogTitle>Add shift</DialogTitle>
+            <input type="date" ></input>
+        </DialogContent>
       </Dialog>
 
       <div style={{ width: "100vw", display: "flex", flexDirection: "row" }}>
