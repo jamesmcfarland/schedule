@@ -72,7 +72,6 @@ const emps = [
         isClose: true,
         shiftNotes: "bar",
       },
-
       {
         isShift: true,
         shiftid: uuidv4(),
@@ -151,6 +150,7 @@ const MainAppContainer = () => {
   const [newShiftEmployeeId, setnewShiftEmployeeId] = useState();
   const [newShiftEmployeeName, setnewShiftEmployeeName] = useState();
   const [newShiftNotes, setnewShiftNotes] = useState();
+  const [editShiftId, seteditShiftId] = useState();
   const [employees, setemployees] = useState(emps);
 
   const getOrgData = async (orgs) => {
@@ -168,25 +168,55 @@ const MainAppContainer = () => {
     setisDialogOpen(true);
   };
 
-  const addNewShift = () => {
-    let newEmployees = employees;
-    newEmployees
-      .find((employee) => employee.employeeId === newShiftEmployeeId)
-      .shifts.push({
-        isShift: true,
-        shiftid: uuidv4(),
-        shiftStart: newShiftDate,
-        shiftEnd: newShiftEndDate,
-        shiftNotes: newShiftNotes,
-        isClose: isCloseShift,
-      });
+  const addNewShift = (cancel) => {
+    if (!cancel) {
+      if (!!editShiftId) {
+        //Editing shift
+        let newEmployees = employees;
+        let index = newEmployees
+          .find((employee) => employee.employeeId === newShiftEmployeeId)
+          .shifts.findIndex((shift) => shift.shiftid === editShiftId);
+        if (index != -1) {
+          const newShift = {
+            shiftid: editShiftId,
+            isShift: true,
+            shiftStart: newShiftDate,
+            shiftEnd: newShiftEndDate,
+            shiftNotes: newShiftNotes,
+            isClose: isCloseShift,
+          };
 
-    setemployees(newEmployees);
+          newEmployees.find(
+            (employee) => employee.employeeId === newShiftEmployeeId
+          ).shifts[index] = newShift;
+          setemployees(newEmployees);
+        } else {
+          console.log("could not find shift id");
+        }
+      } else {
+        //Adding new shift
+        let newEmployees = employees;
+        newEmployees
+          .find((employee) => employee.employeeId === newShiftEmployeeId)
+          .shifts.push({
+            isShift: true,
+            shiftid: uuidv4(),
+            shiftStart: newShiftDate,
+            shiftEnd: newShiftEndDate,
+            shiftNotes: newShiftNotes,
+            isClose: isCloseShift,
+          });
+
+        setemployees(newEmployees);
+      }
+    }
+
     setnewShiftEmployeeId(undefined);
     setnewShiftDate(undefined);
     setnewShiftEndDate(undefined);
     setnewShiftEmployeeName(undefined);
     setnewShiftNotes(undefined);
+    seteditShiftId(undefined);
   };
 
   const openNewShiftDialog = (employeeId, date) => {
@@ -196,6 +226,40 @@ const MainAppContainer = () => {
     setnewShiftEmployeeName(
       employees.find((employee) => employee.employeeId === employeeId).name
     );
+  };
+  const openEditShiftDialog = (employeeId, shiftId) => {
+    setnewShiftEmployeeId(employeeId);
+
+    let employee = employees.find(
+      (employee) => employee.employeeId === employeeId
+    );
+    let shift = employee.shifts.find((shift) => shift.shiftid === shiftId);
+
+    setnewShiftDate(shift.shiftStart);
+    setnewShiftEndDate(shift.shiftEnd);
+    setnewShiftEmployeeName(employee.name);
+    setnewShiftNotes(shift.shiftNotes);
+    setisCloseShift(shift.isClose);
+    seteditShiftId(shiftId);
+  };
+
+  const removeShift = () => {
+    let newEmployees = employees;
+    const shifts = newEmployees.find(
+      (employee) => employee.employeeId === newShiftEmployeeId
+    ).shifts;
+
+    newEmployees.find(
+      (employee) => employee.employeeId === newShiftEmployeeId
+    ).shifts = shifts.filter((shift) => shift.shiftid !== editShiftId);
+
+    setemployees(newEmployees);
+    setnewShiftEmployeeId(undefined);
+    setnewShiftDate(undefined);
+    setnewShiftEndDate(undefined);
+    setnewShiftEmployeeName(undefined);
+    setnewShiftNotes(undefined);
+    seteditShiftId(undefined);
   };
 
   useEffect(() => {
@@ -224,7 +288,6 @@ const MainAppContainer = () => {
         );
       }
     });
-    console.log("r");
   }, [currentUserRole, addNewOrgNeeded, employees]);
 
   return (
@@ -266,7 +329,7 @@ const MainAppContainer = () => {
 
       <Dialog open={!!newShiftEmployeeId}>
         <DialogContent>
-          <DialogTitle>Add shift for {newShiftEmployeeName}</DialogTitle>
+          <DialogTitle>{(!!editShiftId?`Editing shift for `:"Add shift for") + " " + newShiftEmployeeName}</DialogTitle>
           <Stack spacing={2}>
             <DateTimePicker
               label="start"
@@ -305,10 +368,29 @@ const MainAppContainer = () => {
               variant="contained"
               size="small"
               style={{ textTransform: "none" }}
-              onClick={() => addNewShift()}
+              onClick={() => addNewShift(false)}
             >
-              Add shift
+              {!!editShiftId ? "Save changes" : "Add shift"}
             </Button>
+            <Button
+              variant="text"
+              size="small"
+              style={{ textTransform: "none" }}
+              onClick={() => addNewShift(true)}
+            >
+              Cancel
+            </Button>
+            {!!editShiftId && (
+              <Button
+                variant="text"
+                size="small"
+                color="error"
+                style={{ textTransform: "none" }}
+                onClick={() => removeShift()}
+              >
+                Remove shift
+              </Button>
+            )}
           </Stack>
         </DialogContent>
       </Dialog>
@@ -334,6 +416,7 @@ const MainAppContainer = () => {
               <Rota
                 openNewShiftDialog={openNewShiftDialog}
                 employees={employees}
+                openEditShiftDialog={openEditShiftDialog}
               />
             </Route>
             <Route path="/app/people" component={People} />

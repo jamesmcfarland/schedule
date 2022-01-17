@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {v4 as uuidv4} from "uuid";
-const GridRow = ({ name, shifts, id, showShift, startDate }) => {
+const GridRow = ({ name, shifts, id, showShift, startDate, updated }) => {
   const handleClick = (e) => {};
 
   const [processedShifts, setprocessedShifts] = useState([]);
@@ -32,13 +32,14 @@ const GridRow = ({ name, shifts, id, showShift, startDate }) => {
       } else {
         procshifts[i] = {
           isShift: false,
-          shiftStart: addDays(startDate, i)
+          shiftStart: addDays(startDate, i),
+          shiftid: uuidv4(),
         };
       }
     }
 
     setprocessedShifts(procshifts);
-  }, [shifts.length]);
+  }, [updated]);
   return (
     <>
       <p className="labels">{name}</p>
@@ -47,8 +48,9 @@ const GridRow = ({ name, shifts, id, showShift, startDate }) => {
           <button
             type="button"
             className={el.isShift===false ? "shift-button-noshift" : "shift-button"}
-            key={el.isShift?el.shiftid:uuidv4()}
-            onClick={() => showShift(id, el.shiftid, el.shiftStart)}
+    
+            key={el.shiftid}
+            onClick={() => showShift(id, el.shiftid, el.shiftStart, el.isShift)}
           >
             <p style={{ display: "inline" }}>{el.isShift===false? "+" : `${get12From24(el.shiftStart.getHours())}-${el.isClose?"C":get12From24(el.shiftEnd.getHours())}`}</p>
           </button>

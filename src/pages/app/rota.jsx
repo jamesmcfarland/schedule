@@ -6,15 +6,15 @@ import { v4 as uuidv4 } from "uuid";
 
 
 
-const Rota = ({openNewShiftDialog, employees}) => {
+const Rota = ({openNewShiftDialog, openEditShiftDialog,employees}) => {
 
-  const shiftHandler = (empId, shiftId, date) => {
-    if(!shiftId){
+  const shiftHandler = (empId, shiftId, date, isShift) => {
+    if(!isShift){
       //Not a shift... 
       openNewShiftDialog(empId, date);
     }
     else {
-      console.log(empId, shiftId)
+      openEditShiftDialog(empId, shiftId);
     }
   }
 
