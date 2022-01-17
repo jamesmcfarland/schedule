@@ -19,7 +19,7 @@ const ShiftContainer = ({employees, showShift}) => {
       })}
 
       {employees.map((employee) => {
-        return <GridRow key={employee.id} name={employee.name} shifts={employee.shifts} id={employee.id} showShift={showShift}/>;
+        return <GridRow key={employee.employeeId} name={employee.name} shifts={employee.shifts} id={employee.employeeId} showShift={showShift} startDate={new Date()}/>;
       })}
     </div>
   );
