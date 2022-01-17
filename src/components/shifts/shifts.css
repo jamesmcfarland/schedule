@@ -8,13 +8,18 @@
   padding: 1em;
   margin-bottom: 1em;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template-columns: auto repeat(7, 1fr);
   grid-template-rows: auto;
   column-gap: 1em;
   row-gap: 1em;
   overflow: scroll;
   overflow-x: auto;
+  align-items: center;
  
+}
+
+.days-container p {
+    padding: 0 0.5em;
 }
 
 .labels {
