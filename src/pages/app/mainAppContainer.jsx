@@ -134,11 +134,12 @@ const emps = [
 
 const MainAppContainer = () => {
   const { getUserInfo } = useUser();
-  const { getOrgInfo } = useOrg();
+  const { getOrgInfo, getOrgDepartments } = useOrg();
   const [needsOnboarding, setneedsOnboarding] = useState(false);
   const [udata, setudata] = useState({ data: "waiting" });
   const [orgData, setorgData] = useState({ data: "waiting" });
   const [userOrgs, setuserOrgs] = useState([]);
+  const [orgDepts, setorgDepts] = useState([]);
   const [currentUserRole, setcurrentUserRole] = useState("awaiting data");
 
   const [isDialogOpen, setisDialogOpen] = useState(false);
@@ -154,12 +155,13 @@ const MainAppContainer = () => {
   const [employees, setemployees] = useState(emps);
 
   const getOrgData = async (orgs) => {
-    let processed = [];
+    let processedUserOrgs = [];
     for (const org of orgs) {
       const data = await getOrgInfo(org.id);
-      processed.push({ ...data, id: org.id });
+      processedUserOrgs.push({ ...data, id: org.id });
     }
-    setuserOrgs(processed);
+
+    setuserOrgs(processedUserOrgs);
   };
 
   const changeOrganisation = () => {
@@ -286,6 +288,9 @@ const MainAppContainer = () => {
         setcurrentUserRole(
           userdata.organisations.find((el) => el.id === currentOrgID).role
         );
+        getOrgDepartments(currentOrgID).then((departments) => {
+          setorgDepts(departments);
+        });
       }
     });
   }, [currentUserRole, addNewOrgNeeded, employees]);
@@ -329,7 +334,11 @@ const MainAppContainer = () => {
 
       <Dialog open={!!newShiftEmployeeId}>
         <DialogContent>
-          <DialogTitle>{(!!editShiftId?`Editing shift for `:"Add shift for") + " " + newShiftEmployeeName}</DialogTitle>
+          <DialogTitle>
+            {(!!editShiftId ? `Editing shift for ` : "Add shift for") +
+              " " +
+              newShiftEmployeeName}
+          </DialogTitle>
           <Stack spacing={2}>
             <DateTimePicker
               label="start"
@@ -414,6 +423,7 @@ const MainAppContainer = () => {
           <RouterSwitch>
             <Route exact path="/app">
               <Rota
+              departments={orgDepts}
                 openNewShiftDialog={openNewShiftDialog}
                 employees={employees}
                 openEditShiftDialog={openEditShiftDialog}

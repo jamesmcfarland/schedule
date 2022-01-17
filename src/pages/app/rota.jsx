@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 
 
-const Rota = ({openNewShiftDialog, openEditShiftDialog,employees}) => {
+const Rota = ({openNewShiftDialog, openEditShiftDialog,employees, departments}) => {
 
   const shiftHandler = (empId, shiftId, date, isShift) => {
     if(!isShift){
@@ -19,7 +19,7 @@ const Rota = ({openNewShiftDialog, openEditShiftDialog,employees}) => {
   }
 
   return (
-    <AppPage title="Rota">
+    <AppPage title="Rota" departments={departments}>
       <ShiftContainer employees={employees}  showShift={shiftHandler} />
     </AppPage>
   );

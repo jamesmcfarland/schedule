@@ -96,12 +96,20 @@ export const OrgProvider = ({ children }) => {
     return { ...ds.data() };
   };
 
+  const getOrgDepartments = async (id) => {
+    const ds = await getDoc(doc(firestore, "organisations", id));
+    console.log(ds.data());
+
+    return ds.data().departments;
+  };
+
   const value = {
     addNewOrg,
     getOrgInfo,
     inviteUserToOrg,
     getInviteInfo,
     acceptInvite,
+    getOrgDepartments,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };

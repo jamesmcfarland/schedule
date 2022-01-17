@@ -19,7 +19,7 @@ const fakeDepts = [
   "Duty Managers",
 ];
 
-const AppPage = ({ title, children }) => {
+const AppPage = ({ title, children, departments }) => {
   const [dept, setdept] = useState(0);
 
   const [date, setdate] = useState(format(new Date(), "EEEE, do LLLL yyyy"));
@@ -61,10 +61,10 @@ const AppPage = ({ title, children }) => {
               sx={{ textAlign: "left" }}
               onChange={(e) => setdept(e.target.value)}
             >
-              {fakeDepts.map((e, i) => {
+              {departments.map((e, i) => {
                 return (
                   <MenuItem key={i} value={i}>
-                    {e}
+                    {e.name}
                   </MenuItem>
                 );
               })}
