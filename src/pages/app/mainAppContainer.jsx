@@ -30,8 +30,6 @@ const MainAppContainer = () => {
   const [userOrgs, setuserOrgs] = useState([]);
   const [currentUserRole, setcurrentUserRole] = useState("awaiting data");
 
-
-
   const [isDialogOpen, setisDialogOpen] = useState(false);
   const [addNewOrgNeeded, setaddNewOrgNeeded] = useState(false);
 
@@ -52,7 +50,7 @@ const MainAppContainer = () => {
 
   useEffect(() => {
     // setcurrentOrgID(localStorage.getItem("id"))
-    if(addNewOrgNeeded){
+    if (addNewOrgNeeded) {
       setneedsOnboarding(true);
       return;
     }
@@ -61,8 +59,8 @@ const MainAppContainer = () => {
     getUserInfo().then((userdata) => {
       setudata(userdata);
       setneedsOnboarding(!userdata.organisations.length);
-      
-      if(userdata.organisations.length===1){
+
+      if (userdata.organisations.length === 1) {
         currentOrgID = userdata.organisations[0].id;
       }
       setisDialogOpen(!currentOrgID);
@@ -79,7 +77,7 @@ const MainAppContainer = () => {
   }, [currentUserRole, addNewOrgNeeded]);
 
   return (
-    <Box>
+    <div>
       <Dialog open={isDialogOpen} handleClose={() => setisDialogOpen(false)}>
         <DialogTitle>Select organisation</DialogTitle>
         <List>
@@ -100,23 +98,23 @@ const MainAppContainer = () => {
               </ListItem>
             );
           })}
-            <ListItem
-                button
-                onClick={() => {
-                  setaddNewOrgNeeded(true);
-                }}
-                key="NEW"
-              >
-                <ListItemAvatar>
-                  <Avatar>+</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Add new" />
-              </ListItem>
+          <ListItem
+            button
+            onClick={() => {
+              setaddNewOrgNeeded(true);
+            }}
+            key="NEW"
+          >
+            <ListItemAvatar>
+              <Avatar>+</Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Add new" />
+          </ListItem>
         </List>
       </Dialog>
 
-      <Stack direction="row" >
-      <Menu
+      <div style={{ width: "100vw", display: "flex", flexDirection: "row" }}>
+        <Menu
           isVisible={!needsOnboarding}
           organisationData={orgData}
           userData={udata}
@@ -125,7 +123,12 @@ const MainAppContainer = () => {
         ></Menu>
         {needsOnboarding && <Redirect to="/onboarding" />}
 
-        <Box padding="1rem">
+        <Box
+          padding="0 1em"
+          style={{
+            width: "100%",
+          }}
+        >
           <Switch>
             <Route exact path="/app" component={Rota} />
             <Route path="/app/people" component={People} />
@@ -133,8 +136,8 @@ const MainAppContainer = () => {
             <Route path="/app/settings" component={SettingsPage} />
           </Switch>
         </Box>
-      </Stack>
-    </Box>
+      </div>
+    </div>
   );
 };
 

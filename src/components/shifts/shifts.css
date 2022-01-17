@@ -1,0 +1,51 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 7;
+  grid-auto-rows: minmax(100px, auto);
+}
+
+.days-container {
+  padding: 1em;
+  margin-bottom: 1em;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: auto;
+  column-gap: 1em;
+  row-gap: 1em;
+  overflow: scroll;
+  overflow-x: auto;
+ 
+}
+
+.labels {
+  text-align: center;
+}
+
+.shift-button {
+  transition: all 0.5s ease;
+  background-color: rgba(177, 139, 255, 0.1);
+  border: 2px solid rgba(177, 139, 255, 0.3);
+  color: #fff;
+  border-radius: 12px;
+  height: 2em;
+
+  font-size: large;
+  padding: 0.25em 0;
+}
+.shift-button:hover {
+  background-color: rgba(177, 139, 255, 0.8);
+}
+.shift-button-noshift {
+  transition: all 0.5s ease;
+  background-color: transparent;
+  border: 2px solid rgba(177, 139, 255, 0.3);
+  color: transparent;
+  border-radius: 12px;
+  height: 2em;
+  font-size: large;
+}
+
+.shift-button-noshift:hover {
+  color: white;
+  background-color: rgba(177, 139, 255, 0.8);
+}

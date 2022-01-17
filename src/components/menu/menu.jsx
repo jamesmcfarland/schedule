@@ -26,10 +26,10 @@ const Menu = ({
   const { logout } = useUser();
 
   return (
-    <Box borderRight="2px solid #383838" minWidth="120">
+    <Box borderRight="2px solid #383838" minWidth="150px" background="red" width="20%" maxWidth="300px">
       <Grid
         container
-        style={{ height: "100vh", padding: "1rem 2rem", width: "20vw", minWidth:120, maxWidth:300 }}
+        style={{ height: "100vh", padding: "1rem 2rem" }}
         direction="column"
       >
         <Grid item xs={2}>

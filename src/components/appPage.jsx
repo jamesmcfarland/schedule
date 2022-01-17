@@ -19,7 +19,7 @@ const fakeDepts = [
   "Duty Managers",
 ];
 
-const AppPage = ({ title, ChildComponent }) => {
+const AppPage = ({ title, children }) => {
   const [dept, setdept] = useState(0);
 
   const [date, setdate] = useState(format(new Date(), "EEEE, do LLLL yyyy"));
@@ -31,40 +31,48 @@ const AppPage = ({ title, ChildComponent }) => {
   }, 1000);
 
   return (
-    <Stack spacing={5}>
-      <Grid
-        container
-        sx={{ width: "75vw" }}
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        padding: "1em 0",
+      }}
+    >
+      <Stack
         direction="row"
         alignItems="center"
+        justifyContent="space-between"
+        sx={{paddingBottom: "1em"}}
       >
-        <Grid item xs={6}>
-          <Box display="inline">
-            <Stack direction="row" spacing={5} alignItems="center">
-              <Typography variant="h5" sx={{ padding: "0 1rem" }}>
-                {title}
-              </Typography>
-              <FormControl
-                variant="filled"
-                sx={{ m: 1, minWidth: 140, width: "15vw" }}
-              >
-                <InputLabel id="dept-select">Department</InputLabel>
-                <Select
-                  id="dept-select"
-                  label="Department"
-                  value={dept}
-                  sx={{ textAlign: "left" }}
-                  onChange={(e) => setdept(e.target.value)}
-                >
-                  {fakeDepts.map((e, i) => {
-                    return <MenuItem value={i}>{e}</MenuItem>;
-                  })}
-                </Select>
-              </FormControl>
-            </Stack>
-          </Box>
-        </Grid>
-        <Grid item xs={6}>
+        <Stack direction="row" spacing={5} alignItems="center">
+          <Typography variant="h5" sx={{ padding: "0 1rem" }}>
+            {title}
+          </Typography>
+          <FormControl
+            variant="filled"
+            sx={{ m: 1, minWidth: 140, width: "15vw" }}
+          >
+            <InputLabel id="dept-select">Department</InputLabel>
+            <Select
+              id="dept-select"
+              label="Department"
+              value={dept}
+              sx={{ textAlign: "left" }}
+              onChange={(e) => setdept(e.target.value)}
+            >
+              {fakeDepts.map((e, i) => {
+                return (
+                  <MenuItem key={i} value={i}>
+                    {e}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </Stack>
+
+        <div style={{ display: "inline" }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -74,10 +82,11 @@ const AppPage = ({ title, ChildComponent }) => {
             <Typography>{date}</Typography>
             <Typography>{time}</Typography>
           </Stack>
-        </Grid>
-      </Grid>
-      {ChildComponent}
-    </Stack>
+        </div>
+      </Stack>
+
+      {children}
+    </div>
   );
 };
 

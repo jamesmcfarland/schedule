@@ -1,8 +1,8 @@
 Arguments: 
-  /home/james/.nvm/versions/node/v16.6.1/bin/node /home/james/.nvm/versions/node/v16.6.1/bin/yarn
+  /home/james/.nvm/versions/node/v16.6.1/bin/node /home/james/.nvm/versions/node/v16.6.1/bin/yarn add uuid
 
 PATH: 
-  /home/james/.nvm/versions/node/v16.6.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Eclipse Foundation/jdk-11.0.12.7-hotspot/bin:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Users/james/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/james/AppData/Local/Programs/Microsoft VS Code/bin:/home/james/.yarn/bin
+  /home/james/.vscode-server/bin/899d46d82c4c95423fb7e10e68eba52050e30ba3/bin:/home/james/.nvm/versions/node/v16.6.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Eclipse Foundation/jdk-11.0.12.7-hotspot/bin:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/dotnet/:/mnt/c/Users/james/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/james/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/james/JUnit:/home/james/.yarn/bin:/home/james/.yarn/bin
 
 Yarn version: 
   1.22.11
