@@ -11,16 +11,8 @@ import {
 import { useState } from "react";
 import { format } from "date-fns";
 
-const fakeDepts = [
-  "O'Cahans Bar",
-  "Coach House",
-  "Reception",
-  "Spa",
-  "Duty Managers",
-];
-
-const AppPage = ({ title, children, departments }) => {
-  const [dept, setdept] = useState(0);
+const AppPage = ({ title, children, departments, setselectedDepartmentId }) => {
+  const [dept, setdept] = useState(departments.length ? 0 : "");
 
   const [date, setdate] = useState(format(new Date(), "EEEE, do LLLL yyyy"));
   const [time, settime] = useState(format(new Date(), "HH:mm (OOOO)"));
@@ -29,6 +21,17 @@ const AppPage = ({ title, children, departments }) => {
     setdate(format(new Date(), "EEEE, do LLLL yyyy"));
     settime(format(new Date(), "HH:mm (OOOO)"));
   }, 1000);
+
+  const handleDeptChange = (e) => {
+    if(departments.length){
+
+      setdept(e.target.value);
+      setselectedDepartmentId(departments[dept].id);
+    }
+    else {
+      setdept("");
+    }
+  };
 
   return (
     <div
@@ -43,7 +46,7 @@ const AppPage = ({ title, children, departments }) => {
         direction="row"
         alignItems="center"
         justifyContent="space-between"
-        sx={{paddingBottom: "1em"}}
+        sx={{ paddingBottom: "1em" }}
       >
         <Stack direction="row" spacing={5} alignItems="center">
           <Typography variant="h5" sx={{ padding: "0 1rem" }}>
@@ -59,7 +62,7 @@ const AppPage = ({ title, children, departments }) => {
               label="Department"
               value={dept}
               sx={{ textAlign: "left" }}
-              onChange={(e) => setdept(e.target.value)}
+              onChange={handleDeptChange}
             >
               {departments.map((e, i) => {
                 return (

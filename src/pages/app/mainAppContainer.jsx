@@ -140,6 +140,7 @@ const MainAppContainer = () => {
   const [orgData, setorgData] = useState({ data: "waiting" });
   const [userOrgs, setuserOrgs] = useState([]);
   const [orgDepts, setorgDepts] = useState([]);
+  const [selectedDepartmentId, setselectedDepartmentId] = useState("");
   const [currentUserRole, setcurrentUserRole] = useState("awaiting data");
 
   const [isDialogOpen, setisDialogOpen] = useState(false);
@@ -424,6 +425,7 @@ const MainAppContainer = () => {
             <Route exact path="/app">
               <Rota
               departments={orgDepts}
+              setselectedDepartmentId={setselectedDepartmentId}
                 openNewShiftDialog={openNewShiftDialog}
                 employees={employees}
                 openEditShiftDialog={openEditShiftDialog}
