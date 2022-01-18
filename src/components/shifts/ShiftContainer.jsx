@@ -1,11 +1,13 @@
 import { useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { employeesAtom } from "../../atoms/atoms";
 import GridRow from "./GridRow";
 import "./shifts.css"
 
 
-const ShiftContainer = ({employees, showShift}) => {
+const ShiftContainer = ({ showShift}) => {
 
- 
+  const employees = useRecoilValue(employeesAtom);
 
   return (
     <div className="days-container">
@@ -23,7 +25,7 @@ const ShiftContainer = ({employees, showShift}) => {
       })}
 
       {employees.map((employee) => {
-        return <GridRow key={employee.employeeId} name={employee.name} shifts={employee.shifts} id={employee.employeeId} showShift={showShift} updated={new Date()} startDate={new Date()}/>;
+        return <GridRow key={employee.employeeId} name={employee.name} shifts={employee.shifts} id={employee.employeeId} showShift={showShift} updated={new Date()} startDate={new Date(2022, 0, 17)}/>;
       })}
     </div>
   );

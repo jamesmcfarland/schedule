@@ -20,6 +20,7 @@ import { OrgProvider } from "./contexts/OrgContext";
 import AcceptedInvite from "./pages/app/invite/acceptedInv";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { RecoilRoot } from "recoil";
 
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette
@@ -40,39 +41,41 @@ const theme = createTheme({
 
 function App() {
   return (
-    <StyledEngineProvider injectFirst>
-      <LocalizationProvider dateAdapter={DateAdapter}>
-        <UserProvider>
-          <OrgProvider>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Router>
-                <div className="App">
-                  <Switch>
-                    <Route exact path="/" component={SplashScreen} />
-                    <AuthenticationRoute path="/register">
-                      <Register />
-                    </AuthenticationRoute>
-                    <AuthenticationRoute path="/login">
-                      <Login />
-                    </AuthenticationRoute>
-                    <PrivateRoute path="/app">
-                      <MainAppContainer />
-                    </PrivateRoute>
-                    <PrivateRoute path="/onboarding">
-                      <OnboardingFlow />
-                    </PrivateRoute>
-                    <Route path="/invite/:id">
-                      <AcceptedInvite />
-                    </Route>
-                  </Switch>
-                </div>
-              </Router>
-            </ThemeProvider>
-          </OrgProvider>
-        </UserProvider>
-      </LocalizationProvider>
-    </StyledEngineProvider>
+    <RecoilRoot>
+      <StyledEngineProvider injectFirst>
+        <LocalizationProvider dateAdapter={DateAdapter}>
+          <UserProvider>
+            <OrgProvider>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Router>
+                  <div className="App">
+                    <Switch>
+                      <Route exact path="/" component={SplashScreen} />
+                      <AuthenticationRoute path="/register">
+                        <Register />
+                      </AuthenticationRoute>
+                      <AuthenticationRoute path="/login">
+                        <Login />
+                      </AuthenticationRoute>
+                      <PrivateRoute path="/app">
+                        <MainAppContainer />
+                      </PrivateRoute>
+                      <PrivateRoute path="/onboarding">
+                        <OnboardingFlow />
+                      </PrivateRoute>
+                      <Route path="/invite/:id">
+                        <AcceptedInvite />
+                      </Route>
+                    </Switch>
+                  </div>
+                </Router>
+              </ThemeProvider>
+            </OrgProvider>
+          </UserProvider>
+        </LocalizationProvider>
+      </StyledEngineProvider>
+    </RecoilRoot>
   );
 }
 

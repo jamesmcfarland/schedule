@@ -9,9 +9,9 @@ const Rota = ({
   openEditShiftDialog,
   employees,
   departments,
-  setselectedDepartmentId
+  setselectedDepartmentId,
 }) => {
-  const shiftHandler = (empId, shiftId, date, isShift, ) => {
+  const shiftHandler = (empId, shiftId, date, isShift) => {
     if (!isShift) {
       //Not a shift...
       openNewShiftDialog(empId, date);
@@ -26,7 +26,7 @@ const Rota = ({
       departments={departments}
       setselectedDepartmentId={setselectedDepartmentId}
     >
-      <ShiftContainer employees={employees} showShift={shiftHandler} />
+      <ShiftContainer showShift={shiftHandler} />
     </AppPage>
   );
 };

@@ -33,6 +33,10 @@ import Rota from "./rota";
 import SettingsPage from "./settings";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import { v4 as uuidv4 } from "uuid";
+import { useRecoilState } from "recoil";
+import { employeesAtom } from "../../atoms/atoms";
+
+import _ from "lodash";
 
 const emps = [
   {
@@ -153,7 +157,7 @@ const MainAppContainer = () => {
   const [newShiftEmployeeName, setnewShiftEmployeeName] = useState();
   const [newShiftNotes, setnewShiftNotes] = useState();
   const [editShiftId, seteditShiftId] = useState();
-  const [employees, setemployees] = useState(emps);
+  const [employees, setemployees] = useRecoilState(employeesAtom);
 
   const getOrgData = async (orgs) => {
     let processedUserOrgs = [];
@@ -175,7 +179,7 @@ const MainAppContainer = () => {
     if (!cancel) {
       if (!!editShiftId) {
         //Editing shift
-        let newEmployees = employees;
+        let newEmployees = _.cloneDeep(employees);
         let index = newEmployees
           .find((employee) => employee.employeeId === newShiftEmployeeId)
           .shifts.findIndex((shift) => shift.shiftid === editShiftId);
@@ -198,7 +202,8 @@ const MainAppContainer = () => {
         }
       } else {
         //Adding new shift
-        let newEmployees = employees;
+
+        let newEmployees = _.cloneDeep(employees);
         newEmployees
           .find((employee) => employee.employeeId === newShiftEmployeeId)
           .shifts.push({
@@ -247,7 +252,7 @@ const MainAppContainer = () => {
   };
 
   const removeShift = () => {
-    let newEmployees = employees;
+    let newEmployees = _.cloneDeep(employees);
     const shifts = newEmployees.find(
       (employee) => employee.employeeId === newShiftEmployeeId
     ).shifts;
@@ -424,10 +429,9 @@ const MainAppContainer = () => {
           <RouterSwitch>
             <Route exact path="/app">
               <Rota
-              departments={orgDepts}
-              setselectedDepartmentId={setselectedDepartmentId}
+                departments={orgDepts}
+                setselectedDepartmentId={setselectedDepartmentId}
                 openNewShiftDialog={openNewShiftDialog}
-                employees={employees}
                 openEditShiftDialog={openEditShiftDialog}
               />
             </Route>
