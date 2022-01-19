@@ -10,9 +10,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { format } from "date-fns";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { departmentAtom, organisationDepartmentsAtom } from "../atoms";
 
-const AppPage = ({ title, children, departments, setselectedDepartmentId }) => {
-  const [dept, setdept] = useState(departments.length ? 0 : "");
+const AppPage = ({ title, children }) => {
+  const [dept, setdept] = useState("");
+
+  const organisationDepartments = useRecoilValue(organisationDepartmentsAtom);
+  const setDepartment = useSetRecoilState(departmentAtom);
 
   const [date, setdate] = useState(format(new Date(), "EEEE, do LLLL yyyy"));
   const [time, settime] = useState(format(new Date(), "HH:mm (OOOO)"));
@@ -23,10 +28,10 @@ const AppPage = ({ title, children, departments, setselectedDepartmentId }) => {
   }, 1000);
 
   const handleDeptChange = (e) => {
-    if(departments.length){
+    if(organisationDepartments.length){
 
       setdept(e.target.value);
-      setselectedDepartmentId(departments[dept].id);
+      setDepartment(organisationDepartments[dept].id);
     }
     else {
       setdept("");
@@ -64,7 +69,7 @@ const AppPage = ({ title, children, departments, setselectedDepartmentId }) => {
               sx={{ textAlign: "left" }}
               onChange={handleDeptChange}
             >
-              {departments.map((e, i) => {
+              {organisationDepartments.map((e, i) => {
                 return (
                   <MenuItem key={i} value={i}>
                     {e.name}

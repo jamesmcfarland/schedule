@@ -25,7 +25,6 @@ import {
   userOrganisationsAtom,
   organisationDepartmentsAtom,
 } from "../../atoms/";
-import OrganisationDialog from "../../components/OrganisationDialog";
 
 const AppContainer = () => {
   const { getUserInfo } = useUser();
@@ -42,12 +41,8 @@ const AppContainer = () => {
   const [selectedDepartmentId, setselectedDepartmentId] =
     useRecoilState(departmentAtom);
   const [currentUserRole, setcurrentUserRole] = useRecoilState(userRoleAtom);
-  const [userOrganisations, setUserOrganisations] = useRecoilState(
-    userOrganisationsAtom
-  );
-  const setOrganisationDepartments = useSetRecoilState(
-    organisationDepartmentsAtom
-  );
+  const [userOrganisations, setUserOrganisations] = useRecoilState(userOrganisationsAtom);
+  const  setOrganisationDepartments = useSetRecoilState(organisationDepartmentsAtom);
 
   const getOrgData = async (orgs) => {
     let processedUserOrgs = [];
@@ -98,7 +93,40 @@ const AppContainer = () => {
 
   return (
     <div>
-      <OrganisationDialog isDialogOpen={isDialogOpen} />
+      <Dialog open={isDialogOpen} handleClose={() => setisDialogOpen(false)}>
+        <DialogTitle>Select organisation</DialogTitle>
+        <List>
+          {userOrganisations.map((org) => {
+            return (
+              <ListItem
+                button
+                onClick={() => {
+                  setcurrentUserRole(org.id);
+                  localStorage.setItem("id", org.id);
+                }}
+                key={org.id}
+              >
+                <ListItemAvatar>
+                  <Avatar>{org.name[0]}</Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={org.name} />
+              </ListItem>
+            );
+          })}
+          <ListItem
+            button
+            onClick={() => {
+              setOnboardingRequired(true);
+            }}
+            key="NEW"
+          >
+            <ListItemAvatar>
+              <Avatar>+</Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Add new" />
+          </ListItem>
+        </List>
+      </Dialog>
 
       <ShiftDialog />
 
