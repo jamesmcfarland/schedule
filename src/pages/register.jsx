@@ -1,26 +1,16 @@
 import {
-  TextField,
-  Typography,
-  Stack,
-  Button,
-  Link,
-  Alert,
-  Paper,
-  Select,
-  MenuItem,
-  InputBase,
-  InputAdornment,
+  Alert, Button, InputAdornment, Link, Stack, TextField,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
-import zxcvbn from "zxcvbn";
-import AuthPage from "../components/authPage";
-import { useHistory } from "react-router";
-import { useUser } from "../contexts/UserContext";
+import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
-import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
+import { useHistory } from "react-router";
+import zxcvbn from "zxcvbn";
+import AuthPage from "../components/authPage";
 import { useOrg } from "../contexts/OrgContext";
-import { LocalSeeOutlined } from "@mui/icons-material";
+import { useUser } from "../contexts/UserContext";
 
 const Register = () => {
   const [invID, setinvID] = useState("");

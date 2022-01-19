@@ -1,9 +1,3 @@
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import {
-  onboardingRequiredAtom,
-  userOrganisationsAtom,
-  userRoleAtom,
-} from "../atoms";
 import {
   Avatar,
   Dialog,
@@ -11,8 +5,14 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  onboardingRequiredAtom,
+  userOrganisationsAtom,
+  userRoleAtom
+} from "../atoms";
 
 const OrganisationDialog = ({ isDialogOpen }) => {
   const userOrganisations = useRecoilValue(userOrganisationsAtom);

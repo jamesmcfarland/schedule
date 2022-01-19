@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { useEffect } from "react";
 import { Redirect, useParams } from "react-router";
 

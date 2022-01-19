@@ -1,11 +1,6 @@
 import {
   Box,
-  Card,
-  TextField,
-  Typography,
-  Stack,
-  Button,
-  Link,
+  Card, Stack, Typography
 } from "@mui/material";
 import VerticallyCentered from "../components/verticallyCentered";
 

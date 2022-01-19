@@ -1,19 +1,13 @@
 import {
-  Box,
-  Card,
-  TextField,
-  Typography,
-  Stack,
-  Button,
-  Link,
-  Alert,
+  Alert, Button,
+  Link, Stack, TextField,
+  Typography
 } from "@mui/material";
-import VerticallyCentered from "../components/verticallyCentered";
 import { useFormik } from "formik";
+import { useState } from "react";
+import { useHistory } from "react-router";
 import AuthPage from "../components/authPage";
 import { useUser } from "../contexts/UserContext";
-import { useHistory } from "react-router";
-import { useState } from "react";
 const Login = () => {
   const { signInWithEmail } = useUser();
   const history = useHistory();

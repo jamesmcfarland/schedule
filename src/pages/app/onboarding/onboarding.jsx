@@ -7,20 +7,19 @@ import {
   Step,
   StepLabel,
   Stepper,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { useFormik } from "formik";
-import { useEffect, useState } from "react";
-import OrganisationDetails from "./organisationDetails";
-import TerminologyCard from "./terminology";
+import { useState } from "react";
+import { useHistory } from "react-router";
+import { v4 as uuidv4 } from "uuid";
+import { useOrg } from "../../../contexts/OrgContext";
 import { countries } from "../../../utils/countries";
 import Departments from "./departments";
-
-import { v4 as uuidv4 } from "uuid";
+import OrganisationDetails from "./organisationDetails";
 import Overview from "./overview";
-import { useOrg } from "../../../contexts/OrgContext";
-import { useHistory } from "react-router";
+import TerminologyCard from "./terminology";
+
 
 const OnboardingFlow = () => {
   const { addNewOrg } = useOrg();

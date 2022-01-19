@@ -1,15 +1,11 @@
 import {
-  FormControl,
-  Grid,
-  InputLabel,
+  FormControl, InputLabel,
   MenuItem,
-  Select,
-  Box,
-  Stack,
-  Typography,
+  Select, Stack,
+  Typography
 } from "@mui/material";
-import { useState } from "react";
 import { format } from "date-fns";
+import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { departmentAtom, organisationDepartmentsAtom } from "../atoms";
 

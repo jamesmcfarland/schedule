@@ -1,17 +1,15 @@
 import { Edit } from "@mui/icons-material";
 import {
-  Avatar,
-  Button,
-  Grid,
+  Avatar, Grid,
   IconButton,
   List,
   Paper,
   Stack,
-  Typography,
+  Typography
 } from "@mui/material";
 import { format } from "date-fns";
+import { v4 as uuidv4 } from "uuid";
 import PeopleCardInfo from "./PeopleCardInfo";
-import {v4 as uuidv4} from "uuid";
 
 const peopleFake = [
   {

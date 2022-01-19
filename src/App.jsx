@@ -1,26 +1,23 @@
-import "./App.css";
-import {
-  createTheme,
-  ThemeProvider,
-  StyledEngineProvider,
-  CssBaseline,
-} from "@mui/material";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SplashScreen from "./pages/splash";
-import Login from "./pages/login";
-import Register from "./pages/register";
-import { UserProvider } from "./contexts/UserContext";
-
-import PrivateRoute from "./components/routes/privateRoute";
-import AuthenticationRoute from "./components/routes/authenticationRoute";
-
-import AppContainer from "./pages/app/AppContainer";
-import OnboardingFlow from "./pages/app/onboarding/onboarding";
-import { OrgProvider } from "./contexts/OrgContext";
-import AcceptedInvite from "./pages/app/invite/acceptedInv";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import {
+  createTheme, CssBaseline, StyledEngineProvider, ThemeProvider
+} from "@mui/material";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { RecoilRoot } from "recoil";
+import "./App.css";
+import AuthenticationRoute from "./components/routes/authenticationRoute";
+import PrivateRoute from "./components/routes/privateRoute";
+import { OrgProvider } from "./contexts/OrgContext";
+import { UserProvider } from "./contexts/UserContext";
+import AppContainer from "./pages/app/AppContainer";
+import AcceptedInvite from "./pages/app/invite/acceptedInv";
+import OnboardingFlow from "./pages/app/onboarding/onboarding";
+import Login from "./pages/login";
+import Register from "./pages/register";
+import SplashScreen from "./pages/splash";
+
+
 
 const theme = createTheme({
   //TODO: Implement full theme and colour pallette

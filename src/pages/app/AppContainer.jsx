@@ -1,31 +1,17 @@
-import {
-  Avatar,
-  Dialog,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@mui/material";
+
 import { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  departmentAtom, onboardingRequiredAtom, organisationAtom, organisationDepartmentsAtom, userAtom, userOrganisationsAtom, userRoleAtom
+} from "../../atoms/";
+import MainApp from "../../components/MainApp";
+import OrganisationDialog from "../../components/OrganisationDialog";
+import ShiftDialog from "../../components/shifts/ShiftDialog";
 import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
 
-import ShiftDialog from "../../components/shifts/ShiftDialog";
-import MainApp from "../../components/MainApp";
 
-import {
-  onboardingRequiredAtom,
-  userAtom,
-  organisationAtom,
-  departmentAtom,
-  userRoleAtom,
-  userOrganisationsAtom,
-  organisationDepartmentsAtom,
-} from "../../atoms/";
-import OrganisationDialog from "../../components/OrganisationDialog";
 
 const AppContainer = () => {
   const { getUserInfo } = useUser();

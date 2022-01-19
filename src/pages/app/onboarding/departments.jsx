@@ -1,15 +1,10 @@
 import { Delete } from "@mui/icons-material";
 import {
-  Stack,
-  Typography,
-  Button,
-  TextField,
-  Paper,
-  List,
+  Button, List, Paper, Stack, TextField, Typography
 } from "@mui/material";
 import { useEffect, useState } from "react";
-
 import { v4 as uuidv4 } from "uuid";
+
 
 const Departments = ({ setcanContinue, departments, setdepartments }) => {
   const [error, seterror] = useState("");

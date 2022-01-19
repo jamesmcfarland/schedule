@@ -1,25 +1,17 @@
 import { Apps, ContentCopy, Settings, Visibility } from "@mui/icons-material";
 import {
-  Drawer,
-  Grid,
-  Box,
-  Stack,
-  Typography,
-  Avatar,
-  Button,
+  Avatar, Box, Button, Grid, Stack,
+  Typography
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { useRecoilValue } from "recoil";
 import {
-  onboardingRequiredAtom,
-  userRoleAtom,
-  organisationAtom,
-  userAtom,
+  onboardingRequiredAtom, organisationAtom,
+  userAtom, userRoleAtom
 } from "../../atoms";
-
 import { useUser } from "../../contexts/UserContext";
 import MenuButton from "./menuButton";
+
 
 const Menu = ({ changeOrganisation }) => {
   const onboardingRequired = useRecoilValue(onboardingRequiredAtom);

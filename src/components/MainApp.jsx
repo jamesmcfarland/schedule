@@ -1,14 +1,12 @@
 import { Box } from "@mui/material";
 import { Route, Switch } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { userRoleAtom } from "../atoms";
 import { onboardingRequiredAtom } from "../atoms/OnboardingRequiredAtom";
-import { userAtom } from "../atoms/UserAtom";
-import Rota from "../pages/app/rota";
-import Menu from "./menu/menu";
-import People from "../pages/app/people";
-import SettingsPage from "../pages/app/settings";
 import Noticeboard from "../pages/app/noticeboard";
+import People from "../pages/app/people";
+import Rota from "../pages/app/rota";
+import SettingsPage from "../pages/app/settings";
+import Menu from "./menu/menu";
 
 const MainApp = () => {
   const changeOrganisation = () => {

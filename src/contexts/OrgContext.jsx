@@ -1,5 +1,3 @@
-import { createContext, useContext } from "react";
-import { firestore } from "../services/firebase";
 import {
   addDoc,
   collection,
@@ -9,9 +7,11 @@ import {
   query,
   setDoc,
   updateDoc,
-  where,
+  where
 } from "@firebase/firestore";
+import { createContext, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { firestore } from "../services/firebase";
 import { useUser } from "./UserContext";
 
 const OrgContext = createContext();

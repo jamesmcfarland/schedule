@@ -1,3 +1,4 @@
+import DateTimePicker from "@mui/lab/DateTimePicker";
 import {
   Button,
   Dialog,
@@ -6,15 +7,14 @@ import {
   FormControlLabel,
   Stack,
   Switch,
-  TextField,
+  TextField
 } from "@mui/material";
-
-import DateTimePicker from "@mui/lab/DateTimePicker";
-import { useRecoilState, useResetRecoilState } from "recoil";
-import { shiftAtom } from "../../atoms/Shift";
-import { employeesAtom } from "../../atoms/Employees";
 import _ from "lodash";
-import {v4 as uuidv4} from "uuid";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { v4 as uuidv4 } from "uuid";
+import { employeesAtom } from "../../atoms/Employees";
+import { shiftAtom } from "../../atoms/Shift";
+
 
 const ShiftDialog = () => {
   const [targetShift, setTargetShift] = useRecoilState(shiftAtom);
