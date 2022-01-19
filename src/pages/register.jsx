@@ -182,7 +182,7 @@ const Register = () => {
                 selected={country}
                 showSelectedLabel={false}
                 onSelect={(code) => setcountry(code)}
-                className="fucku"
+                className="react-flags-selector"
               />
               <TextField
                 disabled={!country || !!inviteData}
