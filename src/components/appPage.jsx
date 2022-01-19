@@ -1,11 +1,13 @@
 import {
-  FormControl, InputLabel,
+  FormControl,
+  InputLabel,
   MenuItem,
-  Select, Stack,
-  Typography
+  Select,
+  Stack,
+  Typography,
 } from "@mui/material";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { departmentAtom, organisationDepartmentsAtom } from "../atoms";
 
@@ -18,21 +20,27 @@ const AppPage = ({ title, children }) => {
   const [date, setdate] = useState(format(new Date(), "EEEE, do LLLL yyyy"));
   const [time, settime] = useState(format(new Date(), "HH:mm (OOOO)"));
 
-  setTimeout(() => {
-    setdate(format(new Date(), "EEEE, do LLLL yyyy"));
-    settime(format(new Date(), "HH:mm (OOOO)"));
-  }, 1000);
+ 
 
   const handleDeptChange = (e) => {
-    if(organisationDepartments.length){
-
+    if (organisationDepartments.length) {
       setdept(e.target.value);
       setDepartment(organisationDepartments[dept].id);
-    }
-    else {
+    } else {
       setdept("");
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setdate(format(new Date(), "EEEE, do LLLL yyyy"));
+      settime(format(new Date(), "HH:mm (OOOO)"));
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  });
 
   return (
     <div
