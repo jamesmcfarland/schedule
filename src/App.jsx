@@ -14,7 +14,7 @@ import { UserProvider } from "./contexts/UserContext";
 import PrivateRoute from "./components/routes/privateRoute";
 import AuthenticationRoute from "./components/routes/authenticationRoute";
 
-import MainAppContainer from "./pages/app/mainAppContainer";
+import AppContainer from "./pages/app/AppContainer";
 import OnboardingFlow from "./pages/app/onboarding/onboarding";
 import { OrgProvider } from "./contexts/OrgContext";
 import AcceptedInvite from "./pages/app/invite/acceptedInv";
@@ -59,7 +59,7 @@ function App() {
                         <Login />
                       </AuthenticationRoute>
                       <PrivateRoute path="/app">
-                        <MainAppContainer />
+                        <AppContainer />
                       </PrivateRoute>
                       <PrivateRoute path="/onboarding">
                         <OnboardingFlow />

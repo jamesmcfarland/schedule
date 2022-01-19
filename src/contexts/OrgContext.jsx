@@ -98,8 +98,7 @@ export const OrgProvider = ({ children }) => {
 
   const getOrgDepartments = async (id) => {
     const ds = await getDoc(doc(firestore, "organisations", id));
-    console.log(ds.data());
-
+   
     return ds.data().departments;
   };
 

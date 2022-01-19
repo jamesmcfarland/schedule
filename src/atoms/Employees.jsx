@@ -10,7 +10,7 @@ export const employeesAtom = atom({
       shifts: [
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 17, 17),
           shiftEnd: new Date(2022, 0, 18, 3),
           isClose: true,
@@ -18,7 +18,7 @@ export const employeesAtom = atom({
         },
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 18, 10),
           shiftEnd: new Date(2022, 0, 18, 20),
           isClose: false,
@@ -27,7 +27,7 @@ export const employeesAtom = atom({
 
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 20, 15),
           shiftEnd: new Date(2022, 0, 21, 3),
           isClose: true,
@@ -35,7 +35,7 @@ export const employeesAtom = atom({
         },
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 21, 15),
           shiftEnd: new Date(2022, 0, 22, 3),
           isClose: true,
@@ -43,7 +43,7 @@ export const employeesAtom = atom({
         },
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 23, 15),
           shiftEnd: new Date(2022, 0, 24, 3),
           isClose: true,
@@ -57,7 +57,7 @@ export const employeesAtom = atom({
       shifts: [
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 17, 15),
           shiftEnd: new Date(2022, 0, 18, 3),
           isClose: true,
@@ -65,7 +65,7 @@ export const employeesAtom = atom({
         },
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 18, 15),
           shiftEnd: new Date(2022, 0, 19, 20),
           isClose: true,
@@ -74,7 +74,7 @@ export const employeesAtom = atom({
 
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 21, 12),
           shiftEnd: new Date(2022, 0, 21, 20),
           isClose: false,
@@ -82,7 +82,7 @@ export const employeesAtom = atom({
         },
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 22, 15),
           shiftEnd: new Date(2022, 0, 23, 3),
           isClose: true,
@@ -91,7 +91,7 @@ export const employeesAtom = atom({
 
         {
           isShift: true,
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftStart: new Date(2022, 0, 23, 15),
           shiftEnd: new Date(2022, 0, 24, 3),
           isClose: true,
