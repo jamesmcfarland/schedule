@@ -15,15 +15,11 @@ const MainApp = () => {
     console.log("broken atm");
   };
 
-  const userRole = useRecoilValue(userRoleAtom);
   const onboardingRequired = useRecoilValue(onboardingRequiredAtom);
 
   return (
     <div style={{ width: "100vw", display: "flex", flexDirection: "row" }}>
-      <Menu
-        changeOrganisation={changeOrganisation}
-       
-      ></Menu>
+      <Menu changeOrganisation={changeOrganisation}></Menu>
       {onboardingRequired && <Redirect to="/onboarding" />}
 
       <Box

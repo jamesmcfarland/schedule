@@ -42,7 +42,7 @@ const AppContainer = () => {
   const [selectedDepartmentId, setselectedDepartmentId] =
     useRecoilState(departmentAtom);
   const [currentUserRole, setcurrentUserRole] = useRecoilState(userRoleAtom);
-  const [userOrganisations, setUserOrganisations] = useRecoilState(
+  const setUserOrganisations= useSetRecoilState(
     userOrganisationsAtom
   );
   const setOrganisationDepartments = useSetRecoilState(

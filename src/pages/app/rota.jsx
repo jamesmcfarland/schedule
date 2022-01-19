@@ -4,18 +4,9 @@ import AppPage from "../../components/appPage";
 import ShiftContainer from "../../components/shifts/ShiftContainer";
 import { v4 as uuidv4 } from "uuid";
 
-const Rota = ({
-  departments,
-  setselectedDepartmentId,
-}) => {
-  
-
+const Rota = () => {
   return (
-    <AppPage
-      title="Rota"
-      departments={departments}
-      setselectedDepartmentId={setselectedDepartmentId}
-    >
+    <AppPage title="Rota">
       <ShiftContainer />
     </AppPage>
   );
