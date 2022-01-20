@@ -7,7 +7,9 @@ import {
   query,
   setDoc,
   updateDoc,
-  where
+  arrayUnion,
+  deleteDoc,
+  where,
 } from "@firebase/firestore";
 import { createContext, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -21,25 +23,29 @@ export const useOrg = () => {
 };
 
 export const OrgProvider = ({ children }) => {
-  const { getUserInfo, addUserToOrg } = useUser();
+  const { getUserInfo } = useUser();
 
   const addNewOrg = async (organisationData, departments, country) => {
     const id = uuidv4();
-    return getUserInfo()
-      .then((userInfo) =>
-        setDoc(doc(firestore, "organisations", id), {
-          creator: userInfo.uid,
-          name: organisationData.orgName,
-          addressLine1: organisationData.orgAddrLine1,
-          addressLine2: organisationData.orgAddrLine2,
-          city: organisationData.orgCity,
-          postcode: organisationData.orgPostCode,
-          phone: organisationData.orgPhoneContact,
-          country,
-          departments,
-        })
-      )
-      .then((e) => addUserToOrg(id, "Creator"));
+    return getUserInfo().then((userInfo) =>
+      setDoc(doc(firestore, "organisations", id), {
+        creator: userInfo.uid,
+        name: organisationData.orgName,
+        addressLine1: organisationData.orgAddrLine1,
+        addressLine2: organisationData.orgAddrLine2,
+        city: organisationData.orgCity,
+        postcode: organisationData.orgPostCode,
+        phone: organisationData.orgPhoneContact,
+        country,
+        departments,
+        members: [
+          {
+            role: "creator",
+            id: userInfo.uid,
+          },
+        ],
+      })
+    );
   };
 
   const inviteUserToOrg = (first, last, mobile, email, org) => {
@@ -61,15 +67,32 @@ export const OrgProvider = ({ children }) => {
       if (!qs.empty) {
         throw Exception("user-already-invited");
       } else {
-        getOrgInfo(org).then((orgData) => {
-          addDoc(collection(firestore, "invites"), {
-            org: org,
-            orgName: orgData.name,
-            first: first,
-            last: last,
-            email: email,
-            mobile: mobile,
-            status: "pending",
+        console.log(first, last, mobile, email, org);
+        getDoc(doc(firestore, "organisations", org)).then((snap) => {
+          const data = snap.data();
+          console.log(data);
+          for (const member of data.members) {
+            console.log(member);
+
+            getDoc(doc(firestore, "users", member.id)).then((userSnap) => {
+              const userData = userSnap.data();
+              console.log(userData);
+              if (userData.mobile === mobile || userData.email === email) {
+                throw Exception("user-already-member");
+              }
+            });
+          }
+
+          getOrgInfo(org).then((orgData) => {
+            addDoc(collection(firestore, "invites"), {
+              org: org,
+              orgName: orgData.name,
+              first: first,
+              last: last,
+              email: email,
+              mobile: mobile,
+              status: "pending",
+            });
           });
         });
       }
@@ -85,11 +108,15 @@ export const OrgProvider = ({ children }) => {
   };
 
   const acceptInvite = (inviteID) => {
-    updateDoc(doc(firestore, "invites", inviteID), { status: "accepted" }).then(
-      () => {
+    deleteDoc(doc(firestore, "invites", inviteID))
+      .then(() => {
         localStorage.removeItem("INV");
-      }
-    );
+      })
+      .then(() => {
+        updateDoc(doc(firestore, "organisations", organisationId), {
+          members: arrayUnion({ id: userId, role: userRole }),
+        });
+      });
   };
 
   const getOrgInfo = async (id) => {
@@ -100,8 +127,16 @@ export const OrgProvider = ({ children }) => {
 
   const getOrgDepartments = async (id) => {
     const ds = await getDoc(doc(firestore, "organisations", id));
-   
+
     return ds.data().departments;
+  };
+
+  const addUserToOrg = (organisationId, userId, userRole) => {
+    updateDoc(doc(firestore, "organisations", organisationId), {
+      members: arrayUnion({ id: userId, role: userRole }),
+    }).then(() => {
+      localStorage.removeItem("INV");
+    });
   };
 
   const value = {
@@ -110,6 +145,7 @@ export const OrgProvider = ({ children }) => {
     inviteUserToOrg,
     getInviteInfo,
     acceptInvite,
+    addUserToOrg,
     getOrgDepartments,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;

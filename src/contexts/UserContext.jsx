@@ -41,7 +41,7 @@ export const UserProvider = ({ children }) => {
     });
   };
 
-  const signUpWithEmailAndAddToOrg = (values, orgId, role) => {
+  const signUpWithEmailAndAddOrg = (values, orgId, role) => {
     return createUserWithEmailAndPassword(
       auth,
       values.email,
@@ -58,6 +58,7 @@ export const UserProvider = ({ children }) => {
           role: role,
         }],
       })
+      return user.uid;
     });
   };
 
@@ -77,16 +78,16 @@ export const UserProvider = ({ children }) => {
 
  
 
-  const addUserToOrg = (orgId, role) =>
-    getUserInfo().then((userinfo) =>
-      setDoc(
-        doc(firestore, "users", currentUser.uid),
-        {
-          organisations: [...userinfo.organisations, { id: orgId, role }],
-        },
-        { merge: "true" }
-      )
-    );
+  // const addUserToOrg = (orgId, role) =>
+  //   getUserInfo().then((userinfo) =>
+  //     setDoc(
+  //       doc(firestore, "users", currentUser.uid),
+  //       {
+  //         organisations: [...userinfo.organisations, { id: orgId, role }],
+  //       },
+  //       { merge: "true" }
+  //     )
+  //   );
 
 
 
@@ -101,7 +102,7 @@ export const UserProvider = ({ children }) => {
     hasUser,
     logout,
     signUpWithEmail,
-    signUpWithEmailAndAddToOrg,
+    signUpWithEmailAndAddOrg,
     getUserInfo,
  
   };
