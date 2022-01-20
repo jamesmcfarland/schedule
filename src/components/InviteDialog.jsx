@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { useOrg } from "../contexts/OrgContext";
 
-const InviteDialog = ({isOpen}) => {
+const InviteDialog = ({isOpen, onClose}) => {
     const [error, seterror] = useState();
     const [country, setcountry] = useState("GB");
   
@@ -63,20 +63,21 @@ const InviteDialog = ({isOpen}) => {
         validateOnChange: false,
         validate,
         onSubmit: (values) => {
-          // inviteUserToOrg(
-          //   values.first,
-          //   values.last,
-          //   values.mobile,
-          //   localStorage.getItem("id")
-          // )
-          //   .then(() => {
-          //     setinviteUserOpen(false);
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //     seterror(values.first + " has already been invited!");
-          //   });
-          //Do the thing
+          inviteUserToOrg(
+            values.first,
+            values.last,
+            values.mobile,
+            values.email,
+            localStorage.getItem("id")
+          )
+            .then(() => {
+              onClose();
+            })
+            .catch((err) => {
+              console.log(err);
+              seterror(values.first + " has already been invited!");
+            });
+       
         },
       });
 

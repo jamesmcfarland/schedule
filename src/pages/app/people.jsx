@@ -14,7 +14,7 @@ const People = () => {
   return (
     <AppPage title="People">
       <>
-       <InviteDialog isOpen={inviteUserOpen}/>
+       <InviteDialog isOpen={inviteUserOpen} onClose={()=>setinviteUserOpen(false)}/>
         <Stack>
           <Button
             sx={{ textTransform: "none" }}

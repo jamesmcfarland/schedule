@@ -42,7 +42,7 @@ export const OrgProvider = ({ children }) => {
       .then((e) => addUserToOrg(id, "Creator"));
   };
 
-  const inviteUserToOrg = (first, last, mobile, org) => {
+  const inviteUserToOrg = (first, last, mobile, email, org) => {
     if (mobile.length === 11) {
       mobile = mobile.substring(1);
     }
@@ -54,6 +54,7 @@ export const OrgProvider = ({ children }) => {
       // where("first", "==", first),
       // where("last", "==", last),
       where("mobile", "==", mobile),
+      where("email", "==", email),
       where("org", "==", org)
     );
     return getDocs(q).then((qs) => {
@@ -66,6 +67,7 @@ export const OrgProvider = ({ children }) => {
             orgName: orgData.name,
             first: first,
             last: last,
+            email: email,
             mobile: mobile,
             status: "pending",
           });
