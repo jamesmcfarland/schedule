@@ -1,6 +1,11 @@
 import {
-  Alert, Button, InputAdornment, Link, Stack, TextField,
-  Typography
+  Alert,
+  Button,
+  InputAdornment,
+  Link,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
@@ -75,7 +80,6 @@ const Register = () => {
   };
 
   const formikOnSubmit = (values) => {
- 
     if (!inviteData) {
       signUpWithEmail(values)
         .then(() => history.push("/app"))
@@ -93,7 +97,7 @@ const Register = () => {
           }
         });
     } else {
-      signUpWithEmailAndAddToOrg(values, inviteData.org, "member").then(() => {
+      signUpWithEmailAndAddToOrg(values, inviteData.org, "Member").then(() => {
         acceptInvite(localStorage.getItem("INV"));
 
         history.push("/app");
@@ -103,7 +107,7 @@ const Register = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      email: "",
+      email: !!inviteData ? inviteData.email : "",
       mobile: !!inviteData ? inviteData.mobile : "",
       first: !!inviteData ? inviteData.first : "",
       last: !!inviteData ? inviteData.last : "",
@@ -162,6 +166,7 @@ const Register = () => {
               />
             </Stack>
             <TextField
+                      disabled={!!inviteData}
               id="email"
               name="email"
               type="email"
