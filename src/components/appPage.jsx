@@ -1,26 +1,45 @@
 import {
+  Alert,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { departmentAtom, organisationDepartmentsAtom } from "../atoms";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  departmentAtom,
+  organisationDepartmentsAtom,
+  organisationIdAtom,
+} from "../atoms";
+import { useOrg } from "../contexts/OrgContext";
 
 const AppPage = ({ title, children }) => {
   const [dept, setdept] = useState("");
 
-  const organisationDepartments = useRecoilValue(organisationDepartmentsAtom);
+  const [organisationDepartments, setOrganisationDepartments] = useRecoilState(
+    organisationDepartmentsAtom
+  );
   const setDepartment = useSetRecoilState(departmentAtom);
 
   const [date, setdate] = useState(format(new Date(), "EEEE, do LLLL yyyy"));
   const [time, settime] = useState(format(new Date(), "HH:mm (OOOO)"));
 
- 
+  const [departmentDialogOpen, setdepartmentDialogOpen] = useState(false);
+  const [newDepartmentName, setnewDepartmentName] = useState("");
+  const [newDepartmentError, setnewDepartmentError] = useState("");
+
+  const currentOrgId = useRecoilValue(organisationIdAtom);
+
+  const { addNewDept, getOrgDepartments } = useOrg();
 
   const handleDeptChange = (e) => {
     if (organisationDepartments.length) {
@@ -31,7 +50,26 @@ const AppPage = ({ title, children }) => {
     }
   };
 
+  const handleNewDept = () => {
+    try {
+      addNewDept(newDepartmentName, currentOrgId)
+        .then(() => {
+          getOrgDepartments(currentOrgId).then((departments) => {
+            setOrganisationDepartments(departments);
+            setdepartmentDialogOpen(false);
+          });
+        })
+        .catch((err) => setnewDepartmentError(err.message));
+    } catch (e) {
+      console.log(currentOrgId);
+      console.log(e);
+      setnewDepartmentError("Unable to add department");
+    }
+  };
+
   useEffect(() => {
+    
+
     const interval = setInterval(() => {
       setdate(format(new Date(), "EEEE, do LLLL yyyy"));
       settime(format(new Date(), "HH:mm (OOOO)"));
@@ -51,6 +89,30 @@ const AppPage = ({ title, children }) => {
         padding: "1em 0",
       }}
     >
+      <Dialog open={departmentDialogOpen}>
+        <DialogContent>
+          <DialogTitle>Add department</DialogTitle>
+          <Stack spacing={2}>
+            {newDepartmentError && (
+              <Alert severity="error">{newDepartmentError}</Alert>
+            )}
+            <TextField
+              label="department name"
+              value={newDepartmentName}
+              onChange={(e) => setnewDepartmentName(e.target.value)}
+            />
+
+            <Button
+              style={{ textTransform: "none" }}
+              type="text"
+              onClick={handleNewDept}
+            >
+              Add department
+            </Button>
+          </Stack>
+        </DialogContent>
+      </Dialog>
+
       <Stack
         direction="row"
         alignItems="center"
@@ -82,6 +144,15 @@ const AppPage = ({ title, children }) => {
               })}
             </Select>
           </FormControl>
+          <Button
+            style={{ textTransform: "none" }}
+            type="text"
+            onClick={() => {
+              setdepartmentDialogOpen(true);
+            }}
+          >
+            Add department
+          </Button>
         </Stack>
 
         <div style={{ display: "inline" }}>

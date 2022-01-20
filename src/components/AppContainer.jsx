@@ -5,20 +5,24 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  departmentAtom, onboardingRequiredAtom, organisationAtom, organisationDepartmentsAtom, userAtom, userOrganisationsAtom, userRoleAtom
+  departmentAtom,
+  onboardingRequiredAtom,
+  organisationAtom,
+  organisationDepartmentsAtom,
+  userAtom,
+  userOrganisationsAtom,
+  userRoleAtom,
 } from "../../atoms/";
 import MainApp from "../../components/MainApp";
 import ShiftDialog from "../../components/shifts/ShiftDialog";
 import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
-
-
-
+import { organisationIdAtom } from "../atoms";
 
 const AppContainer = () => {
   const { getUserInfo } = useUser();
@@ -35,8 +39,13 @@ const AppContainer = () => {
   const [selectedDepartmentId, setselectedDepartmentId] =
     useRecoilState(departmentAtom);
   const [currentUserRole, setcurrentUserRole] = useRecoilState(userRoleAtom);
-  const [userOrganisations, setUserOrganisations] = useRecoilState(userOrganisationsAtom);
-  const  setOrganisationDepartments = useSetRecoilState(organisationDepartmentsAtom);
+  const [userOrganisations, setUserOrganisations] = useRecoilState(
+    userOrganisationsAtom
+  );
+  const setOrganisationDepartments = useSetRecoilState(
+    organisationDepartmentsAtom
+  );
+  const setorganisationId = useSetRecoilState(organisationIdAtom);
 
   const getOrgData = async (orgs) => {
     let processedUserOrgs = [];
@@ -55,10 +64,11 @@ const AppContainer = () => {
   };
 
   useEffect(() => {
-    // setcurrentOrgID(localStorage.getItem("id"))
+     // setcurrentOrgID(localStorage.getItem("id"))
     if (onboardingRequired) {
       return;
     }
+
 
     let currentOrgID = localStorage.getItem("id");
 
@@ -68,18 +78,23 @@ const AppContainer = () => {
 
       if (userdata.organisations.length === 1) {
         currentOrgID = userdata.organisations[0].id;
+        console.log(currentOrgID);
       }
       setisDialogOpen(!currentOrgID);
 
       if (!currentOrgID) {
+        console.log(currentOrgID);
         getOrgData(userdata.organisations);
       } else {
+        console.log(currentOrgID);
         getOrgInfo(currentOrgID).then((org) => setOrganisation(org));
         setcurrentUserRole(
           userdata.organisations.find((el) => el.id === currentOrgID).role
         );
         getOrgDepartments(currentOrgID).then((departments) => {
           setOrganisationDepartments(departments);
+
+          
         });
       }
     });

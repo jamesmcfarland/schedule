@@ -12,7 +12,9 @@ import {
   where,
 } from "@firebase/firestore";
 import { createContext, useContext } from "react";
+import { useSetRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
+import { organisationIdAtom } from "../atoms";
 import { firestore } from "../services/firebase";
 import { useUser } from "./UserContext";
 
@@ -24,6 +26,8 @@ export const useOrg = () => {
 
 export const OrgProvider = ({ children }) => {
   const { getUserInfo } = useUser();
+
+  const setorganisationId = useSetRecoilState(organisationIdAtom);
 
   const addNewOrg = async (organisationData, departments, country) => {
     const id = uuidv4();
@@ -120,6 +124,7 @@ export const OrgProvider = ({ children }) => {
   };
 
   const getOrgInfo = async (id) => {
+    setorganisationId(id);
     const ds = await getDoc(doc(firestore, "organisations", id));
 
     return { ...ds.data() };
@@ -139,8 +144,15 @@ export const OrgProvider = ({ children }) => {
     });
   };
 
+  const addNewDept = (deptName, organisationId) => {
+    return  updateDoc(doc(firestore, "organisations", organisationId), {
+      departments: arrayUnion({name:deptName, id: uuidv4()}),
+    })
+  }
+
   const value = {
     addNewOrg,
+    addNewDept,
     getOrgInfo,
     inviteUserToOrg,
     getInviteInfo,

@@ -2,6 +2,7 @@ import { departmentAtom } from "./Department";
 import { employeesAtom } from "./Employees";
 import { onboardingRequiredAtom } from "./OnboardingRequiredAtom";
 import { organisationAtom } from "./Organisation";
+import { organisationIdAtom } from "./OrganisationIdAtom";
 import { organisationDepartmentsAtom } from "./OrganisationDepartments";
 import { shiftAtom } from "./Shift";
 import { userAtom } from "./UserAtom";
@@ -18,4 +19,5 @@ export {
   userAtom,
   userOrganisationsAtom,
   userRoleAtom,
+  organisationIdAtom
 };
