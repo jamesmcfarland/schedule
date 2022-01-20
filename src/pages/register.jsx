@@ -21,9 +21,9 @@ const Register = () => {
   const [invID, setinvID] = useState("");
   const [inviteData, setinviteData] = useState();
 
-  const { getInviteInfo, acceptInvite } = useOrg();
+  const { getInviteInfo, acceptInvite, addUserToOrg } = useOrg();
 
-  const { signUpWithEmailAndAddToOrg, signUpWithEmail } = useUser();
+  const { signUpWithEmailAndAddOrg, signUpWithEmail } = useUser();
   const history = useHistory();
   const [error, seterror] = useState();
   const [country, setcountry] = useState("GB");
@@ -97,11 +97,14 @@ const Register = () => {
           }
         });
     } else {
-      signUpWithEmailAndAddToOrg(values, inviteData.org, "Member").then(() => {
-        acceptInvite(localStorage.getItem("INV"));
+      signUpWithEmailAndAddOrg(values, inviteData.org, "Member").then(
+        (userId) => {
+          acceptInvite(localStorage.getItem("INV"), inviteData.org, userId, "Member");
+         
 
-        history.push("/app");
-      });
+          history.push("/app");
+        }
+      );
     }
   };
   const formik = useFormik({
@@ -166,7 +169,7 @@ const Register = () => {
               />
             </Stack>
             <TextField
-                      disabled={!!inviteData}
+              disabled={!!inviteData}
               id="email"
               name="email"
               type="email"
