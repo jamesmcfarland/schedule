@@ -52,7 +52,7 @@ export const OrgProvider = ({ children }) => {
     );
   };
 
-  const inviteUserToOrg = (first, last, mobile, email, org) => {
+  const inviteUserToOrg = (first, last, mobile, email, departmentId, org) => {
     if (mobile.length === 11) {
       mobile = mobile.substring(1);
     }
@@ -95,6 +95,7 @@ export const OrgProvider = ({ children }) => {
               last: last,
               email: email,
               mobile: mobile,
+              departmentId: departmentId,
               status: "pending",
             });
           });
@@ -111,14 +112,18 @@ export const OrgProvider = ({ children }) => {
     });
   };
 
-  const acceptInvite = (inviteID) => {
+  const acceptInvite = (inviteID, organisationId, deptId, userId, userRole) => {
     deleteDoc(doc(firestore, "invites", inviteID))
       .then(() => {
         localStorage.removeItem("INV");
       })
       .then(() => {
         updateDoc(doc(firestore, "organisations", organisationId), {
-          members: arrayUnion({ id: userId, role: userRole }),
+          members: arrayUnion({
+            id: userId,
+            role: userRole,
+            department: deptId,
+          }),
         });
       });
   };
@@ -136,19 +141,19 @@ export const OrgProvider = ({ children }) => {
     return ds.data().departments;
   };
 
-  const addUserToOrg = (organisationId, userId, userRole) => {
+  const addUserToOrg = (organisationId, deptId, userId, userRole) => {
     updateDoc(doc(firestore, "organisations", organisationId), {
-      members: arrayUnion({ id: userId, role: userRole }),
+      members: arrayUnion({ id: userId, role: userRole, department: deptId }),
     }).then(() => {
       localStorage.removeItem("INV");
     });
   };
 
   const addNewDept = (deptName, organisationId) => {
-    return  updateDoc(doc(firestore, "organisations", organisationId), {
-      departments: arrayUnion({name:deptName, id: uuidv4()}),
-    })
-  }
+    return updateDoc(doc(firestore, "organisations", organisationId), {
+      departments: arrayUnion({ name: deptName, id: uuidv4() }),
+    });
+  };
 
   const value = {
     addNewOrg,

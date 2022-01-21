@@ -21,7 +21,7 @@ const Register = () => {
   const [invID, setinvID] = useState("");
   const [inviteData, setinviteData] = useState();
 
-  const { getInviteInfo, acceptInvite, addUserToOrg } = useOrg();
+  const { getInviteInfo, acceptInvite } = useOrg();
 
   const { signUpWithEmailAndAddOrg, signUpWithEmail } = useUser();
   const history = useHistory();
@@ -99,7 +99,7 @@ const Register = () => {
     } else {
       signUpWithEmailAndAddOrg(values, inviteData.org, "Member").then(
         (userId) => {
-          acceptInvite(localStorage.getItem("INV"), inviteData.org, userId, "Member");
+          acceptInvite(localStorage.getItem("INV"), inviteData.org,inviteData.departmentId, userId, "Member");
          
 
           history.push("/app");
