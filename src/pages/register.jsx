@@ -34,6 +34,7 @@ const Register = () => {
     const id = localStorage.getItem("INV");
 
     if (id) {
+      console.log(id);
       getInviteInfo(id).then((data) => {
         setinviteData(data);
         setcountry(data.mobileCountry);

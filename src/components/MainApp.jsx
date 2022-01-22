@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { onboardingRequiredAtom } from "../atoms/OnboardingRequiredAtom";
 import Noticeboard from "../pages/app/noticeboard";

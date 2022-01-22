@@ -40,7 +40,7 @@ export const OrgProvider = ({ children }) => {
         city: organisationData.orgCity,
         postcode: organisationData.orgPostCode,
         phone: organisationData.orgPhoneContact,
-        country,
+        country:country.code,
         departments,
         members: [
           {
@@ -48,6 +48,14 @@ export const OrgProvider = ({ children }) => {
             id: userInfo.uid,
           },
         ],
+      }).then(()=>{
+        console.log(userInfo.uid, id)
+        updateDoc(doc(firestore, "users", userInfo.uid), {
+          organisations: arrayUnion({
+            id,
+            role:"creator",
+          })
+        })
       })
     );
   };
