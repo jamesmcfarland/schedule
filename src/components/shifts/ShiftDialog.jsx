@@ -12,45 +12,54 @@ import {
 import _ from "lodash";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
-import { organisationIdAtom } from "../../atoms";
+import { departmentAtom, organisationIdAtom } from "../../atoms";
 import { employeesAtom } from "../../atoms/Employees";
 import { shiftAtom } from "../../atoms/Shift";
 import { useOrg } from "../../contexts/OrgContext";
 
-const ShiftDialog = () => {
+const ShiftDialog = ({ shiftNeedsUpdate }) => {
   const [targetShift, setTargetShift] = useRecoilState(shiftAtom);
   const resetShiftState = useResetRecoilState(shiftAtom);
   const [employees, setEmployees] = useRecoilState(employeesAtom);
   const organisationId = useRecoilValue(organisationIdAtom);
+  const departmentId = useRecoilValue(departmentAtom);
   const { setShift } = useOrg();
 
   const addNewShift = (cancel) => {
     if (!cancel) {
       if (!!targetShift.isShift) {
         //Editing shift
-        let newEmployees = _.cloneDeep(employees);
-        let index = newEmployees
-          .find(
-            (employee) => employee.employeeId === targetShift.shiftEmployeeId
-          )
-          .shifts.findIndex((shift) => shift.shiftId === targetShift.shiftId);
-        if (index != -1) {
-          const newShift = {
-            shiftId: targetShift.shiftId,
-            isShift: true,
-            shiftStart: targetShift.shiftStart,
-            shiftEnd: targetShift.shiftEnd,
-            shiftNotes: targetShift.shiftNotes,
-            isClose: targetShift.isClose,
-          };
+        // let newEmployees = _.cloneDeep(employees);
+        // let index = newEmployees
+        //   .find(
+        //     (employee) => employee.employeeId === targetShift.shiftEmployeeId
+        //   )
+        //   .shifts.findIndex((shift) => shift.shiftId === targetShift.shiftId);
+        // if (index != -1) {
+        //   const newShift = {
+        //     shiftId: targetShift.shiftId,
+        //     isShift: true,
+        //     shiftStart: targetShift.shiftStart,
+        //     shiftEnd: targetShift.shiftEnd,
+        //     shiftNotes: targetShift.shiftNotes,
+        //     isClose: targetShift.isClose,
+        //   };
 
-          newEmployees.find(
-            (employee) => employee.employeeId === targetShift.shiftEmployeeId
-          ).shifts[index] = newShift;
-          setEmployees(newEmployees);
-        } else {
-          console.log("could not find shift id");
-        }
+        //   newEmployees.find(
+        //     (employee) => employee.employeeId === targetShift.shiftEmployeeId
+        //   ).shifts[index] = newShift;
+        //   setEmployees(newEmployees);
+        setShift(organisationId, {
+          shiftId: targetShift.shiftId,
+          isShift: true,
+          shiftStart: targetShift.shiftStart,
+          shiftEnd: targetShift.shiftEnd,
+          shiftNotes: targetShift.shiftNotes===undefined?"":targetShift.shiftNotes,
+          isClose: targetShift.isClose,
+          employeeId: targetShift.shiftEmployeeId,
+          employeeName: targetShift.shiftEmployeeName,
+          departmentId: departmentId,
+        });
       } else {
         //Adding new shift
         setShift(organisationId, {
@@ -58,25 +67,27 @@ const ShiftDialog = () => {
           isShift: true,
           shiftStart: targetShift.shiftStart,
           shiftEnd: targetShift.shiftEnd,
-          shiftNotes: targetShift.shiftNotes,
+          shiftNotes: targetShift.shiftNotes===undefined?"":targetShift.shiftNotes,
           isClose: targetShift.isClose,
-          shiftEmployeeId: targetShift.shiftEmployeeId,
+          employeeId: targetShift.shiftEmployeeId,
+          employeeName: targetShift.shiftEmployeeName,
+          departmentId: departmentId,
         });
-        let newEmployees = _.cloneDeep(employees);
-        newEmployees
-          .find(
-            (employee) => employee.employeeId === targetShift.shiftEmployeeId
-          )
-          .shifts.push({
-            shiftId: uuidv4(),
-            isShift: true,
-            shiftStart: targetShift.shiftStart,
-            shiftEnd: targetShift.shiftEnd,
-            shiftNotes: targetShift.shiftNotes,
-            isClose: targetShift.isClose,
-          });
+        // let newEmployees = _.cloneDeep(employees);
+        // newEmployees
+        //   .find(
+        //     (employee) => employee.employeeId === targetShift.shiftEmployeeId
+        //   )
+        //   .shifts.push({
+        //     shiftId: uuidv4(),
+        //     isShift: true,
+        //     shiftStart: targetShift.shiftStart,
+        //     shiftEnd: targetShift.shiftEnd,
+        //     shiftNotes: targetShift.shiftNotes,
+        //     isClose: targetShift.isClose,
+        //   });
 
-        setEmployees(newEmployees);
+        // setEmployees(newEmployees);
       }
     }
 
