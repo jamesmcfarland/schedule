@@ -1,12 +1,16 @@
-import {
-  Button, Stack
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { departmentAtom, organisationAtom, organisationDepartmentsAtom } from "../../atoms";
+import {
+  departmentAtom,
+  organisationAtom,
+  organisationDepartmentsAtom,
+  organisationIdAtom,
+} from "../../atoms";
 import AppPage from "../../components/appPage";
 import InviteDialog from "../../components/InviteDialog";
 import PeopleList from "../../components/PeopleList";
+import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
 
 const People = () => {
@@ -14,37 +18,43 @@ const People = () => {
   const organisation = useRecoilValue(organisationAtom);
   const department = useRecoilValue(departmentAtom);
   const organisationDepartments = useRecoilValue(organisationDepartmentsAtom);
-  const {getUserInfoById} = useUser();
+  const { getUserInfoById } = useUser();
+  const organisationId = useRecoilValue(organisationIdAtom);
   const [people, setpeople] = useState([]);
+  const {getOrgInfo} = useOrg();
 
-  useEffect(()=>{
-     console.log(organisation.members, organisationDepartments[department]);
-  
-    const filtered = organisation.members.filter(member=>member.department===department);
-    let users = [];
-    let promises=[];
-    for(const user of filtered){
-      promises.push(getUserInfoById(user.id).then((data)=>{
-        
-        return {...data,role:user.role};
-      }));
-    }
-    
+  useEffect(() => {
+    console.log(organisation.members, organisationDepartments[department]);
 
-    Promise.all(promises).then((data)=>{
-    
+    getOrgInfo(organisationId).then((orgData) => {
+      const filtered = orgData.members.filter(
+        (member) => member.department === department
+      );
+      let users = [];
+      let promises = [];
+      for (const user of filtered) {
+        promises.push(
+          getUserInfoById(user.id).then((data) => {
+            return { ...data, role: user.role };
+          })
+        );
+      }
+
+      Promise.all(promises).then((data) => {
         users = data;
         console.log(users);
         setpeople(users);
-    })
+      });
+    });
+  }, [department]);
 
-  },[department])
- 
-  
   return (
     <AppPage title="People">
       <>
-       <InviteDialog isOpen={inviteUserOpen} onClose={()=>setinviteUserOpen(false)}/>
+        <InviteDialog
+          isOpen={inviteUserOpen}
+          onClose={() => setinviteUserOpen(false)}
+        />
         <Stack>
           <Button
             sx={{ textTransform: "none" }}
@@ -52,7 +62,7 @@ const People = () => {
           >
             Invite to organisation
           </Button>
-          <PeopleList people={people}/>
+          <PeopleList people={people} />
         </Stack>
       </>
     </AppPage>

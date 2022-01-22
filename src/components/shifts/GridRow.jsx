@@ -39,7 +39,7 @@ const GridRow = ({ startDate, updated, employee }) => {
         procshifts[i] = {
           isShift: false,
           shiftStart: addDays(startDate, i),
-          shiftid: uuidv4(),
+          shiftId: uuidv4(),
           shiftEnd: addDays(startDate, i),
           isClose: false,
         };

@@ -17,7 +17,7 @@ import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { useRecoilValue } from "recoil";
-import { departmentAtom, organisationDepartmentsAtom } from "../atoms";
+import { departmentAtom, organisationDepartmentsAtom, organisationIdAtom } from "../atoms";
 import { useOrg } from "../contexts/OrgContext";
 
 const InviteDialog = ({ isOpen, onClose }) => {
@@ -27,6 +27,7 @@ const InviteDialog = ({ isOpen, onClose }) => {
   const organisationDepartments = useRecoilValue(organisationDepartmentsAtom);
   const department = useRecoilValue(departmentAtom);
   const [inviteDepartment, setinviteDepartment] = useState("");
+  const organisationId = useRecoilValue(organisationIdAtom);
 
   const { inviteUserToOrg } = useOrg();
 
@@ -84,7 +85,7 @@ const InviteDialog = ({ isOpen, onClose }) => {
         values.email,
         country,
         organisationDepartments[inviteDepartment].id,
-        localStorage.getItem("id")
+        organisationId
       )
         .then(() => {
           onClose();

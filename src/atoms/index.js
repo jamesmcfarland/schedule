@@ -8,6 +8,7 @@ import { shiftAtom } from "./Shift";
 import { userAtom } from "./UserAtom";
 import { userOrganisationsAtom } from "./UserOrganisations";
 import { userRoleAtom } from "./UserRole";
+import { inviteAtom } from "./Invite";
 
 export {
   departmentAtom,
@@ -19,5 +20,6 @@ export {
   userAtom,
   userOrganisationsAtom,
   userRoleAtom,
-  organisationIdAtom
+  organisationIdAtom,
+  inviteAtom,
 };

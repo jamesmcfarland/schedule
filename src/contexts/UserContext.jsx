@@ -23,6 +23,7 @@ export const UserProvider = ({ children }) => {
   };
   const logout = () => signOut(auth);
   const signUpWithEmail = (values) => {
+   
     return createUserWithEmailAndPassword(
       auth,
       values.email,
@@ -32,6 +33,7 @@ export const UserProvider = ({ children }) => {
       setDoc(doc(firestore, "users", user.uid), {
         email: values.email,
         mobile: values.mobile,
+        mobileCountry:values.mobileCountry,
         firstName: values.first,
         lastName: values.last,
         organisations: [],
@@ -53,6 +55,7 @@ export const UserProvider = ({ children }) => {
         mobile: values.mobile,
         firstName: values.first,
         lastName: values.last,
+        mobileCountry:values.mobileCountry,
         organisations: [{
           id: orgId, 
           role: role,

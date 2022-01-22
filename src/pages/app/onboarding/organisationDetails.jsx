@@ -6,6 +6,7 @@ import {
   Typography
 } from "@mui/material";
 import { useFormik } from "formik";
+import { getCountryCallingCode } from "libphonenumber-js";
 import { useState } from "react";
 import { countries } from "../../../utils/countries";
 import { validateOrgDetails } from "./validators";
@@ -65,9 +66,9 @@ const OrganisationDetails = ({
             onBlur={formik.handleBlur}
             value={orgCountry}
             error={formik.errors.orgCountry && formik.touched.orgCountry}
-            helperText={
-              formik.touched.orgCountry ? formik.errors.orgCountry : ""
-            }
+            // helperText={
+            //   formik.touched.orgCountry ? formik.errors.orgCountry : ""
+            // }
             options={countries}
             autoHighlight
             renderInput={(params) => <TextField {...params} label="Country" />}

@@ -7,23 +7,26 @@ import {
   FormControlLabel,
   Stack,
   Switch,
-  TextField
+  TextField,
 } from "@mui/material";
 import _ from "lodash";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
+import { organisationIdAtom } from "../../atoms";
 import { employeesAtom } from "../../atoms/Employees";
 import { shiftAtom } from "../../atoms/Shift";
-
+import { useOrg } from "../../contexts/OrgContext";
 
 const ShiftDialog = () => {
   const [targetShift, setTargetShift] = useRecoilState(shiftAtom);
   const resetShiftState = useResetRecoilState(shiftAtom);
   const [employees, setEmployees] = useRecoilState(employeesAtom);
+  const organisationId = useRecoilValue(organisationIdAtom);
+  const { setShift } = useOrg();
 
   const addNewShift = (cancel) => {
     if (!cancel) {
-      if (!!targetShift.shiftId) {
+      if (!!targetShift.isShift) {
         //Editing shift
         let newEmployees = _.cloneDeep(employees);
         let index = newEmployees
@@ -34,7 +37,7 @@ const ShiftDialog = () => {
         if (index != -1) {
           const newShift = {
             shiftId: targetShift.shiftId,
-            isShift: targetShift.isShift,
+            isShift: true,
             shiftStart: targetShift.shiftStart,
             shiftEnd: targetShift.shiftEnd,
             shiftNotes: targetShift.shiftNotes,
@@ -50,7 +53,15 @@ const ShiftDialog = () => {
         }
       } else {
         //Adding new shift
-
+        setShift(organisationId, {
+          shiftId: uuidv4(),
+          isShift: true,
+          shiftStart: targetShift.shiftStart,
+          shiftEnd: targetShift.shiftEnd,
+          shiftNotes: targetShift.shiftNotes,
+          isClose: targetShift.isClose,
+          shiftEmployeeId: targetShift.shiftEmployeeId,
+        });
         let newEmployees = _.cloneDeep(employees);
         newEmployees
           .find(
@@ -89,7 +100,7 @@ const ShiftDialog = () => {
     <Dialog open={!!targetShift.shiftEmployeeName}>
       <DialogContent>
         <DialogTitle>
-          {(!!targetShift.shiftId ? `Editing shift for ` : "Add shift for") +
+          {(!!targetShift.isShift ? `Editing shift for ` : "Add shift for") +
             " " +
             targetShift.shiftEmployeeName}
         </DialogTitle>
@@ -161,7 +172,7 @@ const ShiftDialog = () => {
             style={{ textTransform: "none" }}
             onClick={() => addNewShift(false)}
           >
-            {!!targetShift.shiftId ? "Save changes" : "Add shift"}
+            {!!targetShift.isShift ? "Save changes" : "Add shift"}
           </Button>
           <Button
             variant="text"
@@ -171,7 +182,7 @@ const ShiftDialog = () => {
           >
             Cancel
           </Button>
-          {!!targetShift.shiftId && (
+          {!!targetShift.isShift && (
             <Button
               variant="text"
               size="small"

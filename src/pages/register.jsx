@@ -16,9 +16,10 @@ import zxcvbn from "zxcvbn";
 import AuthPage from "../components/authPage";
 import { useOrg } from "../contexts/OrgContext";
 import { useUser } from "../contexts/UserContext";
+import { useRecoilValue } from "recoil";
+import { inviteAtom } from "../atoms";
 
 const Register = () => {
-  const [invID, setinvID] = useState("");
   const [inviteData, setinviteData] = useState();
 
   const { getInviteInfo, acceptInvite } = useOrg();
@@ -28,19 +29,17 @@ const Register = () => {
   const [error, seterror] = useState();
   const [country, setcountry] = useState("GB");
 
+  const inviteId = useRecoilValue(inviteAtom);
+
   useEffect(() => {
-    setinvID(localStorage.getItem("INV"));
-
-    const id = localStorage.getItem("INV");
-
-    if (id) {
-      console.log(id);
-      getInviteInfo(id).then((data) => {
+    if (inviteId) {
+      console.log(inviteId);
+      getInviteInfo(inviteId).then((data) => {
         setinviteData(data);
         setcountry(data.mobileCountry);
       });
     }
-  }, []);
+  }, [inviteId]);
 
   const validate = (values) => {
     const errors = {};
@@ -99,14 +98,15 @@ const Register = () => {
           }
         });
     } else {
-      signUpWithEmailAndAddOrg(values, inviteData.org, "Member").then(
+      signUpWithEmailAndAddOrg({ ...values, mobileCountry: country }, inviteData.org, "Member").then(
         (userId) => {
           acceptInvite(
-            localStorage.getItem("INV"),
+            inviteId,
             inviteData.org,
             inviteData.departmentId,
             userId,
-            "Member"
+            "Member",
+            country
           );
 
           history.push("/app");

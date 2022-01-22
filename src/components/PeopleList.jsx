@@ -126,7 +126,7 @@ const PeopleList = ({ people }) => {
                 <Grid container alignItems="center" padding="1rem">
                   <Grid item xs={3}>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                      <Avatar sx={{ border: "2px solid white" }}>
+                      <Avatar sx={{ border: "2px solid white" }} >
                         {person.firstName[0] + person.lastName[0]}
                       </Avatar>
                       <Typography>

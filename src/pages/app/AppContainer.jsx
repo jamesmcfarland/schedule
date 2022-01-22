@@ -61,7 +61,7 @@ const AppContainer = () => {
 
     getUserInfo().then((userdata) => {
       setUser(userdata);
-      setOnboardingRequired(!userdata.organisations.length);
+      setOnboardingRequired(!userdata.organisations);
 
       if (userdata.organisations.length === 1) {
         currentOrgID = userdata.organisations[0].id;

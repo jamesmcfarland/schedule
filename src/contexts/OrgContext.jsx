@@ -14,7 +14,7 @@ import {
 import { createContext, useContext } from "react";
 import { useSetRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
-import { organisationIdAtom } from "../atoms";
+import { inviteAtom, organisationIdAtom } from "../atoms";
 import { firestore } from "../services/firebase";
 import { useUser } from "./UserContext";
 
@@ -28,6 +28,7 @@ export const OrgProvider = ({ children }) => {
   const { getUserInfo } = useUser();
 
   const setorganisationId = useSetRecoilState(organisationIdAtom);
+  const setInvite = useSetRecoilState(inviteAtom);
 
   const addNewOrg = async (organisationData, departments, country) => {
     const id = uuidv4();
@@ -40,7 +41,7 @@ export const OrgProvider = ({ children }) => {
         city: organisationData.orgCity,
         postcode: organisationData.orgPostCode,
         phone: organisationData.orgPhoneContact,
-        country:country.code,
+        country: country.code,
         departments,
         members: [
           {
@@ -48,19 +49,27 @@ export const OrgProvider = ({ children }) => {
             id: userInfo.uid,
           },
         ],
-      }).then(()=>{
-        console.log(userInfo.uid, id)
+      }).then(() => {
+        console.log(userInfo.uid, id);
         updateDoc(doc(firestore, "users", userInfo.uid), {
           organisations: arrayUnion({
             id,
-            role:"creator",
-          })
-        })
+            role: "creator",
+          }),
+        });
       })
     );
   };
 
-  const inviteUserToOrg = (first, last, mobile, email, mobileCountry,departmentId, org) => {
+  const inviteUserToOrg = (
+    first,
+    last,
+    mobile,
+    email,
+    mobileCountry,
+    departmentId,
+    org
+  ) => {
     if (mobile.length === 11) {
       mobile = mobile.substring(1);
     }
@@ -71,13 +80,13 @@ export const OrgProvider = ({ children }) => {
       inviteCollection,
       // where("first", "==", first),
       // where("last", "==", last),
-      where("mobile", "==", mobile),
+      // where("mobile", "==", mobile),
       where("email", "==", email),
       where("org", "==", org)
     );
     return getDocs(q).then((qs) => {
       if (!qs.empty) {
-        throw Exception("user-already-invited");
+        throw "user-already-invited";
       } else {
         console.log(first, last, mobile, email, org);
         getDoc(doc(firestore, "organisations", org)).then((snap) => {
@@ -90,7 +99,7 @@ export const OrgProvider = ({ children }) => {
               const userData = userSnap.data();
               console.log(userData);
               if (userData.mobile === mobile || userData.email === email) {
-                throw Exception("user-already-member");
+                throw "user-already-member";
               }
             });
           }
@@ -103,7 +112,7 @@ export const OrgProvider = ({ children }) => {
               last: last,
               email: email,
               mobile: mobile,
-              mobileCountry:mobileCountry,
+              mobileCountry: mobileCountry,
               departmentId: departmentId,
               status: "pending",
             });
@@ -124,7 +133,7 @@ export const OrgProvider = ({ children }) => {
   const acceptInvite = (inviteID, organisationId, deptId, userId, userRole) => {
     deleteDoc(doc(firestore, "invites", inviteID))
       .then(() => {
-        localStorage.removeItem("INV");
+        setInvite("");
       })
       .then(() => {
         updateDoc(doc(firestore, "organisations", organisationId), {
@@ -154,7 +163,7 @@ export const OrgProvider = ({ children }) => {
     updateDoc(doc(firestore, "organisations", organisationId), {
       members: arrayUnion({ id: userId, role: userRole, department: deptId }),
     }).then(() => {
-      localStorage.removeItem("INV");
+      setInvite("");
     });
   };
 
@@ -162,6 +171,14 @@ export const OrgProvider = ({ children }) => {
     return updateDoc(doc(firestore, "organisations", organisationId), {
       departments: arrayUnion({ name: deptName, id: uuidv4() }),
     });
+  };
+
+  const setShift = (organisationId, data) => {
+    console.log(organisationId, data);
+    return setDoc(
+      doc(firestore, "organisations", organisationId, "shifts", data.shiftId),
+      data
+    );
   };
 
   const value = {
@@ -173,6 +190,7 @@ export const OrgProvider = ({ children }) => {
     acceptInvite,
     addUserToOrg,
     getOrgDepartments,
+    setShift,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };
