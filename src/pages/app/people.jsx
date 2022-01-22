@@ -18,9 +18,9 @@ const People = () => {
   const [people, setpeople] = useState([]);
 
   useEffect(()=>{
-    // console.log(organisation.members, organisationDepartments[department]);
+     console.log(organisation.members, organisationDepartments[department]);
   
-    const filtered = organisation.members.filter(member=>member.department===organisationDepartments[department].id);
+    const filtered = organisation.members.filter(member=>member.department===department);
     let users = [];
     let promises=[];
     for(const user of filtered){

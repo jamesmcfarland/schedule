@@ -42,9 +42,7 @@ const AppPage = ({ title, children }) => {
   const { addNewDept, getOrgDepartments } = useOrg();
 
   const handleDeptChange = (e) => {
-
-
-
+    console.log(e.target.value);
     if (organisationDepartments.length) {
       setdept(e.target.value);
       setDepartment(organisationDepartments[e.target.value].id);
@@ -71,12 +69,11 @@ const AppPage = ({ title, children }) => {
   };
 
   useEffect(() => {
-
     if (organisationDepartments.length && !dept) {
       setdept(0);
-      setDepartment(0);
+
+      setDepartment(organisationDepartments[0].id);
     }
-    
 
     const interval = setInterval(() => {
       setdate(format(new Date(), "EEEE, do LLLL yyyy"));
