@@ -52,7 +52,7 @@ export const OrgProvider = ({ children }) => {
     );
   };
 
-  const inviteUserToOrg = (first, last, mobile, email, departmentId, org) => {
+  const inviteUserToOrg = (first, last, mobile, email, mobileCountry,departmentId, org) => {
     if (mobile.length === 11) {
       mobile = mobile.substring(1);
     }
@@ -95,6 +95,7 @@ export const OrgProvider = ({ children }) => {
               last: last,
               email: email,
               mobile: mobile,
+              mobileCountry:mobileCountry,
               departmentId: departmentId,
               status: "pending",
             });

@@ -8,6 +8,7 @@ import {
   Typography
 } from "@mui/material";
 import { format } from "date-fns";
+import { getCountryCallingCode } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { v4 as uuidv4 } from "uuid";
@@ -139,7 +140,7 @@ const PeopleList = ({people}) => {
                     heading="Role"
                     data={person.role}
                   />
-                  <PeopleCardInfo heading="Mobile Number" data={person.mobile} />
+                  <PeopleCardInfo heading="Mobile Number" data={`(+${getCountryCallingCode(person.mobileCountry)}) ${person.mobile}`} />
                   <PeopleCardInfo
                     heading="Joined"
                     data={"NA"}

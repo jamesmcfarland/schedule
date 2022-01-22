@@ -36,6 +36,7 @@ const Register = () => {
     if (id) {
       getInviteInfo(id).then((data) => {
         setinviteData(data);
+        setcountry(data.mobileCountry);
       });
     }
   }, []);
@@ -81,7 +82,7 @@ const Register = () => {
 
   const formikOnSubmit = (values) => {
     if (!inviteData) {
-      signUpWithEmail(values)
+      signUpWithEmail({ ...values, mobileCountry: country })
         .then(() => history.push("/app"))
         .catch((err) => {
           console.log(err.code);
@@ -99,8 +100,13 @@ const Register = () => {
     } else {
       signUpWithEmailAndAddOrg(values, inviteData.org, "Member").then(
         (userId) => {
-          acceptInvite(localStorage.getItem("INV"), inviteData.org,inviteData.departmentId, userId, "Member");
-         
+          acceptInvite(
+            localStorage.getItem("INV"),
+            inviteData.org,
+            inviteData.departmentId,
+            userId,
+            "Member"
+          );
 
           history.push("/app");
         }

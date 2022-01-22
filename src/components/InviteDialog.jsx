@@ -80,6 +80,7 @@ const InviteDialog = ({ isOpen, onClose }) => {
         values.last,
         values.mobile,
         values.email,
+        country,
         organisationDepartments[inviteDepartment].id,
         localStorage.getItem("id")
       )
