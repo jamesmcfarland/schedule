@@ -76,6 +76,11 @@ export const UserProvider = ({ children }) => {
     return userData;
   };
 
+  const getUserInfoById = async (id) => {
+    const docSnapshot = await getDoc(doc(firestore, "users", id));
+    return docSnapshot.data();
+  }
+
  
 
   // const addUserToOrg = (orgId, role) =>
@@ -104,6 +109,7 @@ export const UserProvider = ({ children }) => {
     signUpWithEmail,
     signUpWithEmailAndAddOrg,
     getUserInfo,
+    getUserInfoById
  
   };
   return <UserContext.Provider value={value}> {children}</UserContext.Provider>;

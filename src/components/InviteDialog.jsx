@@ -61,7 +61,6 @@ const InviteDialog = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (organisationDepartments.length && !inviteDepartment) {
-      console.log(department);
       setinviteDepartment(department);
     }
   });

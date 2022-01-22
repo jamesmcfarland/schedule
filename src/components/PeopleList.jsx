@@ -8,8 +8,13 @@ import {
   Typography
 } from "@mui/material";
 import { format } from "date-fns";
+import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { v4 as uuidv4 } from "uuid";
+import { departmentAtom, organisationAtom, organisationDepartmentsAtom } from "../atoms";
+import { useUser } from "../contexts/UserContext";
 import PeopleCardInfo from "./PeopleCardInfo";
+
 
 const peopleFake = [
   {
@@ -101,10 +106,14 @@ const peopleFake = [
     employeeID: 1939,
   },
 ];
-const PeopleList = () => {
+const PeopleList = ({people}) => {
+
+
+
+
   return (
-    <List sx={{overflow:"auto", maxHeight: "79vh", width: "76vw"}}>
-      {peopleFake.map((person) => {
+    <List sx={{overflow:"auto", maxHeight: "79vh", width: "76vw"}} >
+      {people.map((person) => {
    
         return (
           <Paper
@@ -127,17 +136,17 @@ const PeopleList = () => {
               <Grid item xs={8}>
                 <Stack direction="row" justifyContent="space-around">
                   <PeopleCardInfo
-                    heading="Roles"
-                    data={person.roles.join(", ")}
+                    heading="Role"
+                    data={person.role}
                   />
-                  <PeopleCardInfo heading="Mobile Number" data={person.phone} />
+                  <PeopleCardInfo heading="Mobile Number" data={person.mobile} />
                   <PeopleCardInfo
                     heading="Joined"
-                    data={format(person.startDate, "LLLL yyyy")}
+                    data={"NA"}
                   />
                   <PeopleCardInfo
                     heading="Employee ID"
-                    data={person.employeeID}
+                    data={"NA"}
                   />
                 </Stack>
               </Grid>
