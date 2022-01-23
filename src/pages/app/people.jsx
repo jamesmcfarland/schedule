@@ -71,7 +71,7 @@ const People = () => {
         isOpen={inviteUserOpen}
         onClose={(user) => {
           setinviteUserOpen(false);
-          setsnackbarOpen(user+ " was invited 🥳");
+          setsnackbarOpen(user + " was invited 🥳");
         }}
       />
       <Stack>
