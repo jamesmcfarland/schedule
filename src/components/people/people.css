@@ -1,0 +1,42 @@
+.people-li {
+  transition: all 0.25s ease;
+  border: 2px solid rgba(177, 139, 255, 0.3);
+  border-radius: 12px;
+  padding: 0.5em 1em;
+  margin: 0.75em;
+  display: grid;
+  grid-template-columns: 0.1fr repeat(4, 1fr);
+  align-items: center;
+}
+.people-li:hover {
+    border: 2px solid rgba(177, 139, 255, 0.5);
+    margin: 0.75em 0.5em;
+}
+.people-avatar {
+  transition: all 0.25s ease;
+  border: 3px solid rgba(177, 139, 255, 0.5);
+}
+
+.people-button-deactivate {
+  transition: all 0.5s ease;
+  background-color: rgba(255, 102, 102, 0.1);
+  border: 2px solid rgba(255, 102, 102, 0.3);
+  color: #fff;
+  border-radius: 12px;
+  
+  
+  margin: auto;
+  width:fit-content;
+  font-size: medium;
+
+  padding: .5em 1em;
+}
+
+.people-button-deactivate .text {
+   display: inline;
+   text-align: center;
+  }
+.people-button-deactivate:hover {
+  background-color: rgba(255, 102, 102, 0.8);
+  padding: .5em 1.25em;
+}
