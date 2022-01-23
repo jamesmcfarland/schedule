@@ -53,7 +53,7 @@ const Menu = ({ changeOrganisation }) => {
               label="Rota"
               startIcon={<Apps />}
               to="/app"
-              selected={location.pathname === "/app"}
+              selected={location.pathname === "/app/rota"}
             />
             <MenuButton
               isEnabled={!onboardingRequired}
