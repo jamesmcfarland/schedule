@@ -5,9 +5,8 @@ import {
   departmentAtom,
   organisationAtom,
   organisationDepartmentsAtom,
-  organisationIdAtom,
+  organisationIdAtom
 } from "../../atoms";
-import AppPage from "../../components/appPage";
 import InviteDialog from "../../components/InviteDialog";
 import PeopleList from "../../components/PeopleList";
 import { useOrg } from "../../contexts/OrgContext";

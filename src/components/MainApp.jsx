@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { onboardingRequiredAtom } from "../atoms/OnboardingRequiredAtom";
 import Noticeboard from "../pages/app/noticeboard";

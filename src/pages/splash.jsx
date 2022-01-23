@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import VerticallyCentered from "../components/verticallyCentered";
 import { useHistory } from "react-router";
+import VerticallyCentered from "../components/verticallyCentered";
 import { useUser } from "../contexts/UserContext";
 
 const SplashScreen = () => {

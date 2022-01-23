@@ -1,5 +1,4 @@
 import { Typography } from "@mui/material";
-import AppPage from "../../components/appPage";
 
 const SettingsPage = () => {
   return (

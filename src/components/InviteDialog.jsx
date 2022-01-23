@@ -10,7 +10,7 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";

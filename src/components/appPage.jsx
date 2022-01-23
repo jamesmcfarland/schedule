@@ -10,7 +10,7 @@ import {
   Select,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   departmentAtom,
   organisationDepartmentsAtom,
-  organisationIdAtom,
+  organisationIdAtom
 } from "../atoms";
 import { useOrg } from "../contexts/OrgContext";
 

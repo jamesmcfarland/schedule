@@ -5,7 +5,7 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -16,7 +16,7 @@ import {
   organisationDepartmentsAtom,
   userAtom,
   userOrganisationsAtom,
-  userRoleAtom,
+  userRoleAtom
 } from "../../atoms/";
 import MainApp from "../../components/MainApp";
 import ShiftDialog from "../../components/shifts/ShiftDialog";

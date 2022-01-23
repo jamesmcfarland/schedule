@@ -5,19 +5,19 @@ import {
   Link,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { useFormik } from "formik";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { useHistory } from "react-router";
+import { useRecoilValue } from "recoil";
 import zxcvbn from "zxcvbn";
+import { inviteAtom } from "../atoms";
 import AuthPage from "../components/authPage";
 import { useOrg } from "../contexts/OrgContext";
 import { useUser } from "../contexts/UserContext";
-import { useRecoilValue } from "recoil";
-import { inviteAtom } from "../atoms";
 
 const Register = () => {
   const [inviteData, setinviteData] = useState();

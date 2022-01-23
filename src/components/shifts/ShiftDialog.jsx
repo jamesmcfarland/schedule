@@ -7,9 +7,8 @@ import {
   FormControlLabel,
   Stack,
   Switch,
-  TextField,
+  TextField
 } from "@mui/material";
-import _ from "lodash";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 import { departmentAtom, organisationIdAtom } from "../../atoms";

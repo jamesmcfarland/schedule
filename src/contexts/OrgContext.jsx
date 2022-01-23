@@ -1,15 +1,10 @@
 import {
-  addDoc,
-  collection,
-  doc,
+  addDoc, arrayUnion, collection, deleteDoc, doc,
   getDoc,
   getDocs,
   query,
   setDoc,
-  updateDoc,
-  arrayUnion,
-  deleteDoc,
-  where,
+  updateDoc, where
 } from "@firebase/firestore";
 import { createContext, useContext } from "react";
 import { useSetRecoilState } from "recoil";

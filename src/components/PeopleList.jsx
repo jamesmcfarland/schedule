@@ -9,109 +9,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { format } from "date-fns";
 import { getCountryCallingCode } from "libphonenumber-js";
-import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { v4 as uuidv4 } from "uuid";
-import {
-  departmentAtom,
-  organisationAtom,
-  organisationDepartmentsAtom,
-} from "../atoms";
-import { useUser } from "../contexts/UserContext";
 import PeopleCardInfo from "./PeopleCardInfo";
 
-const peopleFake = [
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1959,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-  {
-    firstName: "James",
-    lastName: "McFarland",
-    roles: ["Bar", "Floor"],
-    phone: "+447724819082",
-    startDate: new Date("5/20/19"),
-    employeeID: 1939,
-  },
-];
 const PeopleList = ({ people }) => {
   return (
     <>
@@ -126,7 +27,7 @@ const PeopleList = ({ people }) => {
                 <Grid container alignItems="center" padding="1rem">
                   <Grid item xs={3}>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                      <Avatar sx={{ border: "2px solid white" }} >
+                      <Avatar sx={{ border: "2px solid white" }}>
                         {person.firstName[0] + person.lastName[0]}
                       </Avatar>
                       <Typography>
@@ -159,9 +60,9 @@ const PeopleList = ({ people }) => {
           })}
         </List>
       )}
-      {
-        people.length===0 && <Alert  severity="info">No users in this department</Alert>
-      }
+      {people.length === 0 && (
+        <Alert severity="info">No users in this department</Alert>
+      )}
     </>
   );
 };

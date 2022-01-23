@@ -9,13 +9,12 @@ import {
   departmentAtom,
   organisationAtom,
   organisationIdAtom,
-  shiftAtom,
+  shiftAtom
 } from "../../atoms";
-import { employeesAtom } from "../../atoms/Employees";
-import { useOrg } from "../../contexts/OrgContext";
-import { useUser } from "../../contexts/UserContext";
 import GridRow from "../../components/shifts/GridRow";
 import "../../components/shifts/shifts.css";
+import { useOrg } from "../../contexts/OrgContext";
+import { useUser } from "../../contexts/UserContext";
 
 const days = [
   "sunday",
