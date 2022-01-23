@@ -4,9 +4,9 @@ import AppPage from "../../components/appPage";
 
 const Noticeboard = () => {
   return (
-    <AppPage title="Noticeboard ">
+
     <Typography>test!</Typography>
-  </AppPage>
+  
   );
 };
 

@@ -2,11 +2,7 @@ import AppPage from "../../components/appPage";
 import ShiftContainer from "../../components/shifts/ShiftContainer";
 
 const Rota = () => {
-  return (
-    <AppPage title="Rota">
-      <ShiftContainer />
-    </AppPage>
-  );
+  return <ShiftContainer />;
 };
 
 export default Rota;

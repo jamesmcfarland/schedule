@@ -3,9 +3,9 @@ import AppPage from "../../components/appPage";
 
 const SettingsPage = () => {
   return (
-    <AppPage title="Settings ">
+   
     <Typography>settings!</Typography>
-  </AppPage>
+
   );
 };
 

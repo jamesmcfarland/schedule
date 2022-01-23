@@ -49,7 +49,7 @@ const People = () => {
   }, [department]);
 
   return (
-    <AppPage title="People">
+   
       <>
         <InviteDialog
           isOpen={inviteUserOpen}
@@ -65,7 +65,7 @@ const People = () => {
           <PeopleList people={people} />
         </Stack>
       </>
-    </AppPage>
+  
   );
 };
 
