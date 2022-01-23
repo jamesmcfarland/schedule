@@ -1,11 +1,11 @@
-import { Button, Stack } from "@mui/material";
+import { Alert, Button, Snackbar, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
   departmentAtom,
   organisationAtom,
   organisationDepartmentsAtom,
-  organisationIdAtom
+  organisationIdAtom,
 } from "../../atoms";
 import InviteDialog from "../../components/dialogs/InviteDialog";
 import PeopleList from "../../components/people/PeopleList";
@@ -20,7 +20,8 @@ const People = () => {
   const { getUserInfoById } = useUser();
   const organisationId = useRecoilValue(organisationIdAtom);
   const [people, setpeople] = useState([]);
-  const {getOrgInfo} = useOrg();
+  const { getOrgInfo } = useOrg();
+  const [snackbarOpen, setsnackbarOpen] = useState(false);
 
   useEffect(() => {
     console.log(organisation.members, organisationDepartments[department]);
@@ -48,23 +49,42 @@ const People = () => {
   }, [department]);
 
   return (
-   
-      <>
-        <InviteDialog
-          isOpen={inviteUserOpen}
-          onClose={() => setinviteUserOpen(false)}
-        />
-        <Stack>
-          <Button
-            sx={{ textTransform: "none" }}
-            onClick={() => setinviteUserOpen(true)}
-          >
-            Invite to organisation
-          </Button>
-          <PeopleList people={people} />
-        </Stack>
-      </>
-  
+    <>
+      <Snackbar
+        open={!!snackbarOpen}
+        autoHideDuration={6000}
+        onClose={() => setsnackbarOpen("")}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Alert
+          variant="filled"
+          onClose={() => setsnackbarOpen("")}
+          severity="success"
+        >
+          {snackbarOpen}
+        </Alert>
+      </Snackbar>
+      <InviteDialog
+        isOpen={inviteUserOpen}
+        onClose={(user) => {
+          setinviteUserOpen(false);
+          setsnackbarOpen(user+ " was invited 🥳");
+        }}
+      />
+      <Stack>
+        <Button
+          sx={{ textTransform: "none" }}
+          onClick={() => setinviteUserOpen(true)}
+        >
+          Invite to organisation
+        </Button>
+
+        <PeopleList people={people} />
+      </Stack>
+    </>
   );
 };
 

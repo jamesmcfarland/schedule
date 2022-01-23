@@ -10,14 +10,18 @@ import {
   Select,
   Stack,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { useRecoilValue } from "recoil";
-import { departmentAtom, organisationDepartmentsAtom, organisationIdAtom } from "../../atoms";
+import {
+  departmentAtom,
+  organisationDepartmentsAtom,
+  organisationIdAtom,
+} from "../../atoms";
 import { useOrg } from "../../contexts/OrgContext";
 
 const InviteDialog = ({ isOpen, onClose }) => {
@@ -88,7 +92,7 @@ const InviteDialog = ({ isOpen, onClose }) => {
         organisationId
       )
         .then(() => {
-          onClose();
+          onClose(`${values.first} ${values.last}`);
         })
         .catch((err) => {
           console.log(err);
@@ -214,6 +218,13 @@ const InviteDialog = ({ isOpen, onClose }) => {
                   style={{ textTransform: "none" }}
                 >
                   Invite
+                </Button>
+                <Button
+                  type="submit"
+                  variant="text"
+                  style={{ textTransform: "none" }}
+                >
+                  Cancel
                 </Button>
               </Stack>
             </Stack>
