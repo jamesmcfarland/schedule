@@ -1,10 +1,15 @@
 import {
-  addDoc, arrayUnion, collection, deleteDoc, doc,
+  addDoc,
+  arrayUnion,
+  collection,
+  deleteDoc,
+  doc,
   getDoc,
   getDocs,
   query,
   setDoc,
-  updateDoc, where
+  updateDoc,
+  where,
 } from "@firebase/firestore";
 import { createContext, useContext } from "react";
 import { useSetRecoilState } from "recoil";
@@ -204,6 +209,29 @@ export const OrgProvider = ({ children }) => {
     );
   };
 
+  const getInvites = (organisationId, departmentId) => {
+    console.log(organisationId, departmentId);
+    return getDocs(
+      query(
+        collection(firestore, "invites"),
+        where("departmentId", "==", departmentId),
+        where("org", "==", organisationId)
+      )
+    ).then((querySnapshot) =>
+      querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          email: data.email,
+          firstName: data.first,
+          lastName: data.last,
+          mobile: data.mobile,
+          mobileCountry: data.mobileCountry,
+        };
+      })
+    );
+  };
+
   const value = {
     addNewOrg,
     addNewDept,
@@ -216,6 +244,7 @@ export const OrgProvider = ({ children }) => {
     setShift,
     getShifts,
     deleteShift,
+    getInvites,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };

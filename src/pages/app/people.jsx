@@ -1,4 +1,14 @@
-import { Alert, Button, Snackbar, Stack } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionSummary,
+  Alert,
+  Button,
+  Snackbar,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import {
@@ -20,32 +30,37 @@ const People = () => {
   const { getUserInfoById } = useUser();
   const organisationId = useRecoilValue(organisationIdAtom);
   const [people, setpeople] = useState([]);
-  const { getOrgInfo } = useOrg();
+  const [invitedList, setinvitedList] = useState([]);
+  const { getOrgInfo, getInvites } = useOrg();
   const [snackbarOpen, setsnackbarOpen] = useState(false);
 
   useEffect(() => {
-    console.log(organisation.members, organisationDepartments[department]);
-
-    getOrgInfo(organisationId).then((orgData) => {
-      const filtered = orgData.members.filter(
-        (member) => member.department === department
-      );
-      let users = [];
-      let promises = [];
-      for (const user of filtered) {
-        promises.push(
-          getUserInfoById(user.id).then((data) => {
-            return { ...data, role: user.role };
-          })
+    if (!!department) {
+      getOrgInfo(organisationId).then((orgData) => {
+        const filtered = orgData.members.filter(
+          (member) => member.department === department
         );
-      }
+        let users = [];
+        let promises = [];
+        for (const user of filtered) {
+          promises.push(
+            getUserInfoById(user.id).then((data) => {
+              return { ...data, role: user.role };
+            })
+          );
+        }
 
-      Promise.all(promises).then((data) => {
-        users = data;
-        console.log(users);
-        setpeople(users);
+        Promise.all(promises).then((data) => {
+          users = data;
+          console.log(users);
+          setpeople(users);
+        });
       });
-    });
+      console.log(organisationId, department);
+      getInvites(organisationId, department).then((invites) => {
+        setinvitedList(invites);
+      });
+    }
   }, [department]);
 
   return (
@@ -83,6 +98,15 @@ const People = () => {
         </Button>
 
         <PeopleList people={people} />
+        <Box margin={"0.75em"}>
+          <Accordion elevation={1} square>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography>Invited</Typography>
+            </AccordionSummary>
+
+            <PeopleList people={invitedList} isInvite={true} />
+          </Accordion>
+        </Box>
       </Stack>
     </>
   );
