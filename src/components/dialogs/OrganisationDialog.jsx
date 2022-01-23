@@ -12,7 +12,7 @@ import {
   onboardingRequiredAtom,
   userOrganisationsAtom,
   userRoleAtom
-} from "../atoms";
+} from "../../atoms";
 
 const OrganisationDialog = ({ isDialogOpen }) => {
   const userOrganisations = useRecoilValue(userOrganisationsAtom);

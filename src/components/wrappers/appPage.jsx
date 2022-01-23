@@ -19,8 +19,8 @@ import {
   departmentAtom,
   organisationDepartmentsAtom,
   organisationIdAtom
-} from "../atoms";
-import { useOrg } from "../contexts/OrgContext";
+} from "../../atoms";
+import { useOrg } from "../../contexts/OrgContext";
 
 const AppPage = ({ title, children }) => {
   const [dept, setdept] = useState("");

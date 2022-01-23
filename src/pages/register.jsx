@@ -15,7 +15,7 @@ import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import zxcvbn from "zxcvbn";
 import { inviteAtom } from "../atoms";
-import AuthPage from "../components/authPage";
+import AuthPage from "../components/wrappers/authPage";
 import { useOrg } from "../contexts/OrgContext";
 import { useUser } from "../contexts/UserContext";
 

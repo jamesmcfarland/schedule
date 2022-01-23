@@ -4,8 +4,8 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   departmentAtom, onboardingRequiredAtom, organisationAtom, organisationDepartmentsAtom, userAtom, userOrganisationsAtom, userRoleAtom
 } from "../../atoms/";
-import MainApp from "../../components/MainApp";
-import OrganisationDialog from "../../components/OrganisationDialog";
+import MainApp from "../../components/wrappers/MainApp";
+import OrganisationDialog from "../../components/dialogs/OrganisationDialog";
 import ShiftDialog from "../../components/shifts/ShiftDialog";
 import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";

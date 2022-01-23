@@ -18,11 +18,11 @@ import {
   userOrganisationsAtom,
   userRoleAtom
 } from "../../atoms/";
-import MainApp from "../../components/MainApp";
+import MainApp from "./MainApp";
 import ShiftDialog from "../../components/shifts/ShiftDialog";
 import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
-import { organisationIdAtom } from "../atoms";
+import { organisationIdAtom } from "../../atoms";
 
 const AppContainer = () => {
   const { getUserInfo } = useUser();

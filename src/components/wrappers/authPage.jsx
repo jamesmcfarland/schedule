@@ -2,7 +2,7 @@ import {
   Box,
   Card, Stack, Typography
 } from "@mui/material";
-import VerticallyCentered from "../components/verticallyCentered";
+import VerticallyCentered from "../verticallyCentered";
 
 const AuthPage = ({children}) => {
   return (

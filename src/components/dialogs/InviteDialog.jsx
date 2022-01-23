@@ -17,8 +17,8 @@ import { getCountryCallingCode, isValidPhoneNumber } from "libphonenumber-js";
 import { useEffect, useState } from "react";
 import ReactFlagsSelect from "react-flags-select";
 import { useRecoilValue } from "recoil";
-import { departmentAtom, organisationDepartmentsAtom, organisationIdAtom } from "../atoms";
-import { useOrg } from "../contexts/OrgContext";
+import { departmentAtom, organisationDepartmentsAtom, organisationIdAtom } from "../../atoms";
+import { useOrg } from "../../contexts/OrgContext";
 
 const InviteDialog = ({ isOpen, onClose }) => {
   const [error, seterror] = useState();

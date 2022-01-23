@@ -6,7 +6,7 @@ import {
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useHistory } from "react-router";
-import AuthPage from "../components/authPage";
+import AuthPage from "../components/wrappers/authPage";
 import { useUser } from "../contexts/UserContext";
 const Login = () => {
   const { signInWithEmail } = useUser();

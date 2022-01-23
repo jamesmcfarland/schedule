@@ -7,7 +7,7 @@ import {
   organisationDepartmentsAtom,
   organisationIdAtom
 } from "../../atoms";
-import InviteDialog from "../../components/InviteDialog";
+import InviteDialog from "../../components/dialogs/InviteDialog";
 import PeopleList from "../../components/PeopleList";
 import { useOrg } from "../../contexts/OrgContext";
 import { useUser } from "../../contexts/UserContext";
