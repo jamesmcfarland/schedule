@@ -23,7 +23,7 @@ const ShiftDialog = ({ shiftNeedsUpdate }) => {
   const [employees, setEmployees] = useRecoilState(employeesAtom);
   const organisationId = useRecoilValue(organisationIdAtom);
   const departmentId = useRecoilValue(departmentAtom);
-  const { setShift } = useOrg();
+  const { setShift, deleteShift } = useOrg();
 
   const addNewShift = (cancel) => {
     if (!cancel) {
@@ -54,7 +54,8 @@ const ShiftDialog = ({ shiftNeedsUpdate }) => {
           isShift: true,
           shiftStart: targetShift.shiftStart,
           shiftEnd: targetShift.shiftEnd,
-          shiftNotes: targetShift.shiftNotes===undefined?"":targetShift.shiftNotes,
+          shiftNotes:
+            targetShift.shiftNotes === undefined ? "" : targetShift.shiftNotes,
           isClose: targetShift.isClose,
           employeeId: targetShift.shiftEmployeeId,
           employeeName: targetShift.shiftEmployeeName,
@@ -67,7 +68,8 @@ const ShiftDialog = ({ shiftNeedsUpdate }) => {
           isShift: true,
           shiftStart: targetShift.shiftStart,
           shiftEnd: targetShift.shiftEnd,
-          shiftNotes: targetShift.shiftNotes===undefined?"":targetShift.shiftNotes,
+          shiftNotes:
+            targetShift.shiftNotes === undefined ? "" : targetShift.shiftNotes,
           isClose: targetShift.isClose,
           employeeId: targetShift.shiftEmployeeId,
           employeeName: targetShift.shiftEmployeeName,
@@ -95,17 +97,9 @@ const ShiftDialog = ({ shiftNeedsUpdate }) => {
   };
 
   const removeShift = () => {
-    let newEmployees = _.cloneDeep(employees);
-    const shifts = newEmployees.find(
-      (employee) => employee.employeeId === targetShift.shiftEmployeeId
-    ).shifts;
-
-    newEmployees.find(
-      (employee) => employee.employeeId === targetShift.shiftEmployeeId
-    ).shifts = shifts.filter((shift) => shift.shiftId !== targetShift.shiftId);
-
-    setEmployees(newEmployees);
-    resetShiftState();
+    deleteShift(organisationId, targetShift.shiftId).then(() => {
+      resetShiftState();
+    });
   };
   return (
     <Dialog open={!!targetShift.shiftEmployeeName}>

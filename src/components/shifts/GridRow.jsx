@@ -18,7 +18,13 @@ const GridRow = ({ startDate, updated, employee }) => {
   const [processedShifts, setprocessedShifts] = useState([]);
 
   const get12From24 = (hour) => {
-    return hour <= 12 ? hour : hour - 12;
+    if (hour === 12 || hour === 0) {
+      return 12;
+    } else if (hour < 12) {
+      return hour;
+    } else {
+      return hour - 12;
+    }
   };
 
   const addDays = (date, days) => {

@@ -1,3 +1,6 @@
+import { DatePicker } from "@mui/lab";
+import { Stack, TextField, Typography } from "@mui/material";
+import { addDays, format } from "date-fns";
 import _ from "lodash";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -13,6 +16,16 @@ import { useUser } from "../../contexts/UserContext";
 import GridRow from "./GridRow";
 import "./shifts.css";
 
+const days = [
+  "sunday",
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+];
+
 const ShiftContainer = () => {
   // const employees = useRecoilValue(employeesAtom);
   const organisationId = useRecoilValue(organisationIdAtom);
@@ -26,28 +39,27 @@ const ShiftContainer = () => {
 
   const { getUserInfoById } = useUser();
 
-  // const fake = {
-  //   name: "James McFarland",
-  //   employeeId: uuidv4(),
-  //   shifts: [
-  //     {
-  //       isShift: true,
-  //       shiftId: uuidv4(),
-  //       shiftStart: new Date(2022, 0, 17, 17),
-  //       shiftEnd: new Date(2022, 0, 18, 3),
-  //       isClose: true,
-  //       shiftNotes: "bar",
-  //     },
-  //   ],
-  // };
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date(new Date().setHours(0,0,0,0)));
+  const [dayNames, setdayNames] = useState([]);
 
   useEffect(() => {
-    if (!!organisationId && !!departmentId)
+    if (!!organisationId && !!departmentId) {
+      let tmpDayNames = [];
+      console.log(selectedStartDate);
+      selectedStartDate.setHours(0, 0, 0, 0);
+
+      for (let i = 0; i < 7; i++) {
+        let d = new Date();
+        d.setDate(selectedStartDate.getDate() + i);
+        tmpDayNames.push({ name: days[d.getDay()], date: d });
+      }
+      console.log(tmpDayNames);
+      setdayNames(tmpDayNames);
+
       getOrgInfo(organisationId).then((orgData) => {
         const filtered = orgData.members.filter(
           (member) => member.department === departmentId
         );
-        let users = [];
         let promises = [];
         for (const user of filtered) {
           promises.push(
@@ -66,10 +78,9 @@ const ShiftContainer = () => {
           getShifts(
             organisationId,
             departmentId,
-            new Date(2022, 0, 17),
-            new Date(2022, 0, 24)
+            selectedStartDate,
+            addDays(selectedStartDate, 7)
           ).then((shifts) => {
-            console.log(shifts);
             let empsWithShifts = _.cloneDeep(data);
             for (let i = 0; i < empsWithShifts.length; i++) {
               for (const shift of shifts) {
@@ -82,38 +93,50 @@ const ShiftContainer = () => {
           });
         });
       });
-  }, [shift, organisationId, departmentId]);
+    }
+  }, [shift, organisationId, departmentId, selectedStartDate]);
 
   return (
-    <div className="days-container">
-      {[
-        "",
-        "monday",
-        "tuesday",
-        "wednesday",
-        "thursday",
-        "friday",
-        "saturday",
-        "sunday",
-      ].map((el) => {
-        return (
-          <p key={el} className="labels">
-            {el}
-          </p>
-        );
-      })}
+    <Stack>
+      <Stack direction="row" spacing={2}>
+        <DatePicker
+          label="Start date"
+          value={selectedStartDate}
+          onChange={(newValue) => {
+            setSelectedStartDate(new Date(newValue.setHours(0, 0, 0, 0)));
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </Stack>
+      <div className="days-container">
+        {["", ...dayNames].map((el) => {
+          return (
+            <>
+              {el !== "" && (
+                <Stack key={el.name}>
+                  <Typography className="labels">{el.name}</Typography>
+                  <Typography variant="caption">
+                    {format(el.date, "do")}
+                  </Typography>
+                </Stack>
+              )}
+              {el === "" && <p className="labels" key="blnk"></p>}
+            </>
+          );
+        })}
 
-      {employees.map((employee) => {
-        return (
-          <GridRow
-            key={employee.employeeId}
-            employee={employee}
-            updated={new Date()}
-            startDate={new Date(2022, 0, 17)}
-          />
-        );
-      })}
-    </div>
+        {employees.map((employee) => {
+          return (
+            <GridRow
+              key={employee.employeeId}
+              employee={employee}
+              updated={new Date()}
+              startDate={selectedStartDate}
+            />
+          );
+        })}
+      </div>
+    </Stack>
   );
 };
 

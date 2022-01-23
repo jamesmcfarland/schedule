@@ -188,18 +188,25 @@ export const OrgProvider = ({ children }) => {
         where("departmentId", "==", departmentId)
       )
     ).then((qs) => {
-      return qs.docs.map((doc) => {
-        let data = doc.data();
-        data = {
-          ...data,
-          shiftEnd: data.shiftEnd.toDate(),
-          shiftStart: data.shiftStart.toDate(),
-        };
-   
+      return qs.docs
+        .map((doc) => {
+          let data = doc.data();
+          data = {
+            ...data,
+            shiftEnd: data.shiftEnd.toDate(),
+            shiftStart: data.shiftStart.toDate(),
+          };
 
-        return data;
-      }).filter(shift=>shift.shiftEnd<=endDate);
+          return data;
+        })
+        .filter((shift) => shift.shiftEnd <= endDate);
     });
+  };
+
+  const deleteShift = (organisationId, shiftId) => {
+    return deleteDoc(
+      doc(firestore, "organisations", organisationId, "shifts", shiftId)
+    );
   };
 
   const value = {
@@ -213,6 +220,7 @@ export const OrgProvider = ({ children }) => {
     getOrgDepartments,
     setShift,
     getShifts,
+    deleteShift,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };
