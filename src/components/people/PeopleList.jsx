@@ -22,7 +22,7 @@ const PeopleList = ({ people, isInvite }) => {
         <div>
           {people.map((user) => {
             return (
-              <div className="people-li">
+              <div className="people-li" key={uuidv4()}>
                 <Avatar className="people-avatar">
                   <Typography>
                     {user.firstName[0] + user.lastName[0]}

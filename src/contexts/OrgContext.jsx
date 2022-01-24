@@ -232,6 +232,10 @@ export const OrgProvider = ({ children }) => {
     );
   };
 
+const addNewPost = (organisation, post) => {
+  return setDoc(doc(firestore, "organisations", organisation, "posts", uuidv4()), post);
+}
+
   const value = {
     addNewOrg,
     addNewDept,
@@ -245,6 +249,7 @@ export const OrgProvider = ({ children }) => {
     getShifts,
     deleteShift,
     getInvites,
+    addNewPost,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };
