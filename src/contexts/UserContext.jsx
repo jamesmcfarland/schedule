@@ -1,6 +1,8 @@
 import {
-  createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword,
-  signOut
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
 } from "@firebase/auth";
 import { doc, getDoc, setDoc } from "@firebase/firestore";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -23,7 +25,6 @@ export const UserProvider = ({ children }) => {
   };
   const logout = () => signOut(auth);
   const signUpWithEmail = (values) => {
-   
     return createUserWithEmailAndPassword(
       auth,
       values.email,
@@ -33,7 +34,7 @@ export const UserProvider = ({ children }) => {
       setDoc(doc(firestore, "users", user.uid), {
         email: values.email,
         mobile: values.mobile,
-        mobileCountry:values.mobileCountry,
+        mobileCountry: values.mobileCountry,
         firstName: values.first,
         lastName: values.last,
         organisations: [],
@@ -55,12 +56,14 @@ export const UserProvider = ({ children }) => {
         mobile: values.mobile,
         firstName: values.first,
         lastName: values.last,
-        mobileCountry:values.mobileCountry,
-        organisations: [{
-          id: orgId, 
-          role: role,
-        }],
-      })
+        mobileCountry: values.mobileCountry,
+        organisations: [
+          {
+            id: orgId,
+            role: role,
+          },
+        ],
+      });
       return user.uid;
     });
   };
@@ -80,11 +83,11 @@ export const UserProvider = ({ children }) => {
   };
 
   const getUserInfoById = async (id) => {
-    const docSnapshot = await getDoc(doc(firestore, "users", id));
-    return docSnapshot.data();
-  }
-
- 
+    // const docSnapshot = await getDoc(doc(firestore, "users", id));
+    // return docSnapshot.data();
+    console.log(id);
+    return getDoc(doc(firestore, "users", id)).then((ds) => ds.data());
+  };
 
   // const addUserToOrg = (orgId, role) =>
   //   getUserInfo().then((userinfo) =>
@@ -96,8 +99,6 @@ export const UserProvider = ({ children }) => {
   //       { merge: "true" }
   //     )
   //   );
-
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -112,8 +113,7 @@ export const UserProvider = ({ children }) => {
     signUpWithEmail,
     signUpWithEmailAndAddOrg,
     getUserInfo,
-    getUserInfoById
- 
+    getUserInfoById,
   };
   return <UserContext.Provider value={value}> {children}</UserContext.Provider>;
 };

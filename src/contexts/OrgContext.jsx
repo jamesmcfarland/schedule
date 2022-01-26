@@ -4,6 +4,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  orderBy,
   getDoc,
   getDocs,
   query,
@@ -25,7 +26,7 @@ export const useOrg = () => {
 };
 
 export const OrgProvider = ({ children }) => {
-  const { getUserInfo } = useUser();
+  const { getUserInfo, getUserInfoById } = useUser();
 
   const setorganisationId = useSetRecoilState(organisationIdAtom);
   const setInvite = useSetRecoilState(inviteAtom);
@@ -232,9 +233,53 @@ export const OrgProvider = ({ children }) => {
     );
   };
 
-const addNewPost = (organisation, post) => {
-  return setDoc(doc(firestore, "organisations", organisation, "posts", uuidv4()), post);
-}
+  const addNewPost = (organisation, departmentId, userId, post) => {
+    return setDoc(
+      doc(firestore, "organisations", organisation, "posts", uuidv4()),
+      { ...post, departmentId: departmentId, time: new Date(), user: userId }
+    );
+  };
+
+  const getPostsFromDB = (organisationId, departmentId) => {
+    console.log(organisationId, departmentId);
+    return getDocs(
+      query(
+        collection(firestore, "organisations", organisationId, "posts"),
+        where("departmentId", "==", departmentId),
+        orderBy("time", "desc")
+      )
+    ).then((qs) => {
+      return qs.docs.map((doc) => {
+        return doc.data();
+      });
+    });
+  };
+
+  const getPostsAndResolveUsers = (posts) => {
+    let promises = [];
+    for (const post of posts) {
+      promises.push(
+        getUserInfoById(post.user).then((user) => {
+          return {
+            ...post,
+            user: `${user.firstName} ${user.lastName},`,
+            time: post.time.toDate(),
+          };
+        })
+      );
+    }
+
+    return Promise.all(promises);
+  };
+
+  const getPosts = (organisationId, departmentId) => {
+    return getPostsFromDB(organisationId, departmentId).then((posts) => {
+      console.log(posts);
+      return getPostsAndResolveUsers(posts).then((resolved) => {
+        return resolved;
+      });
+    });
+  };
 
   const value = {
     addNewOrg,
@@ -247,9 +292,11 @@ const addNewPost = (organisation, post) => {
     getOrgDepartments,
     setShift,
     getShifts,
+    getPosts,
     deleteShift,
     getInvites,
     addNewPost,
+    getPostsAndResolveUsers,
   };
   return <OrgContext.Provider value={value}> {children}</OrgContext.Provider>;
 };

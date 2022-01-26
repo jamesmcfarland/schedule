@@ -4,7 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { subDays, subMinutes, subMonths, subWeeks } from "date-fns";
 import PostDialog from "../../components/dialogs/PostDialog";
 import { useRecoilValue } from "recoil";
-import { organisationIdAtom } from "../../atoms";
+import { departmentAtom, organisationIdAtom, userAtom } from "../../atoms";
+import { useEffect, useState } from "react";
+import { useOrg } from "../../contexts/OrgContext";
 const fakePosts = [
   {
     title: "Cleaning issues",
@@ -29,26 +31,35 @@ const fakePosts = [
 const Noticeboard = () => {
   const [newPostDialogOpen, setnewPostDialogOpen] = useState(false);
   const organisationId = useRecoilValue(organisationIdAtom);
-
-  const {addPost} = useOrg();
+  const departmentId = useRecoilValue(departmentAtom);
+  const user = useRecoilValue(userAtom);
+  const [posts, setposts] = useState([]);
+  const { addNewPost, getPosts } = useOrg();
 
   const newPost = (post) => {
-    if(post!==undefined){
-      addPost(organisationId, post);
+    if (post !== undefined) {
+      addNewPost(organisationId, departmentId, user.uid, post);
     }
     setnewPostDialogOpen(false);
-    
-  }
+  };
 
+  useEffect(() => {
+    getPosts(organisationId, departmentId).then((fbposts) => {
+      setposts(fbposts);
+    });
+  }, [departmentId]);
 
   return (
     <>
-      <PostDialog isOpen={newPostDialogOpen} newPost={newPost}/>
-      <Button sx={{ textTransform: "none", margin: "1em 2em" }}>
+      <PostDialog isOpen={newPostDialogOpen} newPost={newPost} />
+      <Button
+        sx={{ textTransform: "none", margin: "1em 2em" }}
+        onClick={() => setnewPostDialogOpen(true)}
+      >
         New post
       </Button>
       <Stack spacing={5} sx={{ overflow: "auto", padding: "2em 2em" }}>
-        {fakePosts.map((post) => (
+        {posts.map((post) => (
           <Post key={uuidv4()} post={post} />
         ))}
       </Stack>

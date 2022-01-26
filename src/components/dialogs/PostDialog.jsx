@@ -40,7 +40,7 @@ const PostDialog = ({isOpen, newPost}) => {
   });
 
   return (
-    <Dialog open={true}>
+    <Dialog open={isOpen}>
       <DialogContent sx={{ background: "#2f2f2f" }}>
         <Stack sx={{ minHeight: "35vh" }}>
           <form
